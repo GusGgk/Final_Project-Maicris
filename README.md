@@ -22,6 +22,7 @@ Projeto Final, realizado pelos alunos Gustavo Giacoia, Eduardo Blasczak, João C
 - 🧾 Relatórios (usuários ativos, cursos mais acessados)
 - 🛠 Administração (gerenciamento geral)
 
+## Foto do Escopo
 ---
 
 ## 📁 Estrutura do Projeto
@@ -41,9 +42,4 @@ sistema-cursos/
 │
 └── README.md
 
-aaaaaaa
 
-
-
-
-mamaco
