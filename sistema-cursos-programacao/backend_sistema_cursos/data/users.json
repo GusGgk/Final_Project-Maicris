@@ -1,0 +1,23 @@
+[
+    {
+        "id": "001",
+        "name": "Jo\u00e3o Carlos",
+        "email": "joaocmazari@gmail.com",
+        "password": "1234",
+        "type": "aluno"
+    },
+    {
+        "id": "002",
+        "name": "Gustavo Giacoia",
+        "email": "gukumagai@gmail.com",
+        "password": "abcd",
+        "type": "instrutor"
+    },
+    {
+        "id": "003",
+        "name": "Carlos Nunes",
+        "email": "carlos@gmail.com",
+        "password": "senha123",
+        "type": "admin"
+    }
+]
