@@ -1,9 +1,23 @@
 [
-  {
-    "id": "101",
-    "title": "Python Básico",
-    "language": "Python",
-    "level": "iniciante",
-    "instructor_id": "002"
-  }
+    {
+        "id": "101",
+        "title": "Python para Iniciantes",
+        "language": "Python",
+        "level": "Intermediário",
+        "instructor_id": "002"
+    },
+    {
+        "id": "102",
+        "title": "Introdução ao Python",
+        "language": "Python",
+        "level": "Iniciante",
+        "instructor_id": 2
+    },
+    {
+        "id": "103",
+        "title": "Curso Teste",
+        "language": "Python",
+        "level": "Iniciante",
+        "instructor_id": "002"
+    }
 ]

@@ -19,10 +19,10 @@ def testar_servico_cursos():
     # 1. Testar adicionar um curso
     print("\nAdicionando um novo curso...")
     new_course_data = {
-        "title": "Introdução ao Python",
+        "title": "Curso Teste",
         "language": "Python",
         "level": "Iniciante",
-        "instructor_id": 1 # Assumindo que existe um instrutor com ID 1
+        "instructor_id": "002" # exemplo com ID de instrutor (gk)
     }
     added_course = course_service.add_course(new_course_data)
     print(f"Curso adicionado: {added_course.to_dict()}")
