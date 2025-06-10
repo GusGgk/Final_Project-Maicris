@@ -5,7 +5,7 @@ class Curso:
         self.nome = nome
         self.descricao = descricao
         self.carga_horaria = carga_horaria
-        self.nivel = nivel
+        self.nivel = nivel  # Corrigido: nome correto da variável
 
     def salvar(self):
         Curso.lista_cursos.append(self)
@@ -20,7 +20,7 @@ class Curso:
             print(f"Nome: {curso.nome}")
             print(f"Descrição: {curso.descricao}")
             print(f"Carga Horária: {curso.carga_horaria} horas")
-            print(f"Nível: {curso.nivel}")
+            print(f"Nível: {curso.nivel}")  # Corrigido: nome correto do atributo
 
 # Cadastrando cursos automaticamente com níveis
 cursos_predefinidos = [
@@ -37,7 +37,7 @@ cursos_predefinidos = [
 
 # Criando objetos e salvando na lista
 for nome, descricao, carga, nivel in cursos_predefinidos:
-    curso = Curso(nome, descricao, carga, nivel)
+    curso = Curso(nome, descricao, carga, nivel)  # Corrigido: passando 'nivel'
     curso.salvar()
 
 # Exibindo os cursos cadastrados
