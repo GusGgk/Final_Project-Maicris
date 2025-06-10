@@ -19,5 +19,19 @@
         "email": "carlos@gmail.com",
         "password": "senha123",
         "type": "admin"
+    },
+    {
+        "id": "46246",
+        "name": "Gus",
+        "email": "gorkgkyt@gmail.com",
+        "password": "guaaaaaa",
+        "type": "aluno"
+    },
+    {
+        "id": "5131356161",
+        "name": "Fiorentina",
+        "email": "fiorentina@gmail.com",
+        "password": "tq3a51tgeaty4",
+        "type": "instrutor"
     }
 ]
