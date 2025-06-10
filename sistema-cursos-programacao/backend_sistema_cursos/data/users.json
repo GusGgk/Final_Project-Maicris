@@ -33,5 +33,12 @@
         "email": "fiorentina@gmail.com",
         "password": "tq3a51tgeaty4",
         "type": "instrutor"
+    },
+    {
+        "id": "653247242722",
+        "name": "Malu senff",
+        "email": "malu@gmail.com",
+        "password": "riqgka2r2R",
+        "type": "instrutor"
     }
 ]
