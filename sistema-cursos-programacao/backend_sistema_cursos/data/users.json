@@ -1,56 +1,7 @@
 [
     {
-        "id": "001",
-        "name": "Jo\u00e3o Carlos",
-        "email": "joaocmazari@gmail.com",
-        "password": "1234",
-        "type": "aluno"
-    },
-    {
-        "id": "002",
-        "name": "Gustavo Giacoia",
-        "email": "gukumagai@gmail.com",
-        "password": "abcd",
-        "type": "instrutor"
-    },
-    {
-        "id": "003",
-        "name": "Carlos Nunes",
-        "email": "carlos@gmail.com",
-        "password": "senha123",
-        "type": "admin"
-    },
-    {
-        "id": "46246",
-        "name": "Gus",
-        "email": "gorkgkyt@gmail.com",
-        "password": "guaaaaaa",
-        "type": "aluno"
-    },
-    {
-        "id": "5131356161",
-        "name": "Fiorentina",
-        "email": "fiorentina@gmail.com",
-        "password": "tq3a51tgeaty4",
-        "type": "instrutor"
-    },
-    {
-        "id": "653247242722",
-        "name": "Malu senff",
-        "email": "malu@gmail.com",
-        "password": "riqgka2r2R",
-        "type": "instrutor"
-    },
-    {
-        "id": "351351",
-        "name": "Vitor Natal",
-        "email": "vitor@gmail.com",
-        "password": "rq3rrq32r",
-        "type": "aluno"
-    },
-    {
         "id": "fedf9caf-7183-4e4f-988a-c0e94f6b35f6",
-        "name": "Vitor natal safado",
+        "name": "Vitor natal",
         "email": "voto@gmail.com",
         "password": "$2b$12$t/qoxfmH.XUv8G7rAoemcOZ9us8RB0N.03ZWtoW/E0jR9JCI4Fo6u",
         "type": "aluno"

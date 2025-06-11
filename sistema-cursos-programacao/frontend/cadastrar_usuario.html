@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<link rel="stylesheet" href="css/cadastrar_usuarios.css">
-
 <head>
   <meta charset="UTF-8">
   <title>Cadastrar Usuário</title>
+  <link rel="stylesheet" href="css/cadastrar_usuarios.css">
 </head>
 <body>
   <h2>Cadastro de Usuário</h2>
   <form id="formCadastro">
-    <label>ID:</label><br>
-    <input type="text" name="id" required><br><br>
+    <!-- Removido o campo de ID -->
 
     <label>Nome:</label><br>
     <input type="text" name="name" required><br><br>
@@ -41,7 +39,6 @@
 
       try {
         const resposta = await fetch("http://127.0.0.1:5000/usuarios", {
-
           method: "POST",
           headers: {
             "Content-Type": "application/json"
