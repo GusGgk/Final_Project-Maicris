@@ -3,50 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Cursos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Lista de cursos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/listar_cursos.css">
 </head>
 <body>
-    <h2>Lista de cursos cadastrados</h2>
-    <div id="listaCursos"></div>
+    <div class="logo-container">
+        <img src="./img/Logo_PypyCris.jpg" alt="logo">
+        <div class="logo-text">Pypy.Cris</div>
+    </div>
+    
+    <h2>Lista de Cursos Cadastrados</h2>
+    
+    <div id="listaCursos" class="cursos-container"></div>
     <p id="mensagem"></p>
-    <button>Voltar ao menu</button>
+    
+    <button onclick="window.location.href='menu.html'">Voltar ao menu</button>
+    
     <script>
         async function carregarCursos(){
-            const lista=document.getElementById("listaCursos");
-            const mensagem=document.getElementById("mensagem");
+            const lista = document.getElementById("listaCursos");
+            const mensagem = document.getElementById("mensagem");
 
-            try{
-                const resposta=await fetch("http://localhost:5000/cursos");
-                const cursos=await resposta.json();
-                if(cursos.length===0){
-                    mensagem.textContent="Nenhum curso cadastrado";
+            try {
+                const resposta = await fetch("http://localhost:5000/cursos");
+                const cursos = await resposta.json();
+                
+                if(cursos.length === 0){
+                    mensagem.textContent = "Nenhum curso cadastrado";
+                    mensagem.classList.add('show');
                     return;
                 }
-                cursos.forEach(curso=>{
-                    const card=document.createElement("div");
-                    card.className="curso-card";
-                    card.innerHTML=`
-                        <strong>Nome:</strong> ${curso.title}<br>
-                        <strong>Linguagem:</strong> ${curso.language}<br>
-                        <strong>Nível:</strong> ${curso.level}<br>
-                        <strong>Duração:</strong> ${curso.duration}<br>
-                        <strong>Preço:</strong> ${curso.price}<br>
-                        <strong>Id instrutor:</strong> ${curso.instructor_id}<br>`;
-                        lista.appendChild(card);
+                
+                cursos.forEach(curso => {
+                    const card = document.createElement("div");
+                    card.className = "curso-card";
+                    card.innerHTML = `
+                        <div class="curso-header">
+                            <h3>${curso.title}</h3>
+                            <span class="curso-linguagem">${curso.language}</span>
+                        </div>
+                        <div class="curso-detalhes">
+                            <p><strong>Nível:</strong> <span class="nivel ${curso.level.toLowerCase()}">${curso.level}</span></p>
+                            <p><strong>Duração:</strong> ${curso.duration} horas</p>
+                            <p><strong>Preço:</strong> R$ ${parseFloat(curso.price).toFixed(2)}</p>
+                            <p><strong>Instrutor ID:</strong> ${curso.instructor_id}</p>
+                        </div>`;
+                    lista.appendChild(card);
+                });
 
-            });
-        
-
-        }catch(erro){
-            mensagem=textContent="Erro ao buscar curso";
-            console.error("Erro:", erro);
+            } catch(erro) {
+                mensagem.textContent = "Erro ao buscar cursos";
+                mensagem.classList.add('show');
+                console.error("Erro:", erro);
+            }
         }
-    }
-    carregarCursos();
+        
+        document.addEventListener('DOMContentLoaded', carregarCursos);
     </script>
 </body>
 </html>

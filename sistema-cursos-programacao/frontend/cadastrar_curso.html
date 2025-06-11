@@ -4,80 +4,116 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastrar Curso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/cadastrar_curso.css">
 </head>
 <body>
+  <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+  
   <h2>Cadastrar Curso</h2>
 
   <form id="formCadastro">
-    <label>Título:</label><br>
-    <input type="text" name="title" placeholder="Ex: Python para iniciantes" required><br><br>
+    <div class="input-group">
+      <label>Título:</label>
+      <input type="text" name="title" placeholder="Ex: Python para iniciantes" required>
+    </div>
 
-    <label>Linguagem do Curso:</label><br>
-    <input type="text" name="language" placeholder="Ex: Python" required><br><br>
+    <div class="input-group">
+      <label>Linguagem do Curso:</label>
+      <input type="text" name="language" placeholder="Ex: Python" required>
+    </div>
 
-    <label>Descrição do Curso:</label><br>
-    <textarea name="description" id="description" placeholder="Escreva a descrição do seu curso" required></textarea><br><br>
+    <div class="input-group">
+      <label>Descrição do Curso:</label>
+      <textarea name="description" placeholder="Escreva a descrição do seu curso" required></textarea>
+    </div>
 
-    <p>Dificuldade do Curso:</p>
-    <input type="radio" id="iniciante" name="level" value="iniciante" required>
-    <label for="iniciante">Iniciante</label><br>
+    <div class="input-group radio-group">
+      <p>Dificuldade do Curso:</p>
+      <div class="radio-options">
+        <label>
+          <input type="radio" name="level" value="iniciante" required>
+          <span class="radio-custom"></span>
+          Iniciante
+        </label>
+        <label>
+          <input type="radio" name="level" value="intermediario">
+          <span class="radio-custom"></span>
+          Intermediário
+        </label>
+        <label>
+          <input type="radio" name="level" value="avancado">
+          <span class="radio-custom"></span>
+          Avançado
+        </label>
+      </div>
+    </div>
 
-    <input type="radio" id="intermediario" name="level" value="intermediario">
-    <label for="intermediario">Intermediário</label><br>
+    <div class="input-group">
+      <label>Carga horária do Curso:</label>
+      <input type="text" name="duration" placeholder="Ex: 56hrs" required>
+    </div>
 
-    <input type="radio" id="avancado" name="level" value="avancado">
-    <label for="avancado">Avançado</label><br><br>
+    <div class="input-group">
+      <label>Preço do Curso (R$):</label>
+      <input type="number" name="price" step="0.01" placeholder="Ex: 140.50" required>
+    </div>
 
-    <label>Carga horária do Curso:</label><br>
-    <input type="text" name="duration" placeholder="Ex: 56hrs" required><br><br>
-
-    <label>Preço do Curso (R$):</label><br>
-    <input type="number" name="price" step="0.01" placeholder="Ex: 140.50" required><br><br>
-
-    <label>ID do Instrutor:</label><br>
-    <input type="text" name="instructor_id" placeholder="Ex: uuid-do-instrutor" required><br><br>
+    <div class="input-group">
+      <label>ID do Instrutor:</label>
+      <input type="text" name="instructor_id" placeholder="Ex: uuid-do-instrutor" required>
+    </div>
 
     <button type="submit">Cadastrar Curso</button>
   </form>
 
   <p id="mensagem"></p>
 
- <script>
-  const form = document.getElementById("formCadastro");
-  const mensagem = document.getElementById("mensagem");
+  <script>
+    const form = document.getElementById("formCadastro");
+    const mensagem = document.getElementById("mensagem");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const dados = {
-      title: form.title.value.trim(),
-      language: form.language.value.trim(),
-      description: form.description.value.trim(),
-      level: form.level.value,
-      duration: form.duration.value.trim(),
-      price: form.price.value.trim(),
-      instructor_id: form.instructor_id.value.trim()
-    };
+      const dados = {
+        title: form.title.value.trim(),
+        language: form.language.value.trim(),
+        description: form.description.value.trim(),
+        level: form.level.value,
+        duration: form.duration.value.trim(),
+        price: form.price.value.trim(),
+        instructor_id: form.instructor_id.value.trim()
+      };
 
-    try {
-      const resposta = await fetch("http://localhost:5000/cursos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dados)
-      });
+      try {
+        const resposta = await fetch("http://localhost:5000/cursos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dados)
+        });
 
-      const resultado = await resposta.json();
-      mensagem.textContent = resultado.mensagem || "Curso cadastrado com sucesso!";
-      form.reset();
-    } catch (erro) {
-      mensagem.textContent = "Erro ao cadastrar curso.";
-      console.error("Erro:", erro);
-    }
-  });
-</script>
-
+        const resultado = await resposta.json();
+        mensagem.textContent = resultado.mensagem || "Curso cadastrado com sucesso!";
+        mensagem.classList.add('show');
+        form.reset();
+        
+        setTimeout(() => {
+          mensagem.classList.remove('show');
+        }, 3000);
+      } catch (erro) {
+        mensagem.textContent = "Erro ao cadastrar curso.";
+        mensagem.classList.add('show');
+        console.error("Erro:", erro);
+      }
+    });
+  </script>
 </body>
 </html>

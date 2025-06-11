@@ -1,0 +1,295 @@
+:root {
+  --primary-color: #4361ee;
+  --primary-hover: #3a56d4;
+  --secondary-color: #3f37c9;
+  --dark-bg: #1a1c23;
+  --light-bg: #f8f9fa;
+  --text-dark: #2b2d42;
+  --text-light: #f8f9fa;
+  --success-color: #4cc9f0;
+  --tech-color: #00f0ff;
+  --border-radius: 12px;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --iniciante-color: #4cc9f0;
+  --intermediario-color: #4361ee;
+  --avancado-color: #7209b7;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--dark-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  margin: 0;
+  color: var(--text-light);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.1) 0%, transparent 50%),
+    linear-gradient(to bottom, #0f172a, #1e293b);
+}
+
+/* Container do Logo */
+.logo-container {
+  margin-bottom: 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-container img {
+  width: 120px;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: 
+    drop-shadow(0 0 5px rgba(0, 240, 255, 0.5))
+    drop-shadow(0 0 15px rgba(67, 97, 238, 0.3));
+  transition: var(--transition);
+}
+
+.logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--tech-color);
+  text-shadow: 
+    0 0 5px rgba(0, 240, 255, 0.8),
+    0 0 20px rgba(0, 240, 255, 0.4);
+  letter-spacing: 2px;
+  margin-top: 0.5rem;
+  transition: var(--transition);
+  background: linear-gradient(90deg, #00f0ff, #4361ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-container:hover img {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+.logo-container:hover .logo-text {
+  text-shadow: 
+    0 0 10px rgba(0, 240, 255, 0.9),
+    0 0 30px rgba(0, 240, 255, 0.6);
+  transform: scale(1.03);
+}
+
+/* Estilos do Formulário */
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-light);
+  text-align: center;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 3px;
+}
+
+form {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  max-width: 600px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+form:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--tech-color);
+  background-color: rgba(0, 0, 0, 0.3);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
+}
+
+/* Estilos para os radios */
+.radio-group p {
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+}
+
+.radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.radio-options label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.radio-options input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--text-light);
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  transition: var(--transition);
+}
+
+.radio-options input[type="radio"]:checked + .radio-custom {
+  border-color: var(--tech-color);
+  background-color: var(--tech-color);
+  box-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+}
+
+.radio-options input[type="radio"]:checked + .radio-custom::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--dark-bg);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Diferentes cores para cada nível */
+.radio-options input[type="radio"][value="iniciante"]:checked + .radio-custom {
+  border-color: var(--iniciante-color);
+  background-color: var(--iniciante-color);
+}
+
+.radio-options input[type="radio"][value="intermediario"]:checked + .radio-custom {
+  border-color: var(--intermediario-color);
+  background-color: var(--intermediario-color);
+}
+
+.radio-options input[type="radio"][value="avancado"]:checked + .radio-custom {
+  border-color: var(--avancado-color);
+  background-color: var(--avancado-color);
+}
+
+/* Botão */
+button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border: none;
+  border-radius: var(--border-radius);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+button:hover {
+  background: linear-gradient(135deg, var(--tech-color), var(--primary-color));
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(0, 240, 255, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Mensagem */
+#mensagem {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--tech-color);
+  font-weight: 500;
+  opacity: 0;
+  height: 0;
+  transition: all 0.3s ease;
+}
+
+#mensagem.show {
+  opacity: 1;
+  height: auto;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem;
+  }
+  
+  form {
+    padding: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .logo-text {
+    font-size: 1.8rem;
+  }
+  
+  .logo-container img {
+    width: 90px;
+  }
+  
+  .radio-options {
+    gap: 0.5rem;
+  }
+}

@@ -3,14 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Cadastrar Usuário</title>
-  <link rel="stylesheet" href="css/cadastrar_usuarios.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/cadastrar_usuarios.css">
 </head>
 <body>
-  <img src="./img/Logo_PypyCris.jpg" alt="logo">
-  <h2>Cadastro de Usuário</h2>
-  <form id="formCadastro">
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
   
-
+  <h2>Cadastro de Usuário</h2>
+  
+  <form id="formCadastro">
     <label>Nome:</label><br>
     <input type="text" name="name" required><br><br>
 
@@ -49,9 +55,15 @@
 
         const resultado = await resposta.json();
         mensagem.textContent = resultado.mensagem || "Usuário cadastrado.";
+        mensagem.classList.add('show');
         form.reset();
+        
+        setTimeout(() => {
+          mensagem.classList.remove('show');
+        }, 3000);
       } catch (erro) {
         mensagem.textContent = "Erro ao cadastrar usuário.";
+        mensagem.classList.add('show');
       }
     });
   </script>

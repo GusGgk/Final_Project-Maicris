@@ -1,0 +1,109 @@
+/* Estilos específicos para a lista de cursos */
+.cursos-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.curso-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    box-shadow: var(--box-shadow);
+    backdrop-filter: blur(5px);
+}
+
+.curso-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+.curso-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.curso-header h3 {
+    color: var(--tech-color);
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.curso-linguagem {
+    display: inline-block;
+    background-color: rgba(67, 97, 238, 0.2);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    align-self: flex-start;
+}
+
+.curso-detalhes {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.curso-detalhes p {
+    margin: 0.75rem 0;
+}
+
+.curso-detalhes strong {
+    color: var(--tech-color);
+    font-weight: 500;
+}
+
+.nivel {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+}
+
+.nivel.iniciante {
+    background-color: rgba(76, 201, 240, 0.1);
+    color: var(--iniciante-color);
+}
+
+.nivel.intermediario {
+    background-color: rgba(67, 97, 238, 0.1);
+    color: var(--intermediario-color);
+}
+
+.nivel.avancado {
+    background-color: rgba(114, 9, 183, 0.1);
+    color: var(--avancado-color);
+}
+
+.btn-voltar {
+    display: block;
+    margin: 2rem auto;
+    max-width: 200px;
+    text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .cursos-container {
+        grid-template-columns: 1fr;
+        padding: 0 0.5rem;
+    }
+    
+    .curso-card {
+        padding: 1.25rem;
+    }
+}
