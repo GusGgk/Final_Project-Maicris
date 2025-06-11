@@ -2,7 +2,7 @@
 
 import json
 import os
-from ..models.course import Course
+from models.course import Course 
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 COURSES_FILE = os.path.join(DATA_DIR, 'courses.json')
