@@ -18,3 +18,14 @@ body {
     background-color: #f9f9f9;
     text-align: left;
 }
+/* ======== Estilos para Lista de Cursos ======== */
+.curso-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px auto;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: left;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Lista de cursos</title>
+</head>
+<body>
+    <h2>Lista de cursos cadastrados</h2>
+    <div id="listaCursos"></div>
+    <p id="mensagem"></p>
+    <button>Voltar ao menu</button>
+    <script>
+        async function carregarCursos(){
+            const lista=document.getElementById("listaCursos");
+            const mensagem=document.getElementById("mensagem");
+
+            try{
+                const resposta=await fetch("http://localhost:5000/cursos");
+                const cursos=await resposta.json();
+                if(cursos.length===0){
+                    mensagem.textContent="Nenhum curso cadastrado";
+                    return;
+                }
+                cursos.forEach(curso=>{
+                    const card=document.createElement("div");
+                    card.className="curso-card";
+                    card.innerHTML=`
+                        <strong>Nome:</strong> ${curso.title}<br>
+                        <strong>Linguagem:</strong> ${curso.language}<br>
+                        <strong>Nível:</strong> ${curso.level}<br>
+                        <strong>Duração:</strong> ${curso.duration}<br>
+                        <strong>Preço:</strong> ${curso.price}<br>
+                        <strong>Id instrutor:</strong> ${curso.instructor_id}<br>`;
+                        lista.appendChild(card);
+
+            });
+        
+
+        }catch(erro){
+            mensagem=textContent="Erro ao buscar curso";
+            console.error("Erro:", erro);
+        }
+    }
+    carregarCursos();
+    </script>
+</body>
+</html>
