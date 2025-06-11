@@ -49,3 +49,28 @@ def adicionar_usuario(dados):
         json.dump(usuarios, file, indent=4)
 
     return {"mensagem": f"Usuário {novo.name} cadastrado com sucesso"}
+def get_user_by_id(user_id):
+    usuarios = listar_usuarios()
+    for u in usuarios:
+        if u["id"] == user_id:
+            return User.from_dict(u)
+    return None
+
+def update_user(user_id, novos_dados):
+    usuarios = listar_usuarios()
+    for i, u in enumerate(usuarios):
+        if u["id"] == user_id:
+            usuarios[i].update(novos_dados)
+            with open(CAMINHO_JSON, "w", encoding="utf-8") as f:
+                json.dump(usuarios, f, indent=4)
+            return User.from_dict(usuarios[i])
+    return None
+
+def delete_user(user_id):
+    usuarios = listar_usuarios()
+    novos_usuarios = [u for u in usuarios if u["id"] != user_id]
+    if len(novos_usuarios) == len(usuarios):
+        return False
+    with open(CAMINHO_JSON, "w", encoding="utf-8") as f:
+        json.dump(novos_usuarios, f, indent=4)
+    return True

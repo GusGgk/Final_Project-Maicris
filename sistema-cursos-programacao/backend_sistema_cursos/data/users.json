@@ -47,5 +47,12 @@
         "email": "vitor@gmail.com",
         "password": "rq3rrq32r",
         "type": "aluno"
+    },
+    {
+        "id": "fedf9caf-7183-4e4f-988a-c0e94f6b35f6",
+        "name": "Vitor natal safado",
+        "email": "voto@gmail.com",
+        "password": "$2b$12$t/qoxfmH.XUv8G7rAoemcOZ9us8RB0N.03ZWtoW/E0jR9JCI4Fo6u",
+        "type": "aluno"
     }
 ]
