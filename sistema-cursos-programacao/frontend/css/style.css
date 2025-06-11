@@ -102,7 +102,7 @@ h2::after {
     background: var(--cor-aluno);
 }
 
-/* ======== Estilos de Conteúdo ======== */
+/* ======== Estilos de Cursos ======== */
 .curso-card strong,
 .usuario-card strong {
     color: var(--cor-primaria);
