@@ -5,8 +5,16 @@ from models.enrollment import Enrollment
 from services.user_service import get_user_by_id
 from services.course_service import get_course_by_id
 
+# -------------------------
+# Configuração de caminho
+# -------------------------
+
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 ENROLLMENTS_FILE = os.path.join(DATA_DIR, 'enrollments.json')
+
+# -------------------------
+# Utilitários de leitura/escrita
+# -------------------------
 
 def _read_enrollments_data():
     """Lê os dados das matrículas do arquivo enrollments.json."""
@@ -21,29 +29,57 @@ def _write_enrollments_data(enrollments):
     with open(ENROLLMENTS_FILE, 'w', encoding='utf-8') as f:
         json.dump([enrollment.to_dict() for enrollment in enrollments], f, indent=4, ensure_ascii=False)
 
-def list_all_enrollments(): # Verifique se esta função está presente e com este nome
+# -------------------------
+# Operações de CRUD
+# -------------------------
+
+def list_all_enrollments():
     """Retorna uma lista de todas as matrículas."""
     return _read_enrollments_data()
 
+def get_enrollments_by_user_id(user_id):
+    """Retorna todas as matrículas de um usuário específico."""
+    enrollments = _read_enrollments_data()
+    return [e for e in enrollments if str(e.user_id) == str(user_id)]
+
+def get_enrollments_by_course_id(course_id):
+    """Retorna todas as matrículas para um curso específico."""
+    enrollments = _read_enrollments_data()
+    return [e for e in enrollments if str(e.course_id) == str(course_id)]
+
+def delete_enrollment(enrollment_id):
+    """Remove uma matrícula com base no ID."""
+    enrollments = _read_enrollments_data()
+    updated = [e for e in enrollments if str(e.id) != str(enrollment_id)]
+    if len(updated) < len(enrollments):
+        _write_enrollments_data(updated)
+        return True
+    return False
+
+# -------------------------
+# Criação de nova matrícula
+# -------------------------
+
 def add_enrollment(user_id, course_id):
-    """Adiciona uma nova matrícula."""
+    """
+    Adiciona uma nova matrícula:
+    - Verifica se o usuário e o curso existem
+    - Impede duplicidade
+    - Gera ID baseado no timestamp
+    """
     enrollments = _read_enrollments_data()
 
-    # Verificar se o usuário existe
     user = get_user_by_id(user_id)
     if not user:
         return {"mensagem": f"Erro: Usuário com ID {user_id} não encontrado."}
-    
-    # Verificar se o curso existe
+
     course = get_course_by_id(course_id)
     if not course:
         return {"mensagem": f"Erro: Curso com ID {course_id} não encontrado."}
 
-    # Verificar se o usuário já está matriculado neste curso
     if any(e.user_id == user_id and e.course_id == course_id for e in enrollments):
         return {"mensagem": f"Erro: Usuário {user.name} já está matriculado no curso {course.title}."}
 
-    # Gerar um novo ID simples baseado no timestamp
     new_id = str(int(datetime.now().timestamp()))
     enrollment_date = datetime.now().isoformat()
 
@@ -53,28 +89,11 @@ def add_enrollment(user_id, course_id):
         course_id=course_id,
         enrollment_date=enrollment_date
     )
+
     enrollments.append(new_enrollment)
     _write_enrollments_data(enrollments)
-    return {"mensagem": f"Matrícula realizada com sucesso para o usuário {user.name} no curso {course.title}.", "enrollment": new_enrollment.to_dict()}
 
-def get_enrollments_by_user_id(user_id):
-    """Retorna todas as matrículas de um usuário específico."""
-    enrollments = _read_enrollments_data()
-    user_enrollments = [e for e in enrollments if str(e.user_id) == str(user_id)]
-    return user_enrollments
-
-def get_enrollments_by_course_id(course_id):
-    """Retorna todas as matrículas para um curso específico."""
-    enrollments = _read_enrollments_data()
-    course_enrollments = [e for e in enrollments if str(e.course_id) == str(course_id)]
-    return course_enrollments
-
-def delete_enrollment(enrollment_id):
-    """Deleta uma matrícula pelo seu ID."""
-    enrollments = _read_enrollments_data()
-    initial_len = len(enrollments)
-    enrollments = [e for e in enrollments if str(e.id) != str(enrollment_id)]
-    if len(enrollments) < initial_len:
-        _write_enrollments_data(enrollments)
-        return True
-    return False
+    return {
+        "mensagem": f"Matrícula realizada com sucesso para o usuário {user.name} no curso {course.title}.",
+        "enrollment": new_enrollment.to_dict()
+    }

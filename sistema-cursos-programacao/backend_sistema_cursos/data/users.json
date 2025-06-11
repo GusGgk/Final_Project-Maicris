@@ -5,5 +5,19 @@
         "email": "voto@gmail.com",
         "password": "$2b$12$t/qoxfmH.XUv8G7rAoemcOZ9us8RB0N.03ZWtoW/E0jR9JCI4Fo6u",
         "type": "aluno"
+    },
+    {
+        "id": "1ee919cd-e9f5-4417-a8e5-2923121c8f25",
+        "name": "Gustavo Giacoia",
+        "email": "gukumagai@gmail.com",
+        "password": "$2b$12$MHFY8ucoWrxZupVwzBxageHcaBwQk2xtdL5decx0C2ixHBTSKKHPC",
+        "type": "instrutor"
+    },
+    {
+        "id": "ec24f86f-2805-4e12-8764-38043fd28fa4",
+        "name": "enaldo",
+        "email": "gorkgkyt@gmail.com",
+        "password": "$2b$12$HydubuhkViS4lyQX0.Hsh.pyJE9L11FSXGl99P.ThT99MK.UO2JXm",
+        "type": "aluno"
     }
 ]

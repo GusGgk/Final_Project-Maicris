@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Lista de Usuários</title>
+</head>
+<body>
+    <h2>Lista de Usuários da Plataforma</h2>
+    <div id="listaUsuarios">
+        
+    </div>
+    <p id="mensagem"></p>
+    <button>Voltar ao menu</button>
+    <script>
+    async function carregarUsuarios() {
+        const lista = document.getElementById("listaUsuarios");
+        const mensagem = document.getElementById("mensagem");
+
+        try {
+            const resposta = await fetch("http://localhost:5000/usuarios");
+            const usuarios = await resposta.json();
+
+            if (usuarios.length === 0) {
+                mensagem.textContent = "Nenhum usuário cadastrado.";
+                return;
+            }
+
+            usuarios.forEach(usuario => {
+                const card = document.createElement("div");
+                card.className = "usuario-card";
+                card.innerHTML = `
+                    <strong>Nome:</strong> ${usuario.name}<br>
+                    <strong>Email:</strong> ${usuario.email}<br>
+                    <strong>Tipo:</strong> ${usuario.type}<br>
+                    <strong>ID:</strong> ${usuario.id}
+                `;
+                lista.appendChild(card);
+            });
+
+        } catch (erro) {
+            mensagem.textContent = "Erro ao buscar usuários.";
+            console.error("Erro:", erro);
+        }
+    }
+
+    // Chama a função ao carregar a página
+    carregarUsuarios();
+</script>
+
+</body>
+</html>

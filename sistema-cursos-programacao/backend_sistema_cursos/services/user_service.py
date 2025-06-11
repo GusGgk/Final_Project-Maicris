@@ -4,21 +4,37 @@ import uuid
 import os
 from models.user import User
 
+# -------------------------
+# Configuração e utilidades
+# -------------------------
+
 CAMINHO_JSON = "data/users.json"
 
-# Garante que o arquivo existe
+# Garante que o arquivo users.json existe
 if not os.path.exists(CAMINHO_JSON):
     with open(CAMINHO_JSON, "w", encoding="utf-8") as f:
         json.dump([], f)
 
 def listar_usuarios():
+    """Lê todos os usuários do arquivo JSON e retorna como lista."""
     with open(CAMINHO_JSON, "r", encoding="utf-8") as file:
         try:
             usuarios = json.load(file)
         except json.JSONDecodeError:
             usuarios = []
     return usuarios
+
+def salvar_usuarios(lista_usuarios):
+    """Salva a lista de usuários no arquivo JSON."""
+    with open(CAMINHO_JSON, "w", encoding="utf-8") as file:
+        json.dump(lista_usuarios, file, indent=4)
+
+# -------------------------
+# Operações de CRUD
+# -------------------------
+
 def get_user_by_id(user_id):
+    """Busca um usuário específico pelo ID."""
     usuarios = listar_usuarios()
     for u in usuarios:
         if u["id"] == user_id:
@@ -26,25 +42,36 @@ def get_user_by_id(user_id):
     return None
 
 def update_user(user_id, novos_dados):
+    """Atualiza os dados de um usuário existente."""
     usuarios = listar_usuarios()
     for i, u in enumerate(usuarios):
         if u["id"] == user_id:
             usuarios[i].update(novos_dados)
-            with open(CAMINHO_JSON, "w", encoding="utf-8") as f:
-                json.dump(usuarios, f, indent=4)
+            salvar_usuarios(usuarios)
             return User.from_dict(usuarios[i])
     return None
 
 def delete_user(user_id):
+    """Remove um usuário com base no ID."""
     usuarios = listar_usuarios()
     novos_usuarios = [u for u in usuarios if u["id"] != user_id]
     if len(novos_usuarios) == len(usuarios):
         return False
-    with open(CAMINHO_JSON, "w", encoding="utf-8") as f:
-        json.dump(novos_usuarios, f, indent=4)
+    salvar_usuarios(novos_usuarios)
     return True
 
+# -------------------------
+# Cadastro de novo usuário
+# -------------------------
+
 def adicionar_usuario(dados):
+    """
+    Adiciona um novo usuário ao sistema:
+    - Valida e-mail
+    - Verifica duplicidade
+    - Gera ID único
+    - Criptografa a senha
+    """
     usuarios = listar_usuarios()
 
     # Verifica se o email já existe
@@ -60,22 +87,20 @@ def adicionar_usuario(dados):
     salt = bcrypt.gensalt()
     senha_hash = bcrypt.hashpw(senha_bytes, salt)
 
+    # Cria novo usuário com ID automático
     novo = User(
-        str(uuid.uuid4()),  # Gera ID único
+        str(uuid.uuid4()),
         dados["name"],
         dados["email"],
         senha_hash.decode('utf-8'),
         dados["type"]
     )
 
+    # Adiciona e salva
     usuarios.append(novo.to_dict())
-
-    with open(CAMINHO_JSON, "w", encoding="utf-8") as file:
-        json.dump(usuarios, file, indent=4)
+    salvar_usuarios(usuarios)
 
     return {
-    "mensagem": f"Usuário {novo.name} cadastrado com sucesso",
-    "id": novo.id  # <-- adiciona o ID na resposta
-}
-
-
+        "mensagem": f"Usuário {novo.name} cadastrado com sucesso",
+        "id": novo.id  # Exibe o ID gerado
+    }
