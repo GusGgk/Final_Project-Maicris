@@ -4,7 +4,7 @@ import os
 import json
 
 # Importar serviços de usuário, curso e matrícula
-from services.user_service import listar_usuarios, adicionar_usuario
+from services.user_service import listar_usuarios, adicionar_usuario, get_user_by_id, update_user, delete_user
 from services.course_service import list_all_courses, add_course, get_course_by_id, update_course, delete_course
 from services.enrollment_service import list_all_enrollments, add_enrollment, get_enrollments_by_user_id, get_enrollments_by_course_id, delete_enrollment
 
