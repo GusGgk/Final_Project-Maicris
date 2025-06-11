@@ -40,5 +40,12 @@
         "email": "malu@gmail.com",
         "password": "riqgka2r2R",
         "type": "instrutor"
+    },
+    {
+        "id": "351351",
+        "name": "Vitor Natal",
+        "email": "vitor@gmail.com",
+        "password": "rq3rrq32r",
+        "type": "aluno"
     }
 ]
