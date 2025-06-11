@@ -1,17 +1,22 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import json # Adicione esta linha para importar o módulo json
 
-# Importar serviços de usuário e curso
-# Estas importações já estão corretas para o cenário de execução a partir de backend_sistema_cursos
+# Importar serviços de usuário, curso e matrícula
 from services.user_service import listar_usuarios, adicionar_usuario, get_user_by_id, update_user, delete_user
 from services.course_service import list_all_courses, add_course, get_course_by_id, update_course, delete_course
+from services.enrollment_service import list_all_enrollments, add_enrollment, get_enrollments_by_user_id, get_enrollments_by_course_id, delete_enrollment
 
 app = Flask(__name__)
 CORS(app)
 
-# --- Rotas para Usuários ---
+# Definição do caminho do arquivo de matrículas para uso local no main.py
+# Isso é necessário para o bloco if __name__ == "__main__":
+DATA_DIR = os.path.join(os.path.dirname(__file__), 'data') # Define DATA_DIR
+ENROLLMENTS_FILE = os.path.join(DATA_DIR, 'enrollments.json') # Define ENROLLMENTS_FILE
 
+# --- Rotas para Usuários ---
 @app.route("/usuarios", methods=["GET"])
 def get_usuarios():
     """Retorna uma lista de todos os usuários."""
@@ -63,7 +68,6 @@ def delete_usuario(user_id):
     return jsonify({"mensagem": "Usuário não encontrado"}), 404
 
 # --- Rotas para Cursos ---
-
 @app.route("/courses", methods=["GET"])
 def get_courses():
     """Retorna uma lista de todos os cursos."""
@@ -112,5 +116,52 @@ def delete_course_route(course_id):
         return jsonify({"mensagem": "Curso deletado com sucesso"}), 200
     return jsonify({"mensagem": "Curso não encontrado"}), 404
 
+# --- Rotas para Matrículas (NOVO) ---
+@app.route("/enrollments", methods=["GET"])
+def get_enrollments():
+    """Retorna uma lista de todas as matrículas."""
+    enrollments = list_all_enrollments()
+    return jsonify([e.to_dict() for e in enrollments]), 200
+
+@app.route("/enrollments", methods=["POST"])
+def post_enrollment():
+    """Cria uma nova matrícula."""
+    dados = request.get_json()
+    if not dados or "user_id" not in dados or "course_id" not in dados:
+        return jsonify({"mensagem": "Dados inválidos. Requer 'user_id' e 'course_id'."}), 400
+    
+    resultado = add_enrollment(dados["user_id"], dados["course_id"])
+    if "Erro" in resultado["mensagem"]:
+        return jsonify(resultado), 400 # Bad request ou Conflict
+    return jsonify(resultado), 201
+
+@app.route("/enrollments/user/<string:user_id>", methods=["GET"])
+def get_enrollments_by_user(user_id):
+    """Retorna as matrículas de um usuário específico."""
+    enrollments = get_enrollments_by_user_id(user_id)
+    return jsonify([e.to_dict() for e in enrollments]), 200
+
+@app.route("/enrollments/course/<string:course_id>", methods=["GET"])
+def get_enrollments_by_course(course_id):
+    """Retorna as matrículas para um curso específico."""
+    enrollments = get_enrollments_by_course_id(course_id)
+    return jsonify([e.to_dict() for e in enrollments]), 200
+
+@app.route("/enrollments/<string:enrollment_id>", methods=["DELETE"])
+def delete_enrollment_route(enrollment_id):
+    """Deleta uma matrícula."""
+    if delete_enrollment(enrollment_id):
+        return jsonify({"mensagem": "Matrícula deletada com sucesso"}), 200
+    return jsonify({"mensagem": "Matrícula não encontrada"}), 404
+
 if __name__ == "__main__":
+    # Cria o diretório 'data' se não existir
+    if not os.path.exists(os.path.join(os.path.dirname(__file__), 'data')):
+        os.makedirs(os.path.join(os.path.dirname(__file__), 'data'))
+    
+    # Cria o arquivo enrollments.json se não existir
+    if not os.path.exists(ENROLLMENTS_FILE):
+        with open(ENROLLMENTS_FILE, 'w', encoding='utf-8') as f:
+            json.dump([], f) # Cria um JSON vazio
+
     app.run(debug=True)
