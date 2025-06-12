@@ -60,6 +60,7 @@ body {
   margin-top: 0.5rem;
   transition: var(--transition);
   background: linear-gradient(90deg, #00f0ff, #4361ee);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

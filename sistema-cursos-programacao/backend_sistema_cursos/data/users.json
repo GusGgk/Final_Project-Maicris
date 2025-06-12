@@ -19,5 +19,12 @@
         "email": "gorkgkyt@gmail.com",
         "password": "$2b$12$HydubuhkViS4lyQX0.Hsh.pyJE9L11FSXGl99P.ThT99MK.UO2JXm",
         "type": "aluno"
+    },
+    {
+        "id": "ed4974a7-5346-4278-af77-4593806b3901",
+        "name": "Enaldo",
+        "email": "enaldinho@gmail.com",
+        "password": "$2b$12$R.2bV1BjVXrLq12Dn05Yeu0Gyc6ypy7B4sGuuhmKGtSt2FokaVpv2",
+        "type": "admin"
     }
 ]

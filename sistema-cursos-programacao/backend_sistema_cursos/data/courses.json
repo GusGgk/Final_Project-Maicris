@@ -3,40 +3,20 @@
         "id": "1",
         "title": "Python para Iniciantes",
         "language": "Python",
-        "description": "56hrs",
-        "level": "Curso introdutório de Python com foco em lógica de programação.",
-        "duration": "140.50",
-        "price": "1ee919cd-e9f5-4417-a8e5-2923121c8f25",
-        "instructor_id": "iniciante"
-    },
-    {
-        "id": "2",
-        "title": "Titulo",
-        "language": "lingaugem",
-        "description": "descricao",
+        "description": "Python para pessoas que nunca programaram",
         "level": "iniciante",
-        "duration": "30",
-        "price": "100",
+        "duration": "30hrs",
+        "price": "45.00",
         "instructor_id": "iarjf3492fjafka-3rama"
     },
     {
-        "id": "3",
-        "title": "T",
-        "language": "L",
-        "description": "D",
+        "id": "2",
+        "title": "Gravação de Vídeo",
+        "language": "Youtube",
+        "description": "Aprenda com o Brabo! a Ser um youtuber renomado!!!!",
         "level": "iniciante",
-        "duration": "5",
-        "price": "44",
-        "instructor_id": "TQ3TDFHSRWY56242"
-    },
-    {
-        "id": "4",
-        "title": "Chupar uma bucetinha",
-        "language": "Sexo",
-        "description": "Como chupar uma bucetinha do jeito certo",
-        "level": "iniciante",
-        "duration": "50",
-        "price": "200",
-        "instructor_id": "0005"
+        "duration": "20",
+        "price": "650.00",
+        "instructor_id": "513561611111"
     }
 ]

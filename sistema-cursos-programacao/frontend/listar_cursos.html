@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Cursos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/listar_cursos.css">
+    <link rel="stylesheet" href="css/listar_cursos.css">
+    <title>Lista de Cursos</title>
+    
 </head>
 <body>
     <div class="logo-container">
@@ -42,14 +43,19 @@
                     card.className = "curso-card";
                     card.innerHTML = `
                         <div class="curso-header">
-                            <h3>${curso.title}</h3>
-                            <span class="curso-linguagem">${curso.language}</span>
+                            <h3>${curso.title || 'Sem título'}</h3>
+                            <span class="curso-linguagem">${curso.language || 'N/A'}</span>
                         </div>
                         <div class="curso-detalhes">
-                            <p><strong>Nível:</strong> <span class="nivel ${curso.level.toLowerCase()}">${curso.level}</span></p>
-                            <p><strong>Duração:</strong> ${curso.duration} horas</p>
-                            <p><strong>Preço:</strong> R$ ${parseFloat(curso.price).toFixed(2)}</p>
-                            <p><strong>Instrutor ID:</strong> ${curso.instructor_id}</p>
+                            <p><strong>Descrição:</strong> ${curso.description || 'Sem descrição'}</p>
+
+                            <p><strong>Nível:</strong> <span class="nivel ${curso.level?.toLowerCase() || 'iniciante'}">${curso.level || 'Iniciante'}</span></p>
+
+                            <p><strong>Duração:</strong> ${curso.duration || 0} horas</p>
+
+                            <p><strong>Preço:</strong> R$ ${parseFloat(curso.price || 0).toFixed(2)}</p>
+
+                            <p><strong>Instrutor:</strong> ${curso.instructor_id || 'Não especificado'}</p>
                         </div>`;
                     lista.appendChild(card);
                 });

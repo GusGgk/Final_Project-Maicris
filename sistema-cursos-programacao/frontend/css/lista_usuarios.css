@@ -27,9 +27,8 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Corpo geral */
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--dark-bg);
   background-image: 
     radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.15) 0%, transparent 50%),
@@ -44,73 +43,64 @@ body {
   line-height: 1.6;
 }
 
-/* Logo */
+/* Container do Logo - Ajustes refinados */
 .logo-container {
-  margin-bottom: 3rem;
-  text-align: center;
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 300px;
 }
 
 .logo-container img {
-  width: 140px;
+  width: 120px;
   height: auto;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   filter: 
-    drop-shadow(0 0 8px var(--tech-glow))
-    drop-shadow(0 0 20px rgba(67, 97, 238, 0.4));
-  transition: transform 0.5s ease, filter 0.5s ease;
-  transform: rotate(0deg); /* Garante que não há rotação acidental */
-  object-fit: contain; /* Mantém a proporção correta */
-}
-
-.logo-container:hover img {
-  transform: scale(1.05);
-  filter: 
-    drop-shadow(0 0 12px var(--tech-glow))
-    drop-shadow(0 0 30px rgba(67, 97, 238, 0.6));
+    drop-shadow(0 0 10px var(--tech-glow))
+    drop-shadow(0 0 25px rgba(67, 97, 238, 0.4));
+  transition: var(--transition);
+  object-fit: contain;
 }
 
 .logo-text {
   font-family: 'Orbitron', sans-serif;
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: transparent;
+  letter-spacing: 1.5px;
   background: linear-gradient(90deg, var(--tech-color), var(--primary-color));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 
-    0 0 8px rgba(0, 240, 255, 0.6),
-    0 0 25px rgba(0, 240, 255, 0.3);
+    0 0 10px rgba(0, 240, 255, 0.7),
+    0 0 30px rgba(0, 240, 255, 0.4);
+  margin-top: 0.5rem;
   position: relative;
-  display: inline-block;
-  padding: 0 1rem;
   text-align: center;
-  line-height: 1.2; /* Melhora o espaçamento vertical */
 }
 
 .logo-text::after {
   content: '';
   position: absolute;
-  bottom: -5px;
-  left: 0;
-  right: 0;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--tech-color), transparent);
   border-radius: 50%;
-  opacity: 0.7;
 }
 
-/* Título */
+/* Título da Página */
 h2 {
-  font-size: 2.2rem;
-  margin-bottom: 3rem;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: var(--text-lighter);
   position: relative;
   padding-bottom: 0.8rem;
   text-align: center;
@@ -123,42 +113,37 @@ h2::after {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
-  height: 4px;
+  width: 100px;
+  height: 3px;
   background: linear-gradient(90deg, var(--primary-color), var(--tech-color));
   border-radius: 2px;
 }
 
-/* Container de cursos */
-.cursos-container {
+/* Container de usuários */
+#listaUsuarios {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2.5rem;
+  gap: 2rem;
   width: 100%;
   max-width: 1100px;
-  margin: 0 auto;
+  margin: 0 auto 3rem;
   padding: 0 1.5rem;
 }
 
-/* Card de curso */
-.curso-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+/* Card de usuário - Ajustes de layout */
+.usuario-card {
   background: var(--card-gradient);
   border-radius: var(--border-radius);
   padding: 2rem;
   box-shadow: var(--box-shadow);
   transition: var(--transition);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
-  z-index: 1;
-  align-items: flex-start; /* Alinha todo o conteúdo à esquerda */
 }
 
-.curso-card::before {
+.usuario-card::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -172,122 +157,44 @@ h2::after {
   transition: opacity 0.6s ease;
 }
 
-.curso-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(0, 240, 255, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+.usuario-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
-.curso-card:hover::before {
+.usuario-card:hover::before {
   opacity: 1;
 }
 
-/* Header do curso */
-.curso-header {
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.curso-header h3 {
-  font-size: 1.4rem;
-  color: var(--text-lighter);
-  margin-bottom: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  position: relative;
-  display: inline-block;
-}
-
-.curso-header h3::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 50px;
-  height: 2px;
-  background: var(--tech-color);
-  border-radius: 1px;
-}
-
-.curso-linguagem {
-  background: rgba(67, 97, 238, 0.2);
-  color: var(--primary-color);
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  display: inline-block;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(67, 97, 238, 0.3);
-  transition: var(--transition);
-}
-
-.curso-card:hover .curso-linguagem {
-  background: rgba(67, 97, 238, 0.3);
-  transform: translateY(-2px);
-}
-
-/* Detalhes do curso */
-.curso-detalhes {
-  width: 100%;
-  font-size: 1rem;
-  color: var(--text-light);
-  line-height: 1.7;
-}
-
-.curso-detalhes p {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0.7rem 0;
-  width: 100%;
-}
-
-.curso-detalhes strong {
-  font-weight: 600;
+/* Estilos para o conteúdo do card */
+.usuario-card strong {
   color: var(--tech-color);
-  text-align: left;
-}
-
-/* Nível com cor específica */
-.nivel {
-  padding: 0.3rem 0.9rem;
-  border-radius: 6px;
   font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: capitalize;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: var(--transition);
-}
-
-.nivel::before {
-  content: '';
+  min-width: 70px;
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
 }
 
-.nivel.iniciante {
-  background-color: rgba(76, 201, 240, 0.15);
+.usuario-card br {
+  display: block;
+  margin: 0.7rem 0;
+  content: "";
+}
+
+/* Tipos de usuário */
+.usuario-card [data-type="admin"] {
   color: var(--success-color);
-  border: 1px solid rgba(76, 201, 240, 0.3);
+  font-weight: 600;
 }
 
-.nivel.intermediario {
-  background-color: rgba(67, 97, 238, 0.15);
+.usuario-card [data-type="instrutor"] {
   color: var(--primary-color);
-  border: 1px solid rgba(67, 97, 238, 0.3);
+  font-weight: 600;
 }
 
-.nivel.avancado {
-  background-color: rgba(114, 9, 183, 0.15);
+.usuario-card [data-type="aluno"] {
   color: #8a2be2;
-  border: 1px solid rgba(114, 9, 183, 0.3);
+  font-weight: 600;
 }
 
 /* Mensagem e botão */
@@ -306,10 +213,10 @@ h2::after {
 }
 
 button {
-  margin-top: 3rem;
+  margin-top: 2rem;
   padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   border: none;
   border-radius: var(--border-radius);
@@ -319,21 +226,8 @@ button {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+  box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
   letter-spacing: 0.5px;
-}
-
-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, var(--tech-color), var(--primary-color));
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.3s ease;
 }
 
 button:hover {
@@ -341,21 +235,14 @@ button:hover {
   box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
 }
 
-button:hover::before {
-  opacity: 1;
-}
-
-/* Efeitos de foco */
-button:focus,
-.curso-card:focus {
-  outline: 2px solid var(--tech-color);
-  outline-offset: 2px;
-}
-
 /* Responsividade */
 @media (max-width: 768px) {
   body {
     padding: 2rem 1.5rem;
+  }
+  
+  .logo-container {
+    margin-bottom: 2rem;
   }
   
   .logo-text {
@@ -367,13 +254,13 @@ button:focus,
     margin-bottom: 2rem;
   }
   
-  .cursos-container {
+  #listaUsuarios {
     grid-template-columns: 1fr;
     padding: 0;
     gap: 1.8rem;
   }
   
-  .curso-card {
+  .usuario-card {
     padding: 1.8rem;
   }
 }
@@ -388,13 +275,12 @@ button:focus,
   }
   
   .logo-text {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   
   button {
-    padding: 0.9rem 2rem;
-    font-size: 1rem;
     width: 100%;
+    padding: 1rem;
   }
 }
 
@@ -404,11 +290,11 @@ button:focus,
   to { opacity: 1; transform: translateY(0); }
 }
 
-.cursos-container {
+#listaUsuarios {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
-.curso-card {
+.usuario-card {
   opacity: 0;
   animation: fadeIn 0.6s ease-out forwards;
   animation-delay: calc(var(--index) * 0.1s);
