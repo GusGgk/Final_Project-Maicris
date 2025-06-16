@@ -56,9 +56,7 @@ def delete_enrollment(enrollment_id):
         return True
     return False
 
-# -------------------------
 # Criação de nova matrícula
-# -------------------------
 
 def add_enrollment(user_id, course_id):
     """
@@ -97,3 +95,11 @@ def add_enrollment(user_id, course_id):
         "mensagem": f"Matrícula realizada com sucesso para o usuário {user.name} no curso {course.title}.",
         "enrollment": new_enrollment.to_dict()
     }
+
+def get_enrollment_by_id(enrollment_id):
+    """Busca uma matrícula pelo seu ID."""
+    enrollments = _load_enrollments()
+    for enrollment_data in enrollments:
+        if enrollment_data["id"] == enrollment_id:
+            return Enrollment.from_dict(enrollment_data)
+    return None

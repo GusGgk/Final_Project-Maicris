@@ -12,6 +12,11 @@ from controllers.enrollment_controller import enrollment_bp
 
 # Cria a aplicação Flask
 app = Flask(__name__)
+
+# Adição da chave secreta para a criação dos tokens JWT.
+app.config['SECRET_KEY'] = 'uma-chave-secreta-bem-forte-e-dificil-de-adivinhar'
+
+
 CORS(app)  # habilita o CORS
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')

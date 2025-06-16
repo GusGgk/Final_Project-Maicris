@@ -105,3 +105,11 @@ def adicionar_usuario(dados):
         "mensagem": f"Usuário {novo.name} cadastrado com sucesso",
         "id": novo.id  # Exibe o ID gerado
     }
+
+def find_user_by_email(email):
+    """Busca um usuário pelo seu email."""
+    users = _load_users()
+    for user_data in users:
+        if user_data["email"] == email:
+            return User.from_dict(user_data)
+    return None
