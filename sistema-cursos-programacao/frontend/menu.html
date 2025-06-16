@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu - Pypy.Cris</title>
+  <link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="Logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2 id="boasVindas">Bem-vindo!</h2>
+  <p id="tipoUsuario"></p>
+
+  <div class="menu-opcoes" id="opcoesMenu"></div>
+
+  <button id="logoutBtn">Sair</button>
+
+  <script>
+    const userType = localStorage.getItem("user_type");
+    const userName = localStorage.getItem("user_name");
+    const userId = localStorage.getItem("user_id");
+    const opcoesMenu = document.getElementById("opcoesMenu");
+
+    if (!userType || !userId) {
+      alert("Você precisa estar logado para acessar o menu.");
+      window.location.href = "login.html";
+    }
+    
+
+    document.getElementById("boasVindas").textContent = `Bem-vindo(a), ${userName || "Usuário"}!`;
+    document.getElementById("tipoUsuario").textContent = `Perfil: ${userType}`;
+
+    function adicionarBotao(texto, destino) {
+      const botao = document.createElement("button");
+      botao.textContent = texto;
+      botao.onclick = () => window.location.href = destino;
+      opcoesMenu.appendChild(botao);
+    }
+
+    // Comum a todos os tipos
+    adicionarBotao("Listar Cursos", "listar_cursos.html");
+
+    if (userType === "aluno") {
+      adicionarBotao("Minhas Matrículas", `listar_matriculas.html?user_id=${userId}`);
+    }
+
+    if (userType === "instrutor" || userType === "admin") {
+      adicionarBotao("Cadastrar Curso", "cadastrar_curso.html");
+    }
+
+    if (userType === "admin") {
+      adicionarBotao("Listar Usuários", "listar_usuarios.html");
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

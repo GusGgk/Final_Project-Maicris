@@ -50,15 +50,14 @@
         "instructor_id": "2424242"
     },
     {
-    "id": "6",
-    "title": "Desenvolvimento Web Avançado com React",
-    "language": "JavaScript",
-    "description": "Domine o React e crie aplicações web complexas e de alta performance.",
-    "level": "avancado",
-    "duration": "80",
-    "price": "120",
-    "instructor_id": "4545454"
-    
+        "id": "6",
+        "title": "Desenvolvimento Web Avançado com React",
+        "language": "JavaScript",
+        "description": "Domine o React e crie aplicações web complexas e de alta performance.",
+        "level": "avancado",
+        "duration": "80",
+        "price": "120",
+        "instructor_id": "4545454"
     },
     {
         "id": "7",
@@ -71,23 +70,33 @@
         "instructor_id": "7878787"
     },
     {
-    "id": "8",
-    "title": "Automação de Tarefas com C# e .NET",
-    "language": "C#",
-    "description": "Aprenda a criar scripts e pequenas aplicações para automatizar seu trabalho.",
-    "level": "intermediario",
-    "duration": "45",
-    "price": "65",
-    "instructor_id": "9191919"
+        "id": "8",
+        "title": "Automação de Tarefas com C# e .NET",
+        "language": "C#",
+        "description": "Aprenda a criar scripts e pequenas aplicações para automatizar seu trabalho.",
+        "level": "intermediario",
+        "duration": "45",
+        "price": "65",
+        "instructor_id": "9191919"
     },
     {
-    "id": "9",
-    "title": "Microsserviços com Spring Boot e Kubernetes",
-    "language": "Java",
-    "description": "Construa e orquestre uma arquitetura de microsserviços robusta na nuvem.",
-    "level": "avancado",
-    "duration": "95",
-    "price": "150",
-    "instructor_id": "2424242"
+        "id": "9",
+        "title": "Microsserviços com Spring Boot e Kubernetes",
+        "language": "Java",
+        "description": "Construa e orquestre uma arquitetura de microsserviços robusta na nuvem.",
+        "level": "avancado",
+        "duration": "95",
+        "price": "150",
+        "instructor_id": "2424242"
+    },
+    {
+        "id": "10",
+        "title": "Lucas Inutismo",
+        "language": "Inustismo",
+        "description": "inustismo",
+        "level": "iniciante",
+        "duration": "2",
+        "price": "222",
+        "instructor_id": "1e8e8be9-6e86-4630-9637-0e23a81a3df3"
     }
 ]

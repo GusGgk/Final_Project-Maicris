@@ -24,50 +24,95 @@
     <button onclick="window.location.href='menu.html'">Voltar ao menu</button>
     
     <script>
-        async function carregarCursos(){
-            const lista = document.getElementById("listaCursos");
-            const mensagem = document.getElementById("mensagem");
+  const lista = document.getElementById("listaCursos");
+  const mensagem = document.getElementById("mensagem");
 
-            try {
-                const resposta = await fetch("http://localhost:5000/cursos/");
-                const cursos = await resposta.json();
-                
-                if(cursos.length === 0){
-                    mensagem.textContent = "Nenhum curso cadastrado";
-                    mensagem.classList.add('show');
-                    return;
-                }
-                
-                cursos.forEach(curso => {
-                    const card = document.createElement("div");
-                    card.className = "curso-card";
-                    card.innerHTML = `
-                        <div class="curso-header">
-                            <h3>${curso.title || 'Sem título'}</h3>
-                            <span class="curso-linguagem">${curso.language || 'N/A'}</span>
-                        </div>
-                        <div class="curso-detalhes">
-                            <p><strong>Descrição:</strong> ${curso.description || 'Sem descrição'}</p>
+  const token = localStorage.getItem("token");
+  const userType = localStorage.getItem("user_type");
 
-                            <p><strong>Nível:</strong> <span class="nivel ${curso.level?.toLowerCase() || 'iniciante'}">${curso.level || 'Iniciante'}</span></p>
+  async function carregarCursos() {
+    try {
+      const resposta = await fetch("http://localhost:5000/cursos/");
+      const cursos = await resposta.json();
 
-                            <p><strong>Duração:</strong> ${curso.duration || 0} horas</p>
+      if (cursos.length === 0) {
+        mensagem.textContent = "Nenhum curso cadastrado";
+        return;
+      }
 
-                            <p><strong>Preço:</strong> R$ ${parseFloat(curso.price || 0).toFixed(2)}</p>
+      cursos.forEach(curso => {
+        const card = document.createElement("div");
+        card.className = "curso-card";
 
-                            <p><strong>Instrutor:</strong> ${curso.instructor_id || 'Não especificado'}</p>
-                        </div>`;
-                    lista.appendChild(card);
-                });
+        let botaoMatricula = "";
 
-            } catch(erro) {
-                mensagem.textContent = "Erro ao buscar cursos";
-                mensagem.classList.add('show');
-                console.error("Erro:", erro);
-            }
+        if (token && userType === "aluno") {
+          botaoMatricula = `
+            <button class="btn-matricular" onclick="matricular('${curso.id}', this)">
+              Matricular-se
+            </button>
+          `;
         }
-        
-        document.addEventListener('DOMContentLoaded', carregarCursos);
-    </script>
+
+        card.innerHTML = `
+          <div class="curso-header">
+            <h3>${curso.title || 'Sem título'}</h3>
+            <span class="curso-linguagem">${curso.language || 'N/A'}</span>
+          </div>
+          <div class="curso-detalhes">
+            <p><strong>Descrição:</strong> ${curso.description || 'Sem descrição'}</p>
+            <p><strong>Nível:</strong> <span class="nivel ${curso.level?.toLowerCase() || 'iniciante'}">${curso.level || 'Iniciante'}</span></p>
+            <p><strong>Duração:</strong> ${curso.duration || 0} horas</p>
+            <p><strong>Preço:</strong> R$ ${parseFloat(curso.price || 0).toFixed(2)}</p>
+            <p><strong>Instrutor:</strong> ${curso.instructor_id || 'Não especificado'}</p>
+            ${botaoMatricula}
+          </div>
+        `;
+
+        lista.appendChild(card);
+      });
+    } catch (erro) {
+      mensagem.textContent = "Erro ao buscar cursos";
+      console.error("Erro:", erro);
+    }
+  }
+
+  // Função para enviar matrícula
+  async function matricular(courseId, buttonEl) {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Você precisa estar logado como aluno para se matricular.");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/enrollments/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ course_id: courseId })
+      });
+
+      const resultado = await res.json();
+
+      if (res.ok) {
+        buttonEl.disabled = true;
+        buttonEl.textContent = "Inscrito ✅";
+        buttonEl.style.background = "#4cc9f0";
+      } else {
+        alert(resultado.mensagem || "Erro ao se matricular.");
+      }
+    } catch (erro) {
+      console.error("Erro ao enviar matrícula:", erro);
+      alert("Erro ao se conectar com o servidor.");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", carregarCursos);
+</script>
+
 </body>
 </html>

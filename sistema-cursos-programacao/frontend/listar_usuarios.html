@@ -22,41 +22,60 @@
     <p id="mensagem"></p>
     <button>Voltar ao menu</button>
     <script>
-async function carregarUsuarios() {
-    const lista = document.getElementById("listaUsuarios");
-    const mensagem = document.getElementById("mensagem");
+  const token = localStorage.getItem("token");
+  const userType = localStorage.getItem("user_type");
 
+  const lista = document.getElementById("listaUsuarios");
+  const mensagem = document.getElementById("mensagem");
+
+  // Bloqueia acesso se não for admin
+  if (!token || userType !== "admin") {
+    alert("Acesso negado. Apenas administradores podem visualizar esta página.");
+    window.location.href = "login.html";
+  }
+
+  async function carregarUsuarios() {
     try {
-        const resposta = await fetch("http://localhost:5000/usuarios/");
-        const usuarios = await resposta.json();
-
-        if (usuarios.length === 0) {
-            mensagem.textContent = "Nenhum usuário cadastrado.";
-            return;
+      const resposta = await fetch("http://localhost:5000/usuarios/", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`
         }
+      });
 
-        usuarios.forEach((usuario, index) => {
-            const card = document.createElement("div");
-            card.className = "usuario-card";
-            card.style.setProperty('--index', index);
-            card.innerHTML = `
-                <strong>Nome:</strong> ${usuario.name}<br>
-                <strong>Email:</strong> ${usuario.email}<br>
-                <strong>Tipo:</strong> <span data-type="${usuario.type.toLowerCase()}">${usuario.type}</span><br>
-                <strong>ID:</strong> ${usuario.id}
-            `;
-            lista.appendChild(card);
-        });
-
-    } catch (erro) {
+      if (!resposta.ok) {
         mensagem.textContent = "Erro ao buscar usuários.";
-        console.error("Erro:", erro);
-    }
-}
+        return;
+      }
 
-// Chama a função ao carregar a página
-document.addEventListener('DOMContentLoaded', carregarUsuarios);
+      const usuarios = await resposta.json();
+
+      if (usuarios.length === 0) {
+        mensagem.textContent = "Nenhum usuário cadastrado.";
+        return;
+      }
+
+      usuarios.forEach((usuario, index) => {
+        const card = document.createElement("div");
+        card.className = "usuario-card";
+        card.style.setProperty('--index', index);
+        card.innerHTML = `
+          <strong>Nome:</strong> ${usuario.name}<br>
+          <strong>Email:</strong> ${usuario.email}<br>
+          <strong>Tipo:</strong> <span data-type="${usuario.user_type.toLowerCase()}">${usuario.user_type}</span><br>
+          <strong>ID:</strong> ${usuario.id}
+        `;
+        lista.appendChild(card);
+      });
+    } catch (erro) {
+      mensagem.textContent = "Erro ao buscar usuários.";
+      console.error("Erro:", erro);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', carregarUsuarios);
 </script>
+
 
 </body>
 </html>

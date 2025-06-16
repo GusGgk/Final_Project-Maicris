@@ -62,7 +62,11 @@ def login():
         'exp': datetime.now(timezone.utc) + timedelta(hours=1)
     }
     token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm="HS256")
-    return jsonify({"token": token})
+    return jsonify({
+    "token": token,
+    "user": user.to_dict()
+    })
+
 
 # --- ROTAS PROTEGIDAS (EXIGEM LOGIN E PERMISSÃO) ---
 

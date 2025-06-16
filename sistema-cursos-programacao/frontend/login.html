@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Pypy.Cris</title>
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Login</h2>
+
+  <form id="formLogin">
+    <label for="email">Email:</label>
+    <input type="email" id="email" required><br><br>
+
+    <label for="password">Senha:</label>
+    <input type="password" id="password" required><br><br>
+
+    <button type="submit">Entrar</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <script>
+    const form = document.getElementById("formLogin");
+    const mensagem = document.getElementById("mensagem");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const res = await fetch("http://localhost:5000/usuarios/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const dados = await res.json();
+
+        if (!res.ok) {
+          mensagem.textContent = dados.mensagem || "Erro ao fazer login.";
+          mensagem.style.color = "red";
+          return;
+        }
+
+        // Salva token e informações do usuário no localStorage
+        localStorage.setItem("token", dados.token);
+        localStorage.setItem("user_id", dados.user.id);
+        localStorage.setItem("user_type", dados.user.user_type);
+
+        mensagem.textContent = "Login realizado com sucesso!";
+        mensagem.style.color = "green";
+        localStorage.setItem("user_name", dados.user.name); 
+
+        // Redireciona para página protegida
+        setTimeout(() => {
+          window.location.href = "menu.html";
+        }, 1000);
+
+      } catch (erro) {
+        mensagem.textContent = "Erro ao conectar com o servidor.";
+        mensagem.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

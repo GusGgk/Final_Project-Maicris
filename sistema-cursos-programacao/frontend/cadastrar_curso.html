@@ -64,56 +64,64 @@
       <input type="number" name="price" step="0.01" placeholder="Ex: 140.50" required>
     </div>
 
-    <div class="input-group">
-      <label>ID do Instrutor:</label>
-      <input type="text" name="instructor_id" placeholder="Ex: uuid-do-instrutor" required>
-    </div>
-
     <button type="submit">Cadastrar Curso</button>
   </form>
 
   <p id="mensagem"></p>
 
   <script>
-    const form = document.getElementById("formCadastro");
-    const mensagem = document.getElementById("mensagem");
+  const form = document.getElementById("formCadastro");
+  const mensagem = document.getElementById("mensagem");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  const token = localStorage.getItem("token");
+  const userType = localStorage.getItem("user_type");
 
-      const dados = {
-        title: form.title.value.trim(),
-        language: form.language.value.trim(),
-        description: form.description.value.trim(),
-        level: form.level.value,
-        duration: form.duration.value.trim(),
-        price: form.price.value.trim(),
-        instructor_id: form.instructor_id.value.trim()
-      };
+  // Verifica se o usuário é instrutor ou admin
+  if (!token || (userType !== "instrutor" && userType !== "admin")) {
+    alert("Acesso negado. Apenas instrutores ou administradores podem cadastrar cursos.");
+    window.location.href = "login.html";
+  }
 
-      try {
-        const resposta = await fetch("http://localhost:5000/cursos/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(dados)
-        });
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-        const resultado = await resposta.json();
-        mensagem.textContent = resultado.mensagem || "Curso cadastrado com sucesso!";
-        mensagem.classList.add('show');
+    const dados = {
+      title: form.title.value.trim(),
+      language: form.language.value.trim(),
+      description: form.description.value.trim(),
+      level: form.level.value,
+      duration: form.duration.value.trim(),
+      price: form.price.value.trim()
+    };
+
+    try {
+      const resposta = await fetch("http://localhost:5000/cursos/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(dados)
+      });
+
+      const resultado = await resposta.json();
+
+      if (resposta.ok) {
+        mensagem.textContent = "Curso cadastrado com sucesso!";
+        mensagem.style.color = "green";
         form.reset();
-        
-        setTimeout(() => {
-          mensagem.classList.remove('show');
-        }, 3000);
-      } catch (erro) {
-        mensagem.textContent = "Erro ao cadastrar curso.";
-        mensagem.classList.add('show');
-        console.error("Erro:", erro);
+      } else {
+        mensagem.textContent = resultado.mensagem || "Erro ao cadastrar curso.";
+        mensagem.style.color = "red";
       }
-    });
-  </script>
+
+    } catch (erro) {
+      mensagem.textContent = "Erro de conexão com o servidor.";
+      mensagem.style.color = "red";
+      console.error("Erro:", erro);
+    }
+  });
+</script>
+
 </body>
 </html>

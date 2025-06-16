@@ -33,5 +33,26 @@
         "email": "edu@gay.com",
         "password": "$2b$12$vjy085UhmdlafWck/fungeWgfOJ/tOKRkeoxHFddYedcl2CtzFl5m",
         "type": "aluno"
+    },
+    {
+        "id": "1e8e8be9-6e86-4630-9637-0e23a81a3df3",
+        "name": "Gustavo Giacoia Kumagai",
+        "email": "kumagai.gustavo@pucpr.edu.br",
+        "password": "$2b$12$3bkhvMlEgtmcxgDjzj/CgeiKS7nhfPiW/rJtdIGTmjw87dA/mrP4y",
+        "user_type": "admin"
+    },
+    {
+        "id": "18e68f6b-1a3b-4cbf-be89-09d30e917028",
+        "name": "Lucas punheta",
+        "email": "lucas@punheta.com",
+        "password": "$2b$12$YlVsqLeJm75gcaH4SET7t.fyLZYRvgg7RuE3qj4iuDDHXshnJslRq",
+        "user_type": "aluno"
+    },
+    {
+        "id": "382293e0-b1e3-44db-b65f-42907f451b66",
+        "name": "Kotuka Teu Ku",
+        "email": "KOTUKA@GMAIL.COM",
+        "password": "$2b$12$VEyO46y.C1uUpSqhqQ2cJ.ObTIUyHro.YitFc/478H7DtNcUoiRSu",
+        "user_type": "instrutor"
     }
 ]

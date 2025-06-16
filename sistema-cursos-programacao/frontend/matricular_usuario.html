@@ -25,52 +25,59 @@
   <p id="mensagem"></p>
 
   <script>
-    // 🔧 Simula um usuário já logado (substituir isso futuramente pelo login real)
-    const user_id = "1ee919cd-e9f5-4417-a8e5-2923121c8f25"; // ← Substitua por valor real depois
+  const token = localStorage.getItem("token");
+  const selectCurso = document.getElementById("curso");
+  const mensagem = document.getElementById("mensagem");
 
-    const selectCurso = document.getElementById("curso");
-    const mensagem = document.getElementById("mensagem");
+  // Bloqueia acesso se o usuário não estiver logado
+  if (!token) {
+    alert("Você precisa estar logado para se matricular.");
+    window.location.href = "login.html";
+  }
 
-    // Carrega cursos
-    async function carregarCursos() {
-      try {
-        const res = await fetch("http://localhost:5000/cursos/");
-        const cursos = await res.json();
-        selectCurso.innerHTML = '<option value="">Selecione um curso</option>';
-        cursos.forEach(curso => {
-          const opt = document.createElement("option");
-          opt.value = curso.id;
-          opt.textContent = `${curso.title} (${curso.language})`;
-          selectCurso.appendChild(opt);
-        });
-      } catch (err) {
-        selectCurso.innerHTML = '<option value="">Erro ao carregar cursos</option>';
-      }
+  // Carrega cursos (sem exigir autenticação)
+  async function carregarCursos() {
+    try {
+      const res = await fetch("http://localhost:5000/cursos/");
+      const cursos = await res.json();
+      selectCurso.innerHTML = '<option value="">Selecione um curso</option>';
+      cursos.forEach(curso => {
+        const opt = document.createElement("option");
+        opt.value = curso.id;
+        opt.textContent = `${curso.title} (${curso.language})`;
+        selectCurso.appendChild(opt);
+      });
+    } catch (err) {
+      selectCurso.innerHTML = '<option value="">Erro ao carregar cursos</option>';
     }
+  }
 
-    // Envia matrícula
-    document.getElementById("formMatricula").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const course_id = selectCurso.value;
+  // Envia matrícula com token no cabeçalho
+  document.getElementById("formMatricula").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const course_id = selectCurso.value;
 
-      try {
-        const res = await fetch("http://localhost:5000/enrollments/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id, course_id })
-        });
+    try {
+      const res = await fetch("http://localhost:5000/enrollments/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ course_id })
+      });
 
-        const resultado = await res.json();
-        mensagem.textContent = resultado.mensagem || "Matrícula processada.";
-        mensagem.style.color = res.ok ? "green" : "red";
-      } catch (erro) {
-        mensagem.textContent = "Erro ao enviar matrícula.";
-        mensagem.style.color = "red";
-      }
-    });
+      const resultado = await res.json();
+      mensagem.textContent = resultado.mensagem || "Matrícula processada.";
+      mensagem.style.color = res.ok ? "green" : "red";
+    } catch (erro) {
+      mensagem.textContent = "Erro ao enviar matrícula.";
+      mensagem.style.color = "red";
+    }
+  });
 
-    // Iniciar
-    carregarCursos();
-  </script>
+  carregarCursos();
+</script>
+
 </body>
 </html>
