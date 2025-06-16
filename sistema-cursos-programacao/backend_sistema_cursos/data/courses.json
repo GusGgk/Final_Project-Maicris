@@ -5,7 +5,7 @@
         "language": "Python",
         "description": "Python para pessoas que nunca programaram",
         "level": "iniciante",
-        "duration": "30hrs",
+        "duration": "30",
         "price": "45.00",
         "instructor_id": "iarjf3492fjafka-3rama"
     },
@@ -21,12 +21,73 @@
     },
     {
         "id": "3",
-        "title": "aaa",
-        "language": "nnn",
-        "description": "ccc",
-        "level": "avancado",
-        "duration": "10",
+        "title": "Lógica de Programação",
+        "language": "Portugol",
+        "description": "Aprenda os fundamentos da programação com uma linguagem simples para iniciantes.",
+        "level": "iniciante",
+        "duration": "23",
         "price": "30",
         "instructor_id": "123242345"
+    },
+    {
+        "id": "4",
+        "title": "Desenvolvimento de Jogos com C#",
+        "language": "C#",
+        "description": "Um curso para devs que sonham criar seus próprios jogos!",
+        "level": "intermediario",
+        "duration": "74",
+        "price": "80",
+        "instructor_id": "2424242"
+    },
+    {
+        "id": "5",
+        "title": "Desenvolvedor FullStack Java",
+        "language": "Java",
+        "description": "Um curso para devs que sonham criar seus próprios jogos!",
+        "level": "avancado",
+        "duration": "74",
+        "price": "80",
+        "instructor_id": "2424242"
+    },
+    {
+    "id": "6",
+    "title": "Desenvolvimento Web Avançado com React",
+    "language": "JavaScript",
+    "description": "Domine o React e crie aplicações web complexas e de alta performance.",
+    "level": "avancado",
+    "duration": "80",
+    "price": "120",
+    "instructor_id": "4545454"
+    
+    },
+    {
+        "id": "7",
+        "title": "Desenvolvimento de Jogos 2D com Godot",
+        "language": "GDScript",
+        "description": "Crie seu primeiro jogo 2D do zero com a engine de código aberto Godot.",
+        "level": "iniciante",
+        "duration": "50",
+        "price": "70",
+        "instructor_id": "7878787"
+    },
+    {
+    "id": "8",
+    "title": "Automação de Tarefas com C# e .NET",
+    "language": "C#",
+    "description": "Aprenda a criar scripts e pequenas aplicações para automatizar seu trabalho.",
+    "level": "intermediario",
+    "duration": "45",
+    "price": "65",
+    "instructor_id": "9191919"
+    },
+    {
+    "id": "9",
+    "title": "Microsserviços com Spring Boot e Kubernetes",
+    "language": "Java",
+    "description": "Construa e orquestre uma arquitetura de microsserviços robusta na nuvem.",
+    "level": "avancado",
+    "duration": "95",
+    "price": "150",
+    "instructor_id": "2424242"
     }
 ]

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Matricule-se</title>
+  <link rel="stylesheet" href="css/matricula.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Matricule-se em um curso</h2>
+
+  <form id="formMatricula">
+    <label for="curso">Escolha um curso disponível:</label><br>
+    <select id="curso" name="course_id" required>
+      <option value="">Carregando cursos...</option>
+    </select><br><br>
+
+    <button type="submit">Matricular-se</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <script>
+    // 🔧 Simula um usuário já logado (substituir isso futuramente pelo login real)
+    const user_id = "1ee919cd-e9f5-4417-a8e5-2923121c8f25"; // ← Substitua por valor real depois
+
+    const selectCurso = document.getElementById("curso");
+    const mensagem = document.getElementById("mensagem");
+
+    // Carrega cursos
+    async function carregarCursos() {
+      try {
+        const res = await fetch("http://localhost:5000/cursos/");
+        const cursos = await res.json();
+        selectCurso.innerHTML = '<option value="">Selecione um curso</option>';
+        cursos.forEach(curso => {
+          const opt = document.createElement("option");
+          opt.value = curso.id;
+          opt.textContent = `${curso.title} (${curso.language})`;
+          selectCurso.appendChild(opt);
+        });
+      } catch (err) {
+        selectCurso.innerHTML = '<option value="">Erro ao carregar cursos</option>';
+      }
+    }
+
+    // Envia matrícula
+    document.getElementById("formMatricula").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const course_id = selectCurso.value;
+
+      try {
+        const res = await fetch("http://localhost:5000/enrollments/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id, course_id })
+        });
+
+        const resultado = await res.json();
+        mensagem.textContent = resultado.mensagem || "Matrícula processada.";
+        mensagem.style.color = res.ok ? "green" : "red";
+      } catch (erro) {
+        mensagem.textContent = "Erro ao enviar matrícula.";
+        mensagem.style.color = "red";
+      }
+    });
+
+    // Iniciar
+    carregarCursos();
+  </script>
+</body>
+</html>
