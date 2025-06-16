@@ -26,5 +26,12 @@
         "email": "enaldinho@gmail.com",
         "password": "$2b$12$R.2bV1BjVXrLq12Dn05Yeu0Gyc6ypy7B4sGuuhmKGtSt2FokaVpv2",
         "type": "admin"
+    },
+    {
+        "id": "ad73c173-3e90-4af1-aa53-37e23ce6b5e1",
+        "name": "edu",
+        "email": "edu@gay.com",
+        "password": "$2b$12$vjy085UhmdlafWck/fungeWgfOJ/tOKRkeoxHFddYedcl2CtzFl5m",
+        "type": "aluno"
     }
 ]

@@ -3,8 +3,9 @@ from flask_cors import CORS
 import os
 import json
 
+from controllers.user_controller import user_bp
+
 # Importar serviços de usuário, curso e matrícula
-from services.user_service import listar_usuarios, adicionar_usuario, get_user_by_id, update_user, delete_user
 from services.course_service import list_all_courses, add_course, get_course_by_id, update_course, delete_course
 from services.enrollment_service import list_all_enrollments, add_enrollment, get_enrollments_by_user_id, get_enrollments_by_course_id, delete_enrollment
 
@@ -20,51 +21,6 @@ ENROLLMENTS_FILE = os.path.join(DATA_DIR, 'enrollments.json')
 @app.route("/ping", methods=["GET"])
 def ping():
     return jsonify({"mensagem": "Servidor funcionando"}), 200
-
-# -------------------- ROTAS DE USUÁRIOS --------------------
-@app.route("/usuarios", methods=["GET"])
-def get_usuarios():
-    usuarios = listar_usuarios()
-    return jsonify(usuarios), 200
-
-@app.route("/usuarios/<string:user_id>", methods=["GET"])
-def get_usuario_by_id(user_id):
-    usuario = get_user_by_id(user_id)
-    if usuario:
-        return jsonify(usuario.to_dict()), 200
-    return jsonify({"mensagem": "Usuário não encontrado"}), 404
-
-@app.route("/usuarios", methods=["POST"])
-def post_usuario():
-    dados = request.get_json(force=True)
-    if not dados:
-        return jsonify({"mensagem": "Dados inválidos"}), 400
-
-    required_fields = ["name", "email", "password", "type"]
-    if not all(field in dados for field in required_fields):
-        return jsonify({"mensagem": "Campos obrigatórios ausentes (name, email, password, type)"}), 400
-
-    resultado = adicionar_usuario(dados)
-    if "Erro" in resultado["mensagem"]:
-        return jsonify(resultado), 409
-    return jsonify(resultado), 201
-
-@app.route("/usuarios/<string:user_id>", methods=["PUT"])
-def put_usuario(user_id):
-    dados = request.get_json()
-    if not dados:
-        return jsonify({"mensagem": "Dados inválidos"}), 400
-
-    usuario_atualizado = update_user(user_id, dados)
-    if usuario_atualizado:
-        return jsonify({"mensagem": "Usuário atualizado com sucesso", "usuario": usuario_atualizado.to_dict()}), 200
-    return jsonify({"mensagem": "Usuário não encontrado"}), 404
-
-@app.route("/usuarios/<string:user_id>", methods=["DELETE"])
-def delete_usuario(user_id):
-    if delete_user(user_id):
-        return jsonify({"mensagem": "Usuário deletado com sucesso"}), 200
-    return jsonify({"mensagem": "Usuário não encontrado"}), 404
 
 
 # -------------------- ROTAS DE CURSOS --------------------
@@ -144,6 +100,8 @@ def delete_enrollment_route(enrollment_id):
     return jsonify({"mensagem": "Matrícula não encontrada"}), 404
 
 # -------------------- INICIALIZAÇÃO --------------------
+app.register_blueprint(user_bp)
+
 if __name__ == "__main__":
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)

@@ -27,7 +27,7 @@ async function carregarUsuarios() {
     const mensagem = document.getElementById("mensagem");
 
     try {
-        const resposta = await fetch("http://localhost:5000/usuarios");
+        const resposta = await fetch("http://localhost:5000/usuarios/");
         const usuarios = await resposta.json();
 
         if (usuarios.length === 0) {

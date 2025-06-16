@@ -16,13 +16,14 @@ if not os.path.exists(CAMINHO_JSON):
         json.dump([], f)
 
 def listar_usuarios():
-    """Lê todos os usuários do arquivo JSON e retorna como lista."""
+    """Lê todos os usuários do arquivo JSON e retorna como lista de objetos User."""
     with open(CAMINHO_JSON, "r", encoding="utf-8") as file:
         try:
             usuarios = json.load(file)
+            return [User.from_dict(u).to_dict() for u in usuarios]
         except json.JSONDecodeError:
-            usuarios = []
-    return usuarios
+            return []
+
 
 def salvar_usuarios(lista_usuarios):
     """Salva a lista de usuários no arquivo JSON."""
