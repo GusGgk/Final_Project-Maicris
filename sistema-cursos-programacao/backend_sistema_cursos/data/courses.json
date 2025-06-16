@@ -88,15 +88,5 @@
         "duration": "95",
         "price": "150",
         "instructor_id": "2424242"
-    },
-    {
-        "id": "10",
-        "title": "Lucas Inutismo",
-        "language": "Inustismo",
-        "description": "inustismo",
-        "level": "iniciante",
-        "duration": "2",
-        "price": "222",
-        "instructor_id": "1e8e8be9-6e86-4630-9637-0e23a81a3df3"
     }
 ]
