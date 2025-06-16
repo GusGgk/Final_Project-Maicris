@@ -5,19 +5,14 @@ from models.enrollment import Enrollment
 from services.user_service import get_user_by_id
 from services.course_service import get_course_by_id
 
-# -------------------------
-# Configuração de caminho
-# -------------------------
-
+# --- Configuração de Caminho ---
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 ENROLLMENTS_FILE = os.path.join(DATA_DIR, 'enrollments.json')
 
-# -------------------------
-# Utilitários de leitura/escrita
-# -------------------------
+# --- Funções Auxiliares de Leitura/Escrita ---
 
 def _read_enrollments_data():
-    """Lê os dados das matrículas do arquivo enrollments.json."""
+    """Lê os dados das matrículas do arquivo e retorna uma lista de objetos Enrollment."""
     if not os.path.exists(ENROLLMENTS_FILE) or os.stat(ENROLLMENTS_FILE).st_size == 0:
         return []
     with open(ENROLLMENTS_FILE, 'r', encoding='utf-8') as f:
@@ -25,13 +20,11 @@ def _read_enrollments_data():
     return [Enrollment.from_dict(enrollment_data) for enrollment_data in data]
 
 def _write_enrollments_data(enrollments):
-    """Escreve os dados das matrículas no arquivo enrollments.json."""
+    """Escreve uma lista de objetos Enrollment no arquivo JSON."""
     with open(ENROLLMENTS_FILE, 'w', encoding='utf-8') as f:
         json.dump([enrollment.to_dict() for enrollment in enrollments], f, indent=4, ensure_ascii=False)
 
-# -------------------------
-# Operações de CRUD
-# -------------------------
+# --- Operações de CRUD ---
 
 def list_all_enrollments():
     """Retorna uma lista de todas as matrículas."""
@@ -56,15 +49,8 @@ def delete_enrollment(enrollment_id):
         return True
     return False
 
-# Criação de nova matrícula
-
 def add_enrollment(user_id, course_id):
-    """
-    Adiciona uma nova matrícula:
-    - Verifica se o usuário e o curso existem
-    - Impede duplicidade
-    - Gera ID baseado no timestamp
-    """
+    """Adiciona uma nova matrícula, com validações."""
     enrollments = _read_enrollments_data()
 
     user = get_user_by_id(user_id)
@@ -97,9 +83,11 @@ def add_enrollment(user_id, course_id):
     }
 
 def get_enrollment_by_id(enrollment_id):
-    """Busca uma matrícula pelo seu ID."""
-    enrollments = _load_enrollments()
-    for enrollment_data in enrollments:
-        if enrollment_data["id"] == enrollment_id:
-            return Enrollment.from_dict(enrollment_data)
+    """Busca uma matrícula pelo seu ID e retorna um objeto Enrollment."""
+    #Usa a função correta para ler os dados.
+    enrollments = _read_enrollments_data()
+    # Itera sobre objetos Enrollment
+    for enrollment in enrollments:
+        if str(enrollment.id) == str(enrollment_id):
+            return enrollment
     return None

@@ -4,112 +4,106 @@ import uuid
 import os
 from models.user import User
 
-# -------------------------
-# Configuração e utilidades
-# -------------------------
+# --- CAMINHO DO ARQUIVO ---
+# Definido no topo para ser usado por todas as funções e de forma segura.
+CAMINHO_JSON = os.path.join(os.path.dirname(__file__), '..', 'data', 'users.json')
 
-CAMINHO_JSON = "data/users.json"
+# --- FUNÇÕES AUXILIARES INTERNAS ---
 
-# Garante que o arquivo users.json existe
-if not os.path.exists(CAMINHO_JSON):
-    with open(CAMINHO_JSON, "w", encoding="utf-8") as f:
-        json.dump([], f)
-
-def listar_usuarios():
-    """Lê todos os usuários do arquivo JSON e retorna como lista de objetos User."""
-    with open(CAMINHO_JSON, "r", encoding="utf-8") as file:
+def _carregar_usuarios_raw():
+    """Função interna para carregar a lista bruta de usuários do JSON."""
+    if not os.path.exists(CAMINHO_JSON) or os.stat(CAMINHO_JSON).st_size == 0:
+        return []
+    with open(CAMINHO_JSON, 'r', encoding='utf-8') as f:
         try:
-            usuarios = json.load(file)
-            return [User.from_dict(u).to_dict() for u in usuarios]
+            return json.load(f)
         except json.JSONDecodeError:
             return []
 
+def _salvar_usuarios(lista_usuarios_dict):
+    """Função interna para salvar a lista de dicionários de usuários no JSON."""
+    with open(CAMINHO_JSON, 'w', encoding='utf-8') as f:
+        json.dump(lista_usuarios_dict, f, indent=4, ensure_ascii=False)
 
-def salvar_usuarios(lista_usuarios):
-    """Salva a lista de usuários no arquivo JSON."""
-    with open(CAMINHO_JSON, "w", encoding="utf-8") as file:
-        json.dump(lista_usuarios, file, indent=4)
+# --- FUNÇÕES DE SERVIÇO PARA OS CONTROLLERS ---
 
-# -------------------------
-# Operações de CRUD
-# -------------------------
+def list_all_users():
+    """Retorna uma lista de todos os usuários como objetos User."""
+    usuarios_raw = _carregar_usuarios_raw()
+    return [User.from_dict(u) for u in usuarios_raw]
+
+def find_user_by_email(email):
+    """Busca um usuário pelo email e retorna como objeto User."""
+    usuarios_raw = _carregar_usuarios_raw()
+    for u in usuarios_raw:
+        if u["email"] == email:
+            return User.from_dict(u)
+    return None
 
 def get_user_by_id(user_id):
-    """Busca um usuário específico pelo ID."""
-    usuarios = listar_usuarios()
-    for u in usuarios:
+    """Busca um usuário pelo ID e retorna como objeto User."""
+    usuarios_raw = _carregar_usuarios_raw()
+    for u in usuarios_raw:
         if u["id"] == user_id:
             return User.from_dict(u)
     return None
 
-def update_user(user_id, novos_dados):
-    """Atualiza os dados de um usuário existente."""
-    usuarios = listar_usuarios()
-    for i, u in enumerate(usuarios):
-        if u["id"] == user_id:
-            usuarios[i].update(novos_dados)
-            salvar_usuarios(usuarios)
-            return User.from_dict(usuarios[i])
-    return None
+def add_user(dados):
+    """Adiciona um novo usuário, validando e criptografando a senha."""
+    usuarios_raw = _carregar_usuarios_raw()
 
-def delete_user(user_id):
-    """Remove um usuário com base no ID."""
-    usuarios = listar_usuarios()
-    novos_usuarios = [u for u in usuarios if u["id"] != user_id]
-    if len(novos_usuarios) == len(usuarios):
-        return False
-    salvar_usuarios(novos_usuarios)
-    return True
+    if any(u["email"] == dados["email"] for u in usuarios_raw):
+        raise ValueError("Erro: E-mail já cadastrado")
 
-# -------------------------
-# Cadastro de novo usuário
-# -------------------------
-
-def adicionar_usuario(dados):
-    """
-    Adiciona um novo usuário ao sistema:
-    - Valida e-mail
-    - Verifica duplicidade
-    - Gera ID único
-    - Criptografa a senha
-    """
-    usuarios = listar_usuarios()
-
-    # Verifica se o email já existe
-    if any(u["email"] == dados["email"] for u in usuarios):
-        return {"mensagem": "Erro: E-mail já cadastrado"}
-
-    # Validação simples de e-mail
-    if dados["email"].count("@") != 1 or "." not in dados["email"].split("@")[1]:
-        return {"mensagem": "Erro: E-mail inválido"}
-
-    # Criptografar a senha com bcrypt
     senha_bytes = dados["password"].encode('utf-8')
     salt = bcrypt.gensalt()
     senha_hash = bcrypt.hashpw(senha_bytes, salt)
 
-    # Cria novo usuário com ID automático
-    novo = User(
-        str(uuid.uuid4()),
-        dados["name"],
-        dados["email"],
-        senha_hash.decode('utf-8'),
-        dados["type"]
+    novo_usuario_obj = User(
+        id=str(uuid.uuid4()),
+        name=dados["name"],
+        email=dados["email"],
+        password=senha_hash.decode('utf-8'),
+        user_type=dados["user_type"]
     )
+    
+    usuarios_raw.append(novo_usuario_obj.to_dict())
+    _salvar_usuarios(usuarios_raw)
 
-    # Adiciona e salva
-    usuarios.append(novo.to_dict())
-    salvar_usuarios(usuarios)
+    return novo_usuario_obj
 
-    return {
-        "mensagem": f"Usuário {novo.name} cadastrado com sucesso",
-        "id": novo.id  # Exibe o ID gerado
-    }
-
-def find_user_by_email(email):
-    """Busca um usuário pelo seu email."""
-    users = _load_users()
-    for user_data in users:
-        if user_data["email"] == email:
-            return User.from_dict(user_data)
+def update_user(user_id, novos_dados):
+    """Atualiza um usuário, garantindo a criptografia da senha se ela for alterada."""
+    usuarios_raw = _carregar_usuarios_raw()
+    usuario_encontrado_obj = None
+    
+    for i, u_dict in enumerate(usuarios_raw):
+        if u_dict["id"] == user_id:
+            # Atualiza os dados no dicionário
+            u_dict.update(novos_dados)
+            
+            # Se a senha estiver nos novos dados, criptografa novamente
+            if 'password' in novos_dados and novos_dados['password']:
+                senha_bytes = novos_dados["password"].encode('utf-8')
+                salt = bcrypt.gensalt()
+                u_dict['password'] = bcrypt.hashpw(senha_bytes, salt).decode('utf-8')
+            
+            usuario_encontrado_obj = User.from_dict(u_dict)
+            usuarios_raw[i] = u_dict
+            break
+    
+    if usuario_encontrado_obj:
+        _salvar_usuarios(usuarios_raw)
+        return usuario_encontrado_obj
     return None
+
+def delete_user(user_id):
+    """Remove um usuário do sistema."""
+    usuarios_raw = _carregar_usuarios_raw()
+    usuarios_filtrados = [u for u in usuarios_raw if u["id"] != user_id]
+    
+    if len(usuarios_raw) == len(usuarios_filtrados):
+        return False
+    
+    _salvar_usuarios(usuarios_filtrados)
+    return True
