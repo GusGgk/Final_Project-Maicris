@@ -97,5 +97,16 @@
         "price": "150",
         "instructor_id": "2424242",
         "image": "spring.png"
-    } 
+    },
+    {
+        "id": "10",
+        "title": "Aprendendo a Programar WEB com a Mirtillo",
+        "language": "WEB (html,css,js)",
+        "description": "Aprenda a programar WEB com a Empresa Mirtillo!",
+        "level": "iniciante",
+        "duration": "20",
+        "price": "25",
+        "instructor_id": "e83516ad-9f4d-47a8-836b-740b599e31b5",
+        "image": "f693f8e37bf1437f9c5d343c1ae91bfe_Logo_Mirtillo.png"
+    }
 ]

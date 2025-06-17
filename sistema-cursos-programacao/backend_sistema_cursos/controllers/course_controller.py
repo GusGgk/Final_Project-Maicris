@@ -8,7 +8,7 @@ import uuid
 course_bp = Blueprint("course_bp", __name__, url_prefix="/cursos")
 
 # Diretório para armazenar imagens
-UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'static', 'images')
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'static', 'img', 'cursos')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # --- ROTAS PÚBLICAS (NÃO EXIGEM LOGIN) ---
