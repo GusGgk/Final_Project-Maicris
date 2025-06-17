@@ -7,7 +7,8 @@
         "level": "iniciante",
         "duration": "30",
         "price": "45.00",
-        "instructor_id": "iarjf3492fjafka-3rama"
+        "instructor_id": "iarjf3492fjafka-3rama",
+        "image": "python-iniciantes.png"
     },
     {
         "id": "2",
@@ -17,7 +18,8 @@
         "level": "iniciante",
         "duration": "20",
         "price": "650.00",
-        "instructor_id": "513561611111"
+        "instructor_id": "513561611111",
+        "image": "gravacao-de-video.png"
     },
     {
         "id": "3",
@@ -27,7 +29,8 @@
         "level": "iniciante",
         "duration": "23",
         "price": "30",
-        "instructor_id": "123242345"
+        "instructor_id": "123242345",
+        "image": "logica-de-programacao.png"
     },
     {
         "id": "4",
@@ -37,7 +40,8 @@
         "level": "intermediario",
         "duration": "74",
         "price": "80",
-        "instructor_id": "2424242"
+        "instructor_id": "2424242",
+        "image": "jogos-c.png"
     },
     {
         "id": "5",
@@ -47,7 +51,8 @@
         "level": "avancado",
         "duration": "74",
         "price": "80",
-        "instructor_id": "2424242"
+        "instructor_id": "2424242",
+        "image": "desenvolvimento-java.png"
     },
     {
         "id": "6",
@@ -57,7 +62,8 @@
         "level": "avancado",
         "duration": "80",
         "price": "120",
-        "instructor_id": "4545454"
+        "instructor_id": "4545454",
+        "image": "react-curso.png"
     },
     {
         "id": "7",
@@ -67,7 +73,8 @@
         "level": "iniciante",
         "duration": "50",
         "price": "70",
-        "instructor_id": "7878787"
+        "instructor_id": "7878787",
+        "image": "godot-jogos.png"
     },
     {
         "id": "8",
@@ -77,7 +84,8 @@
         "level": "intermediario",
         "duration": "45",
         "price": "65",
-        "instructor_id": "9191919"
+        "instructor_id": "9191919",
+        "image": "automacao-c.png"
     },
     {
         "id": "9",
@@ -87,6 +95,7 @@
         "level": "avancado",
         "duration": "95",
         "price": "150",
-        "instructor_id": "2424242"
-    }
+        "instructor_id": "2424242",
+        "image": "spring.png"
+    } 
 ]

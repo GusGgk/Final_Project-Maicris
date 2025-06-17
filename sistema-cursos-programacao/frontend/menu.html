@@ -41,7 +41,7 @@
     }
 
     // Comum a todos os tipos
-    adicionarBotao("Listar Cursos", "listar_cursos.html");
+    adicionarBotao("Lista de Cursos da Pypy.Cris", "listar_cursos.html");
 
     if (userType === "aluno") {
       adicionarBotao("Minhas Matrículas", `listar_matriculas.html?user_id=${userId}`);
@@ -52,7 +52,7 @@
     }
 
     if (userType === "admin") {
-      adicionarBotao("Listar Usuários", "listar_usuarios.html");
+      adicionarBotao("Lista de Usuários", "listar_usuarios.html");
     }
 
     document.getElementById("logoutBtn").addEventListener("click", () => {

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Minhas Matrículas - Pypy.Cris</title>
+  <link rel="stylesheet" href="css/listar_matriculas.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Minhas Matrículas</h2>
+  <div id="matriculasContainer" class="matriculas-container"></div>
+  <p id="mensagem"></p>
+
+  <button onclick="window.location.href='menu.html'">Voltar ao menu</button>
+
+  <script>
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user_id");
+    const container = document.getElementById("matriculasContainer");
+    const mensagem = document.getElementById("mensagem");
+
+    if (!token || !userId) {
+      alert("Você precisa estar logado para ver suas matrículas.");
+      window.location.href = "login.html";
+    }
+
+    async function carregarMatriculas() {
+      try {
+        const resposta = await fetch(`http://localhost:5000/enrollments/user/${userId}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok || dados.length === 0) {
+          mensagem.textContent = "Nenhuma matrícula encontrada.";
+          return;
+        }
+
+        dados.forEach((matricula, index) => {
+          const card = document.createElement("div");
+          card.className = "matricula-card";
+          card.style.setProperty("--index", index);
+          card.innerHTML = `
+            <p><strong>ID da Matrícula:</strong> ${matricula.id}</p>
+            <p><strong>ID do Curso:</strong> ${matricula.course_id}</p>
+            <p><strong>Data da Matrícula:</strong> ${new Date(matricula.enrollment_date).toLocaleString()}</p>
+          `;
+          container.appendChild(card);
+        });
+      } catch (erro) {
+        mensagem.textContent = "Erro ao carregar matrículas.";
+        console.error("Erro:", erro);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", carregarMatriculas);
+  </script>
+</body>
+</html>

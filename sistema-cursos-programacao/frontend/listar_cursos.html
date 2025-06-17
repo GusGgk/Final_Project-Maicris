@@ -57,6 +57,7 @@
         card.innerHTML = `
           <div class="curso-header">
             <h3>${curso.title || 'Sem título'}</h3>
+            <img src="./img/cursos/${curso.image || 'default.png'}" alt="Imagem do curso" class="curso-img">
             <span class="curso-linguagem">${curso.language || 'N/A'}</span>
           </div>
           <div class="curso-detalhes">
@@ -79,37 +80,40 @@
 
   // Função para enviar matrícula
   async function matricular(courseId, buttonEl) {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-    if (!token) {
-      alert("Você precisa estar logado como aluno para se matricular.");
-      return;
-    }
-
-    try {
-      const res = await fetch("http://localhost:5000/enrollments/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ course_id: courseId })
-      });
-
-      const resultado = await res.json();
-
-      if (res.ok) {
-        buttonEl.disabled = true;
-        buttonEl.textContent = "Inscrito ✅";
-        buttonEl.style.background = "#4cc9f0";
-      } else {
-        alert(resultado.mensagem || "Erro ao se matricular.");
-      }
-    } catch (erro) {
-      console.error("Erro ao enviar matrícula:", erro);
-      alert("Erro ao se conectar com o servidor.");
-    }
+  if (!token) {
+    alert("Você precisa estar logado como aluno para se matricular.");
+    return;
   }
+
+  if (!confirm("Deseja realmente se matricular neste curso?")) return;
+
+  try {
+    const res = await fetch("http://localhost:5000/enrollments/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ course_id: courseId })
+    });
+
+    const resultado = await res.json();
+
+    if (res.ok) {
+      buttonEl.disabled = true;
+      buttonEl.textContent = "Inscrito ✅";
+      buttonEl.style.background = "#4cc9f0";
+    } else {
+      alert(resultado.mensagem || "Erro ao se matricular.");
+    }
+  } catch (erro) {
+    console.error("Erro ao enviar matrícula:", erro);
+    alert("Erro ao se conectar com o servidor.");
+  }
+}
+
 
   document.addEventListener("DOMContentLoaded", carregarCursos);
 </script>

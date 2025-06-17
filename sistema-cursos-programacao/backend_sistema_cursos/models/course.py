@@ -1,7 +1,7 @@
 # backend_sistema_cursos/models/course.py
 
 class Course:
-    def __init__(self, id, title, language,description, level, duration, price,instructor_id):
+    def __init__(self, id, title, language,description, level, duration, price,instructor_id, image):
         self.id = id
         self.title = title
         self.language = language
@@ -10,6 +10,7 @@ class Course:
         self.duration = duration
         self.price = price
         self.instructor_id = instructor_id
+        self.image = image
 
 
     def setId(self, id):
@@ -27,6 +28,9 @@ class Course:
     def setInstructorId(self, instructor_id):
         self.instructor_id = instructor_id
 
+    def setImage(self, image):
+        self.image = image
+    
     def to_dict(self):
         return {
             "id": self.id,
@@ -36,7 +40,8 @@ class Course:
             "level": self.level,
             "duration": self.duration,
             "price": self.price,
-            "instructor_id": self.instructor_id
+            "instructor_id": self.instructor_id,
+            "image": self.image
         }
 
 
@@ -50,7 +55,8 @@ class Course:
             data["level"],
             data["duration"],
             data["price"],
-            data["instructor_id"]
+            data["instructor_id"],
+            data.get("image", "")
         )
 
     def __str__(self):

@@ -17,12 +17,15 @@
   
   <h2>Cadastrar Curso</h2>
 
-  <form id="formCadastro">
+  <form id="formCadastro" enctype="multipart/form-data">
     <div class="input-group">
       <label>Título:</label>
       <input type="text" name="title" placeholder="Ex: Python para iniciantes" required>
     </div>
-
+    <div class="input-group">
+      <label>Imagem do Curso:</label>
+      <input type="file" name="image" accept="image/*">
+    </div>
     <div class="input-group">
       <label>Linguagem do Curso:</label>
       <input type="text" name="language" placeholder="Ex: Python" required>
@@ -85,23 +88,15 @@
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const dados = {
-      title: form.title.value.trim(),
-      language: form.language.value.trim(),
-      description: form.description.value.trim(),
-      level: form.level.value,
-      duration: form.duration.value.trim(),
-      price: form.price.value.trim()
-    };
+    const formData = new FormData(form); // coleta todos os campos, inclusive imagem
 
     try {
       const resposta = await fetch("http://localhost:5000/cursos/", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(dados)
+        body: formData
       });
 
       const resultado = await resposta.json();
@@ -122,6 +117,7 @@
     }
   });
 </script>
+
 
 </body>
 </html>

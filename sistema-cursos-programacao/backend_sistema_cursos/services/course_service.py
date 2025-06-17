@@ -70,7 +70,8 @@ def add_course(course_data):
     level=course_data['level'],
     duration=course_data['duration'],
     price=course_data['price'],
-    instructor_id=course_data['instructor_id']
+    instructor_id=course_data['instructor_id'],
+    image=course_data.get('image', '')
     )
 
     courses.append(new_course)
@@ -89,6 +90,8 @@ def update_course(course_id, new_course_data):
             courses[i].duration = new_course_data.get('duration', course.duration)
             courses[i].price = new_course_data.get('price', course.price)
             courses[i].setInstructorId(new_course_data.get('instructor_id', course.instructor_id))
+            courses[i].image = new_course_data.get('image', courses[i].image)
+
 
             _write_courses_data(courses)
             return courses[i]

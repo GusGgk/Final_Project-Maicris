@@ -1,3 +1,23 @@
 [
-    
+    {
+        "id": "e83516ad-9f4d-47a8-836b-740b599e31b5",
+        "name": "André Gritten",
+        "email": "andre@gmail.com",
+        "password": "$2b$12$g.EmSvJ5l/9qwOQK8OZXz.709U9o3RKSiYT5Ip6PtzSrqqwH2UrJC",
+        "user_type": "admin"
+    },
+    {
+        "id": "94091fe5-df07-41c5-840b-d65ed3fb85ba",
+        "name": "Gustavo Giacoia Kumagai",
+        "email": "gukumagai@gmail.com",
+        "password": "$2b$12$9839/Eu0TqOZfTD/uJHzSujSIQsphSk1n.x5A3w9JOFab68GkDJg6",
+        "user_type": "aluno"
+    },
+    {
+        "id": "28195ad2-4fde-4630-9560-44160e9eb8b2",
+        "name": "Enaldo",
+        "email": "enaldo@gmail.com",
+        "password": "$2b$12$XGsalAuSQTR79ZxN8G3Mw.kVoHsVavGYQVcLQyQwvBrVtJorjfOwa",
+        "user_type": "aluno"
+    }
 ]

@@ -1,9 +1,15 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from services.course_service import list_all_courses, add_course, get_course_by_id, update_course, delete_course
-#Importar o decorator de autenticação
 from utils.auth import token_required
+from werkzeug.utils import secure_filename
+import os
+import uuid
 
 course_bp = Blueprint("course_bp", __name__, url_prefix="/cursos")
+
+# Diretório para armazenar imagens
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'static', 'images')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # --- ROTAS PÚBLICAS (NÃO EXIGEM LOGIN) ---
 
@@ -22,41 +28,56 @@ def get_course(course_id):
 # --- ROTAS PROTEGIDAS (EXIGEM LOGIN E PERMISSÃO) ---
 
 @course_bp.route("/", methods=["POST"])
-@token_required  #Adiciona o decorator para exigir token
-def post_course(current_user):  #A função agora recebe o usuário logado
-    
-    # Verificação de autorização (permissão)
+@token_required
+def post_course(current_user):
     if current_user['user_type'] not in ['admin', 'instrutor']:
-        return jsonify({"mensagem": "Acesso negado. Permissão de instrutor ou admin necessária."}), 403
+        return jsonify({"mensagem": "Acesso negado. Apenas instrutores ou administradores."}), 403
 
-    dados = request.get_json()
-    if not dados:
-        return jsonify({"mensagem": "Dados inválidos"}), 400
+    # Lê campos do formulário
+    title = request.form.get("title")
+    language = request.form.get("language")
+    description = request.form.get("description")
+    level = request.form.get("level")
+    duration = request.form.get("duration")
+    price = request.form.get("price")
+    instructor_id = current_user['id']
 
-    # O 'instructor_id' não é mais enviado pelo cliente, usamos o do usuário logado.
-    required_fields = ["title", "language", "description", "level", "duration", "price"]
-    if not all(field in dados for field in required_fields):
-        return jsonify({"mensagem": "Campos obrigatórios ausentes"}), 400
+    if not all([title, language, description, level, duration, price]):
+        return jsonify({"mensagem": "Campos obrigatórios ausentes."}), 400
 
-    # Atribui o ID do usuário logado como o instrutor do curso.
-    dados['instructor_id'] = current_user['id']
+    # Trata upload de imagem
+    image = request.files.get("image")
+    image_filename = ""
+    if image:
+        filename = secure_filename(image.filename)
+        unique_filename = f"{uuid.uuid4().hex}_{filename}"
+        image.save(os.path.join(UPLOAD_FOLDER, unique_filename))
+        image_filename = unique_filename
 
-    new_course = add_course(dados)
-    return jsonify(new_course.to_dict()), 201
+    dados = {
+        "title": title,
+        "language": language,
+        "description": description,
+        "level": level,
+        "duration": duration,
+        "price": price,
+        "instructor_id": instructor_id,
+        "image": image_filename
+    }
+
+    novo_curso = add_course(dados)
+    return jsonify(novo_curso.to_dict()), 201
 
 @course_bp.route("/<string:course_id>", methods=["PUT"])
-@token_required 
-def put_course(current_user, course_id):  
-    
-    #Verificação de autorização
+@token_required
+def put_course(current_user, course_id):
     if current_user['user_type'] not in ['admin', 'instrutor']:
-        return jsonify({"mensagem": "Acesso negado. Permissão de instrutor ou admin necessária."}), 403
+        return jsonify({"mensagem": "Acesso negado."}), 403
 
     course = get_course_by_id(course_id)
     if not course:
         return jsonify({"mensagem": "Curso não encontrado"}), 404
 
-    #Apenas um admin ou o instrutor dono do curso pode editá-lo.
     if current_user['user_type'] != 'admin' and course.instructor_id != current_user['id']:
         return jsonify({"mensagem": "Acesso negado. Você não é o instrutor deste curso."}), 403
 
@@ -70,18 +91,15 @@ def put_course(current_user, course_id):
     return jsonify({"mensagem": "Curso não encontrado"}), 404
 
 @course_bp.route("/<string:course_id>", methods=["DELETE"])
-@token_required  
-def delete_course_route(current_user, course_id):  
-    
-    #Verificação de autorização
+@token_required
+def delete_course_route(current_user, course_id):
     if current_user['user_type'] not in ['admin', 'instrutor']:
-        return jsonify({"mensagem": "Acesso negado. Permissão de instrutor ou admin necessária."}), 403
+        return jsonify({"mensagem": "Acesso negado."}), 403
 
     course = get_course_by_id(course_id)
     if not course:
         return jsonify({"mensagem": "Curso não encontrado"}), 404
-        
-    #Apenas um admin ou o instrutor dono do curso pode deletá-lo.
+
     if current_user['user_type'] != 'admin' and course.instructor_id != current_user['id']:
         return jsonify({"mensagem": "Acesso negado. Você não é o instrutor deste curso."}), 403
 
