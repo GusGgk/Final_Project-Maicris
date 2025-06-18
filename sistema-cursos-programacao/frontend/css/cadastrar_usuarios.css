@@ -211,3 +211,18 @@ button:active {
     width: 90px;
   }
 }
+
+.login-redirect {
+  text-align: center;
+}
+.login-redirect button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 15px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.login-redirect button:hover {
+  background-color: var(--primary-hover);
+}

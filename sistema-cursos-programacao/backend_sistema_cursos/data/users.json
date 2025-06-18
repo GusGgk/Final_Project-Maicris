@@ -26,5 +26,12 @@
         "email": "maicris@gmail.com",
         "password": "$2b$12$HXwNv9G8FS0FOcMRnxG40.TE0g.YoPOZfAbpaQmCdinYEwvEtcvdi",
         "user_type": "admin"
+    },
+    {
+        "id": "1c64d652-3ee2-4774-bdb7-3e1983603263",
+        "name": "aaaaaaa",
+        "email": "aaaa@gmail.com",
+        "password": "$2b$12$NKmW6SOjMOLlg8gIRy6rpOK3UVimdSlSe4slB64YVpT7LIP6bMJMK",
+        "user_type": "aluno"
     }
 ]
