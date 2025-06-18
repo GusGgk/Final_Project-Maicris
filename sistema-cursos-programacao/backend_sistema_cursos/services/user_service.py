@@ -3,6 +3,9 @@ import bcrypt
 import uuid
 import os
 from models.user import User
+from utils.helpers import validar_email, validar_senha
+
+
 
 # --- CAMINHO DO ARQUIVO ---
 # Definido no topo para ser usado por todas as funções e de forma segura.
@@ -52,8 +55,18 @@ def add_user(dados):
     """Adiciona um novo usuário, validando e criptografando a senha."""
     usuarios_raw = _carregar_usuarios_raw()
 
+    # Valida e-mail duplicado
     if any(u["email"] == dados["email"] for u in usuarios_raw):
         raise ValueError("Erro: E-mail já cadastrado")
+
+    # Valida formato do e-mail
+    if not validar_email(dados["email"]):
+        raise ValueError("Erro: E-mail inválido")
+
+    # Valida força da senha
+    if not validar_senha(dados["password"]):
+        raise ValueError("Erro: Senha fraca. Use pelo menos 6 caracteres, incluindo letras e números.")
+
 
     senha_bytes = dados["password"].encode('utf-8')
     salt = bcrypt.gensalt()
@@ -73,25 +86,34 @@ def add_user(dados):
     return novo_usuario_obj
 
 def update_user(user_id, novos_dados):
-    """Atualiza um usuário, garantindo a criptografia da senha se ela for alterada."""
+    """Atualiza um usuário, garantindo a criptografia da senha e validações."""
+    from utils.helpers import validar_email, validar_senha  # Garantir import
+
     usuarios_raw = _carregar_usuarios_raw()
     usuario_encontrado_obj = None
-    
+
     for i, u_dict in enumerate(usuarios_raw):
         if u_dict["id"] == user_id:
-            # Atualiza os dados no dicionário
-            u_dict.update(novos_dados)
-            
-            # Se a senha estiver nos novos dados, criptografa novamente
+
+            # Valida email, se for alterar
+            if 'email' in novos_dados:
+                if not validar_email(novos_dados['email']):
+                    raise ValueError("Email inválido.")
+
+            # Valida senha, se for alterar
             if 'password' in novos_dados and novos_dados['password']:
+                if not validar_senha(novos_dados['password']):
+                    raise ValueError("Senha deve ter ao menos 6 caracteres, 1 letra e 1 número.")
                 senha_bytes = novos_dados["password"].encode('utf-8')
                 salt = bcrypt.gensalt()
-                u_dict['password'] = bcrypt.hashpw(senha_bytes, salt).decode('utf-8')
-            
+                novos_dados['password'] = bcrypt.hashpw(senha_bytes, salt).decode('utf-8')
+
+            # Atualiza os campos restantes (nome, tipo, etc)
+            u_dict.update(novos_dados)
             usuario_encontrado_obj = User.from_dict(u_dict)
             usuarios_raw[i] = u_dict
             break
-    
+
     if usuario_encontrado_obj:
         _salvar_usuarios(usuarios_raw)
         return usuario_encontrado_obj

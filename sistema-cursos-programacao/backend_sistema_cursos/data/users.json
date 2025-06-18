@@ -19,5 +19,12 @@
         "email": "enaldo@gmail.com",
         "password": "$2b$12$XGsalAuSQTR79ZxN8G3Mw.kVoHsVavGYQVcLQyQwvBrVtJorjfOwa",
         "user_type": "aluno"
+    },
+    {
+        "id": "579f2eeb-9f1d-4db7-8a6e-ccd3fae10b86",
+        "name": "Maicris Fernandes",
+        "email": "maicris@gmail.com",
+        "password": "$2b$12$HXwNv9G8FS0FOcMRnxG40.TE0g.YoPOZfAbpaQmCdinYEwvEtcvdi",
+        "user_type": "admin"
     }
 ]

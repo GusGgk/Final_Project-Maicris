@@ -1,0 +1,12 @@
+sistema-cursos/
+│
+├── backend_sistema_cursos/
+│   ├── main.py                 # Arquivo principal com rotas Flask
+│   ├── services/               # Regras de negócio (usuários, cursos, matrículas)
+│   ├── models/                 # Modelos de dados (User, Course, Enrollment)
+│   ├── data/                   # Armazenamento local em arquivos .json
+│   └── utils/                  # Funções auxiliares
+│
+├── frontend/                   # HTML, CSS e JS integrando com a API
+│
+└── README.md
