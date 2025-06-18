@@ -4,5 +4,11 @@
         "user_id": "94091fe5-df07-41c5-840b-d65ed3fb85ba",
         "course_id": "2",
         "enrollment_date": "2025-06-17T10:21:55.981430"
+    },
+    {
+        "id": "1750255879",
+        "user_id": "8bfd6c72-cd21-449c-8940-02058c42c53b",
+        "course_id": "1",
+        "enrollment_date": "2025-06-18T11:11:19.093378"
     }
 ]

@@ -33,5 +33,12 @@
         "email": "aaaa@gmail.com",
         "password": "$2b$12$NKmW6SOjMOLlg8gIRy6rpOK3UVimdSlSe4slB64YVpT7LIP6bMJMK",
         "user_type": "aluno"
+    },
+    {
+        "id": "8bfd6c72-cd21-449c-8940-02058c42c53b",
+        "name": "Giovana",
+        "email": "giovana@gmail.com",
+        "password": "$2b$12$E59vpMJ5TBvo0inRMfHEAeMND1Yz03gIWQgSXyNXYiNkyevtdKJSq",
+        "user_type": "aluno"
     }
 ]
