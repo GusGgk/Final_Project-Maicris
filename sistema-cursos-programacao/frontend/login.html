@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Login - Pypy.Cris</title>
   <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="logo-container">
@@ -18,7 +19,11 @@
     <input type="email" id="email" required><br><br>
 
     <label for="password">Senha:</label>
-    <input type="password" id="password" required><br><br>
+    <div class="password-container">
+      <input type="password" id="password" required>
+      <i class="fa-solid fa-eye" id="togglePassword"></i>
+    </div>
+    <br>
 
     <button type="submit">Entrar</button>
   </form>
@@ -34,17 +39,31 @@
     const form = document.getElementById("formLogin");
     const mensagem = document.getElementById("mensagem");
 
+    // Lógica para visualizar a senha
+    const togglePassword = document.querySelector("#togglePassword");
+    const password = document.querySelector("#password");
+
+    togglePassword.addEventListener("click", function () {
+        // Alterna o tipo do input
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        
+        // Alterna o ícone do olho
+        this.classList.toggle("fa-eye-slash");
+    });
+
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const passwordValue = document.getElementById("password").value;
 
       try {
         const res = await fetch("http://localhost:5000/usuarios/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email: email, password: passwordValue })
         });
 
         const dados = await res.json();
@@ -59,11 +78,11 @@
         localStorage.setItem("token", dados.token);
         localStorage.setItem("user_id", dados.user.id);
         localStorage.setItem("user_type", dados.user.user_type);
+        localStorage.setItem("user_name", dados.user.name); 
 
         mensagem.textContent = "Login realizado com sucesso!";
         mensagem.style.color = "green";
-        localStorage.setItem("user_name", dados.user.name); 
-
+        
         // Redireciona para página protegida
         setTimeout(() => {
           window.location.href = "menu.html";
