@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Curso</title>
+  <link rel="stylesheet" href="css/editar_curso.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Editar Curso</h2>
+  <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button> <br>
+  <form id="formEditarCurso">
+    <input type="hidden" name="id" id="cursoId">
+
+    <div class="input-group">
+      <label>Título:</label>
+      <input type="text" name="title" required>
+    </div>
+
+    <div class="input-group">
+      <label>Linguagem:</label>
+      <input type="text" name="language" required>
+    </div>
+
+    <div class="input-group">
+      <label>Descrição:</label>
+      <textarea name="description" required></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Dificuldade:</label>
+      <select name="level" required>
+        <option value="iniciante">Iniciante</option>
+        <option value="intermediario">Intermediário</option>
+        <option value="avancado">Avançado</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Duração (horas):</label>
+      <input type="text" name="duration" required>
+    </div>
+
+    <div class="input-group">
+      <label>Preço (R$):</label>
+      <input type="text" name="price" required>
+    </div>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const cursoId = params.get("id");
+    const form = document.getElementById("formEditarCurso");
+    const mensagem = document.getElementById("mensagem");
+    const token = localStorage.getItem("token");
+
+    async function carregarCurso() {
+      try {
+        const res = await fetch(`http://localhost:5000/cursos/${cursoId}`);
+        const curso = await res.json();
+
+        form.title.value = curso.title;
+        form.language.value = curso.language;
+        form.description.value = curso.description;
+        form.level.value = curso.level;
+        form.duration.value = curso.duration;
+        form.price.value = curso.price;
+        document.getElementById("cursoId").value = curso.id;
+
+      } catch (error) {
+        mensagem.textContent = "Erro ao carregar curso.";
+        mensagem.style.color = "red";
+      }
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const dados = {
+        title: form.title.value.trim(),
+        language: form.language.value.trim(),
+        description: form.description.value.trim(),
+        level: form.level.value,
+        duration: form.duration.value.trim(),
+        price: form.price.value.trim()
+      };
+
+      try {
+        const res = await fetch(`http://localhost:5000/cursos/${cursoId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(dados)
+        });
+
+        const resultado = await res.json();
+
+        if (res.ok) {
+          mensagem.textContent = "Curso atualizado com sucesso!";
+          mensagem.style.color = "green";
+        } else {
+          mensagem.textContent = resultado.mensagem || "Erro ao atualizar.";
+          mensagem.style.color = "red";
+        }
+      } catch (erro) {
+        mensagem.textContent = "Erro ao conectar com o servidor.";
+        mensagem.style.color = "red";
+      }
+    });
+
+    carregarCurso();
+  </script>
+</body>
+</html>

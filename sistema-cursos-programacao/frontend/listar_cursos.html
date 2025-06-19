@@ -34,52 +34,73 @@
   const userType = localStorage.getItem("user_type");
 
   async function carregarCursos() {
-    try {
-      const resposta = await fetch("http://localhost:5000/cursos/");
-      const cursos = await resposta.json();
+  try {
+    const resposta = await fetch("http://localhost:5000/cursos/");
+    const cursos = await resposta.json();
 
-      if (cursos.length === 0) {
-        mensagem.textContent = "Nenhum curso cadastrado";
-        return;
+    const userId = localStorage.getItem("user_id");
+    const userType = localStorage.getItem("user_type");
+
+    if (cursos.length === 0) {
+      mensagem.textContent = "Nenhum curso cadastrado";
+      return;
+    }
+
+    cursos.forEach(curso => {
+      const card = document.createElement("div");
+      card.className = "curso-card";
+
+      let botoesAdicionais = "";
+      const isInstrutorDoCurso = curso.instructor_id === userId;
+      const isAdmin = userType === "admin";
+
+      if (userType === "aluno") {
+        botoesAdicionais += `
+          <button class="btn-matricular" onclick="matricular('${curso.id}', this)">
+            Matricular-se
+          </button>
+        `;
       }
 
-      cursos.forEach(curso => {
-        const card = document.createElement("div");
-        card.className = "curso-card";
-
-        let botaoMatricula = "";
-
-        if (token && userType === "aluno") {
-          botaoMatricula = `
-            <button class="btn-matricular" onclick="matricular('${curso.id}', this)">
-              Matricular-se
-            </button>
-          `;
-        }
-
-        card.innerHTML = `
-          <div class="curso-header">
-            <h3>${curso.title || 'Sem título'}</h3>
-            <img src="http://localhost:5000/static/img/cursos/${curso.image || 'default.png'}" class="curso-img">
-            <span class="curso-linguagem">${curso.language || 'N/A'}</span>
-          </div>
-          <div class="curso-detalhes">
-            <p><strong>Descrição:</strong> ${curso.description || 'Sem descrição'}</p>
-            <p><strong>Nível:</strong> <span class="nivel ${curso.level?.toLowerCase() || 'iniciante'}">${curso.level || 'Iniciante'}</span></p>
-            <p><strong>Duração:</strong> ${curso.duration || 0} horas</p>
-            <p><strong>Preço:</strong> R$ ${parseFloat(curso.price || 0).toFixed(2)}</p>
-            <p><strong>Instrutor:</strong> ${curso.instructor_id || 'Não especificado'}</p>
-            ${botaoMatricula}
-          </div>
+            // Editar: apenas se for instrutor dono OU admin dono
+      if ((userType === "instrutor" || userType === "admin") && curso.instructor_id === userId) {
+        botoesAdicionais += `
+          <button class="btn-editar" onclick="editarCurso('${curso.id}')">Editar</button>
         `;
+      }
 
-        lista.appendChild(card);
-      });
-    } catch (erro) {
-      mensagem.textContent = "Erro ao buscar cursos";
-      console.error("Erro:", erro);
-    }
+      // Excluir: instrutor só o seu / admin pode excluir qualquer curso
+      if ((userType === "instrutor" && curso.instructor_id === userId) || userType === "admin") {
+        botoesAdicionais += `
+          <button class="btn-excluir" onclick="excluirCurso('${curso.id}')">Excluir</button>
+        `;
+      }
+
+
+      card.innerHTML = `
+        <div class="curso-header">
+          <h3>${curso.title || 'Sem título'}</h3>
+          <img src="http://localhost:5000/static/img/cursos/${curso.image || 'default.png'}" class="curso-img">
+          <span class="curso-linguagem">${curso.language || 'N/A'}</span>
+        </div>
+        <div class="curso-detalhes">
+          <p><strong>Descrição:</strong> ${curso.description || 'Sem descrição'}</p>
+          <p><strong>Nível:</strong> <span class="nivel ${curso.level?.toLowerCase() || 'iniciante'}">${curso.level || 'Iniciante'}</span></p>
+          <p><strong>Duração:</strong> ${curso.duration || 0} horas</p>
+          <p><strong>Preço:</strong> R$ ${parseFloat(curso.price || 0).toFixed(2)}</p>
+          <p><strong>Instrutor:</strong> ${curso.instructor_id || 'Não especificado'}</p>
+          ${botoesAdicionais}
+        </div>
+      `;
+
+      lista.appendChild(card);
+    });
+  } catch (erro) {
+    mensagem.textContent = "Erro ao buscar cursos";
+    console.error("Erro:", erro);
   }
+}
+
 
   // Função para enviar matrícula
   async function matricular(courseId, buttonEl) {
@@ -115,6 +136,52 @@
     console.error("Erro ao enviar matrícula:", erro);
     alert("Erro ao se conectar com o servidor.");
   }
+}
+async function excluirCurso(courseId) {
+  const token = localStorage.getItem("token");
+  const userType = localStorage.getItem("user_type");
+
+  let confirmacao = true;
+  let motivo = "";
+
+  if (userType === "admin") {
+    motivo = prompt("Digite o motivo da exclusão:");
+    if (!motivo) {
+      alert("Operação cancelada.");
+      return;
+    }
+  } else {
+    confirmacao = confirm("Tem certeza que deseja excluir seu curso?");
+    if (!confirmacao) return;
+  }
+
+  try {
+    const resposta = await fetch(`http://localhost:5000/cursos/${courseId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: userType === "admin" ? JSON.stringify({ motivo }) : null
+    });
+
+    const resultado = await resposta.json();
+
+    if (resposta.ok) {
+      alert("Curso excluído com sucesso!");
+      window.location.reload();
+    } else {
+      alert(resultado.mensagem || "Erro ao excluir o curso.");
+    }
+  } catch (erro) {
+    alert("Erro de conexão com o servidor.");
+    console.error("Erro ao excluir curso:", erro);
+  }
+}
+
+function editarCurso(id) {
+  // Redireciona para a página de edição passando o ID do curso na URL
+  window.location.href = `editar_curso.html?id=${id}`;
 }
 
 

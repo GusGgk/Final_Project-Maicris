@@ -19,5 +19,12 @@
         "email": "gukumagai@gmail.com",
         "password": "$2b$12$Za4gMCatasS/WY3CD3gl7OiEof5VqzCGS3OkRNgLar7vK8gJgdkIG",
         "user_type": "admin"
+    },
+    {
+        "id": "fb014565-a02d-4250-9a59-0bdfa9eddb9c",
+        "name": "Gus Instrutor",
+        "email": "kumagai@gmail.com",
+        "password": "$2b$12$XmbkYMNvTXdnC3vPyi/SquW1VSadcQzXzOQd1GYidalMdcmV0gCH.",
+        "user_type": "instrutor"
     }
 ]
