@@ -14,13 +14,6 @@
         "user_type": "aluno"
     },
     {
-        "id": "28195ad2-4fde-4630-9560-44160e9eb8b2",
-        "name": "Enaldo",
-        "email": "enaldo@gmail.com",
-        "password": "$2b$12$XGsalAuSQTR79ZxN8G3Mw.kVoHsVavGYQVcLQyQwvBrVtJorjfOwa",
-        "user_type": "aluno"
-    },
-    {
         "id": "579f2eeb-9f1d-4db7-8a6e-ccd3fae10b86",
         "name": "Maicris Fernandes",
         "email": "maicris@gmail.com",
@@ -35,10 +28,10 @@
         "user_type": "aluno"
     },
     {
-        "id": "8bfd6c72-cd21-449c-8940-02058c42c53b",
-        "name": "Giovana",
-        "email": "giovana@gmail.com",
-        "password": "$2b$12$E59vpMJ5TBvo0inRMfHEAeMND1Yz03gIWQgSXyNXYiNkyevtdKJSq",
-        "user_type": "aluno"
+        "id": "0682b928-8b01-43c9-b107-dcf177e454e3",
+        "name": "Gustavo Giacoia",
+        "email": "gustavokumagai@gmail.com",
+        "password": "$2b$12$ryrm3P3h9.kXMcpsqtStaeeHziOSY0iSQhi0mP9nV6GGzDftXxGgW",
+        "user_type": "admin"
     }
 ]

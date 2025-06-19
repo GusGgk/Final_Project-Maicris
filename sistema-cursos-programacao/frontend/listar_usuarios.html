@@ -21,60 +21,98 @@
     </div>
     <p id="mensagem"></p>
     <button>Voltar ao menu</button>
+
+    
     <script>
-  const token = localStorage.getItem("token");
-  const userType = localStorage.getItem("user_type");
+      const token = localStorage.getItem("token");
+      const userType = localStorage.getItem("user_type");
 
-  const lista = document.getElementById("listaUsuarios");
-  const mensagem = document.getElementById("mensagem");
+      const lista = document.getElementById("listaUsuarios");
+      const mensagem = document.getElementById("mensagem");
 
-  // Bloqueia acesso se não for admin
-  if (!token || userType !== "admin") {
-    alert("Acesso negado. Apenas administradores podem visualizar esta página.");
-    window.location.href = "login.html";
-  }
+      // Bloqueia acesso se não for admin
+      if (!token || userType !== "admin") {
+        alert("Acesso negado. Apenas administradores podem visualizar esta página.");
+        window.location.href = "login.html";
+      }
 
-  async function carregarUsuarios() {
-    try {
-      const resposta = await fetch("http://localhost:5000/usuarios/", {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`
+      async function carregarUsuarios() {
+        try {
+          const resposta = await fetch("http://localhost:5000/usuarios/", {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+
+          if (!resposta.ok) {
+            mensagem.textContent = "Erro ao buscar usuários.";
+            return;
+          }
+
+          const usuarios = await resposta.json();
+
+          if (usuarios.length === 0) {
+            mensagem.textContent = "Nenhum usuário cadastrado.";
+            return;
+          }
+
+          usuarios.forEach((usuario, index) => {
+            const card = document.createElement("div");
+            card.className = "usuario-card";
+            card.style.setProperty('--index', index);
+
+            let botaoExcluir = "";
+
+            if (userType === "admin" && usuario.user_type !== "admin") {
+              botaoExcluir = `<button class="bt-excluir" onclick="excluirUsuario('${usuario.id}', this)">Excluir</button>`;
+            }
+
+            card.innerHTML = `
+              <strong>Nome:</strong> ${usuario.name}<br>
+              <strong>Email:</strong> ${usuario.email}<br>
+              <strong>Tipo:</strong> <span data-type="${usuario.user_type.toLowerCase()}">${usuario.user_type}</span><br>
+              <strong>ID:</strong> ${usuario.id}<br>
+              ${botaoExcluir}
+            `;
+            lista.appendChild(card);
+          });
+        } catch (erro) {
+          mensagem.textContent = "Erro ao buscar usuários.";
+          console.error("Erro:", erro);
         }
-      });
-
-      if (!resposta.ok) {
-        mensagem.textContent = "Erro ao buscar usuários.";
-        return;
       }
 
-      const usuarios = await resposta.json();
+      // ✅ Função para excluir usuário
+      async function excluirUsuario(userId, botao) {
+        if (!confirm("Tem certeza que deseja excluir este usuário?")) return;
 
-      if (usuarios.length === 0) {
-        mensagem.textContent = "Nenhum usuário cadastrado.";
-        return;
+        try {
+          const res = await fetch(`http://localhost:5000/usuarios/${userId}`, {
+            method: "DELETE",
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+
+          const resultado = await res.json();
+
+          if (res.ok) {
+            // Remove o card visualmente
+            botao.parentElement.remove();
+            alert("Usuário excluído com sucesso.");
+          } else {
+            alert(resultado.mensagem || "Erro ao excluir usuário.");
+          }
+        } catch (erro) {
+          console.error("Erro ao excluir:", erro);
+          alert("Erro ao conectar com o servidor.");
+        }
       }
 
-      usuarios.forEach((usuario, index) => {
-        const card = document.createElement("div");
-        card.className = "usuario-card";
-        card.style.setProperty('--index', index);
-        card.innerHTML = `
-          <strong>Nome:</strong> ${usuario.name}<br>
-          <strong>Email:</strong> ${usuario.email}<br>
-          <strong>Tipo:</strong> <span data-type="${usuario.user_type.toLowerCase()}">${usuario.user_type}</span><br>
-          <strong>ID:</strong> ${usuario.id}
-        `;
-        lista.appendChild(card);
-      });
-    } catch (erro) {
-      mensagem.textContent = "Erro ao buscar usuários.";
-      console.error("Erro:", erro);
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', carregarUsuarios);
+      document.addEventListener('DOMContentLoaded', carregarUsuarios);
 </script>
+
 
 
 </body>
