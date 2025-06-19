@@ -1,5 +1,3 @@
-# main.py
-
 from flask import Flask, jsonify
 from flask_cors import CORS
 import os
@@ -9,6 +7,7 @@ import json
 from controllers.user_controller import user_bp
 from controllers.course_controller import course_bp
 from controllers.enrollment_controller import enrollment_bp
+from controllers.content_controller import content_bp  
 
 # Cria a aplicação Flask
 app = Flask(__name__)
@@ -31,6 +30,7 @@ def ping():
 app.register_blueprint(user_bp)
 app.register_blueprint(course_bp)
 app.register_blueprint(enrollment_bp)
+app.register_blueprint(content_bp)  # <-- 2. REGISTRE O NOVO BLUEPRINT
 
 # -------------------- INICIALIZAÇÃO --------------------
 if __name__ == "__main__":
@@ -43,3 +43,4 @@ if __name__ == "__main__":
             json.dump([], f)
 
     app.run(debug=True)
+    

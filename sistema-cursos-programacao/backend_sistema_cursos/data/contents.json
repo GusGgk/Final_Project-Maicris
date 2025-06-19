@@ -1,0 +1,43 @@
+[
+  {
+    "course_id": 1,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Módulo 1: Introdução ao Python",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Aula 1: O que é Python?",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=sygB5E-dY8M"
+          },
+          {
+            "id": 2,
+            "titulo": "Aula 2: Instalando o Ambiente",
+            "tipo": "pdf",
+            "url_conteudo": "/static/pdfs/instalacao_python.pdf"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Módulo 2: Estruturas Condicionais",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Aula 1: A estrutura 'if'",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=example_if"
+          },
+          {
+            "id": 2,
+            "titulo": "Aula 2: Usando 'else' e 'elif'",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=example_else"
+          }
+        ]
+      }
+    ]
+  }
+]
