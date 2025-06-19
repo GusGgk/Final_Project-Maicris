@@ -1,0 +1,172 @@
+:root {
+  --primary-color: #4361ee;
+  --primary-hover: #3a56d4;
+  --secondary-color: #3f37c9;
+  --dark-bg: #1a1c23;
+  --light-bg: #f8f9fa;
+  --text-light: #f8f9fa;
+  --success-color: #4cc9f0;
+  --tech-color: #00f0ff;
+  --danger-color: #e63946;
+  --border-radius: 12px;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--dark-bg);
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.1) 0%, transparent 50%),
+    linear-gradient(to bottom, #0f172a, #1e293b);
+  color: var(--text-light);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem;
+}
+
+/* Logo */
+.logo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logo-container img {
+  width: 100px;
+  margin-bottom: 1rem;
+  filter:
+    drop-shadow(0 0 8px rgba(0, 240, 255, 0.3))
+    drop-shadow(0 0 16px rgba(67, 97, 238, 0.2));
+}
+.logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  background: linear-gradient(90deg, var(--tech-color), var(--primary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Título */
+h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--tech-color));
+  border-radius: 2px;
+}
+
+/* Formulário */
+form {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.2rem;
+  border-radius: var(--border-radius);
+  border: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--tech-color);
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.3);
+}
+
+/* Botões */
+
+button.btn {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  margin: 0.5rem auto;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+
+
+button.btn:hover {
+  background: linear-gradient(135deg, var(--tech-color), var(--primary-color));
+  transform: translateY(-2px);
+}
+button.btn-excluir {
+  background-color: var(--danger-color);
+  margin: 1.5rem auto;
+  display: block;
+  max-width: 300px;
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  margin: 0.5rem auto;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+
+button.btn-excluir:hover {
+  background: linear-gradient(135deg, var(--danger-color), var(--primary-color));
+  transform: translateY(-2px);
+}
+
+
+
+/* Mensagem */
+#mensagem {
+  margin-top: 1.2rem;
+  text-align: center;
+  font-weight: 500;
+  color: var(--success-color);
+}

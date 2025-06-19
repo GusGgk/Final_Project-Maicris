@@ -7,13 +7,6 @@
         "user_type": "admin"
     },
     {
-        "id": "94091fe5-df07-41c5-840b-d65ed3fb85ba",
-        "name": "Gustavo Giacoia Kumagai",
-        "email": "gukumagai@gmail.com",
-        "password": "$2b$12$9839/Eu0TqOZfTD/uJHzSujSIQsphSk1n.x5A3w9JOFab68GkDJg6",
-        "user_type": "aluno"
-    },
-    {
         "id": "579f2eeb-9f1d-4db7-8a6e-ccd3fae10b86",
         "name": "Maicris Fernandes",
         "email": "maicris@gmail.com",
@@ -21,17 +14,10 @@
         "user_type": "admin"
     },
     {
-        "id": "1c64d652-3ee2-4774-bdb7-3e1983603263",
-        "name": "aaaaaaa",
-        "email": "aaaa@gmail.com",
-        "password": "$2b$12$NKmW6SOjMOLlg8gIRy6rpOK3UVimdSlSe4slB64YVpT7LIP6bMJMK",
-        "user_type": "aluno"
-    },
-    {
-        "id": "0682b928-8b01-43c9-b107-dcf177e454e3",
+        "id": "e85f1920-8b46-4f49-91f4-870bcda81220",
         "name": "Gustavo Giacoia",
-        "email": "gustavokumagai@gmail.com",
-        "password": "$2b$12$ryrm3P3h9.kXMcpsqtStaeeHziOSY0iSQhi0mP9nV6GGzDftXxGgW",
+        "email": "gukumagai@gmail.com",
+        "password": "$2b$12$Za4gMCatasS/WY3CD3gl7OiEof5VqzCGS3OkRNgLar7vK8gJgdkIG",
         "user_type": "admin"
     }
 ]

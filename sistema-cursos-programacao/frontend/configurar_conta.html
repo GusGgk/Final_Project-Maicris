@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurar Conta</title>
+  <link rel="stylesheet" href="css/configurar_conta.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Configurações da Conta</h2>
+    <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button>
+    <br>
+  <form id="formConta">
+    <label>Nome:</label><br>
+    <input type="text" id="nome" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" id="email" required><br><br>
+
+    <label>Nova senha (opcional):</label><br>
+    <input type="password" id="senha"><br><br>
+
+    <button class="btn" type="submit">Salvar Alterações</button>
+  </form>
+
+  <button class="btn-excluir" onclick="confirmarExclusao()">Excluir minha conta</button>
+  <p id="mensagem"></p>
+
+  <script>
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user_id");
+
+    if (!token || !userId) {
+      alert("Você precisa estar logado.");
+      window.location.href = "login.html";
+    }
+
+    const nomeInput = document.getElementById("nome");
+    const emailInput = document.getElementById("email");
+    const senhaInput = document.getElementById("senha");
+    const mensagem = document.getElementById("mensagem");
+
+    async function carregarUsuario() {
+      try {
+        const res = await fetch(`http://localhost:5000/usuarios/${userId}`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        const dados = await res.json();
+        if (res.ok) {
+          nomeInput.value = dados.name;
+          emailInput.value = dados.email;
+        } else {
+          mensagem.textContent = dados.mensagem || "Erro ao carregar dados.";
+          mensagem.style.color = "red";
+        }
+      } catch (err) {
+        mensagem.textContent = "Erro ao conectar com o servidor.";
+        mensagem.style.color = "red";
+      }
+    }
+
+    document.getElementById("formConta").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const novosDados = {
+        name: nomeInput.value.trim(),
+        email: emailInput.value.trim()
+      };
+
+      if (senhaInput.value.trim()) {
+        novosDados.password = senhaInput.value.trim();
+      }
+
+      try {
+        const res = await fetch(`http://localhost:5000/usuarios/${userId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(novosDados)
+        });
+
+        const resultado = await res.json();
+        mensagem.textContent = resultado.mensagem || "Atualizado!";
+        mensagem.style.color = res.ok ? "green" : "red";
+
+      } catch (err) {
+        mensagem.textContent = "Erro ao atualizar.";
+        mensagem.style.color = "red";
+      }
+    });
+
+    async function confirmarExclusao() {
+      if (!confirm("Tem certeza que deseja excluir sua conta? Isso é irreversível.")) return;
+
+      try {
+        const res = await fetch(`http://localhost:5000/usuarios/${userId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        const dados = await res.json();
+
+        if (res.ok) {
+          alert("Conta excluída com sucesso.");
+          localStorage.clear();
+          window.location.href = "cadastrar_usuarios.html";
+        } else {
+          alert(dados.mensagem || "Erro ao excluir conta.");
+        }
+
+      } catch (err) {
+        alert("Erro ao conectar com o servidor.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", carregarUsuario);
+  </script>
+</body>
+</html>

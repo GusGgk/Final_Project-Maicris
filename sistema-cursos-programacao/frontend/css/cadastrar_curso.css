@@ -225,20 +225,20 @@ input:focus, textarea:focus {
 
 /* Botão */
 button {
+  display: block;
+  max-width: 300px;
   width: 100%;
+  margin: 0.5rem auto;
   padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   border: none;
   border-radius: var(--border-radius);
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
-  margin-top: 0.5rem;
-  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 button:hover {
