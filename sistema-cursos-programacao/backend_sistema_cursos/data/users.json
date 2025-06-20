@@ -21,17 +21,17 @@
         "user_type": "admin"
     },
     {
-        "id": "fb014565-a02d-4250-9a59-0bdfa9eddb9c",
-        "name": "Gus Instrutor",
-        "email": "kumagai@gmail.com",
-        "password": "$2b$12$XmbkYMNvTXdnC3vPyi/SquW1VSadcQzXzOQd1GYidalMdcmV0gCH.",
-        "user_type": "instrutor"
-    },
-    {
         "id": "af1a16c9-6b70-4690-bac3-c52baf5e8c5d",
         "name": "Eduardo Blasczak",
         "email": "eduardo.blasczak@gmail.com",
         "password": "$2b$12$5HUVBLwU/SYbvrGvUHeKwOeaB2HDTVbLQ9PuDlFFaMj/Gtild/Z9u",
+        "user_type": "admin"
+    },
+    {
+        "id": "8e93184a-f960-455a-ac6f-ae712085a697",
+        "name": "Maria Luiza Senff",
+        "email": "malu@gmail.com",
+        "password": "$2b$12$c8DK5M6AqCYwdC/VvaXWjOcMGD/m2yvNjGhs0AFqhjQ6fpQh//Zxe",
         "user_type": "admin"
     }
 ]
