@@ -16,6 +16,9 @@
   </div>
   
   <h2>Cadastro de Usuário</h2>
+
+  <div id="mensagem" class="error-message-box"></div>
+  <br>
   
   <form id="formCadastro">
     <div class="form-group">
@@ -48,7 +51,7 @@
       <p>Já possui cadastro?</p>
       <button onclick="window.location.href='login.html'">Ir para Login</button>
   </div>
-  <p id="mensagem" style="margin-top: 1rem; font-weight: bold;"></p>
+  
 
 <script>
   const form = document.getElementById("formCadastro");
@@ -76,6 +79,7 @@
     if (!tiposPermitidos.includes(type)) {
       mensagem.textContent = "Tipo inválido. Use aluno, instrutor ou admin.";
       mensagem.style.color = "red";
+      mensagem.classList.add("show"); // Adicionamos a classe para o erro também
       return;
     }
 
@@ -110,13 +114,14 @@
       else {
         mensagem.textContent = resultado.mensagem || "Erro ao cadastrar.";
         mensagem.style.color = "red";
-        mensagem.style.display = "block";
+        // A linha abaixo é a correção principal:
+        mensagem.classList.add("show"); 
       }
 
     } catch (erro) {
       mensagem.textContent = "Erro ao conectar com o servidor.";
       mensagem.style.color = "red";
-      mensagem.style.display = "block";
+      mensagem.classList.add("show"); // E também aqui para erros de conexão
       console.error("Erro ao cadastrar usuário:", erro);
     }
   });

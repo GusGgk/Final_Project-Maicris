@@ -26,5 +26,12 @@
         "email": "kumagai@gmail.com",
         "password": "$2b$12$XmbkYMNvTXdnC3vPyi/SquW1VSadcQzXzOQd1GYidalMdcmV0gCH.",
         "user_type": "instrutor"
+    },
+    {
+        "id": "af1a16c9-6b70-4690-bac3-c52baf5e8c5d",
+        "name": "Eduardo Blasczak",
+        "email": "eduardo.blasczak@gmail.com",
+        "password": "$2b$12$5HUVBLwU/SYbvrGvUHeKwOeaB2HDTVbLQ9PuDlFFaMj/Gtild/Z9u",
+        "user_type": "admin"
     }
 ]

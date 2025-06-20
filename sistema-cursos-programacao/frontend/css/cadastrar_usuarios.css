@@ -134,7 +134,7 @@ input {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   transition: var(--transition);
-  box-sizing: border-box; /* Garante que padding não afete a largura */
+  box-sizing: border-box; 
 }
 
 input:focus {
@@ -229,4 +229,45 @@ button[type="submit"]:hover {
   background-color: var(--tech-color);
   color: var(--dark-bg);
   box-shadow: 0 0 15px var(--tech-color);
+}
+
+.error-message-box {
+  background-color: rgba(230, 57, 70, 0.1);
+  color: #ffcdd2;
+  border-left: 4px solid #e63946;
+  padding: 0 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  max-width: 480px; 
+  width: 100%;
+  margin-top: 0;
+  text-align: center;
+  font-weight: 500;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.error-message-box.show {
+  opacity: 1;
+  height: auto;
+  padding: 1rem;
+  margin-top: 1.5rem;
+}
+
+#mensagem {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--tech-color);
+  font-weight: 500;
+  opacity: 0;
+  height: 0;
+  transition: all 0.3s ease;
+}
+
+#mensagem.show {
+  opacity: 1;
+  height: auto;
 }
