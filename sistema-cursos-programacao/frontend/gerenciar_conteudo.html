@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Conteúdo</title>
+  <link rel="stylesheet" href="css/gerenciar_conteudo.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Gerenciar Conteúdo do Curso</h2>
+
+  <div class="botoes-container">
+    <button onclick="navegar('criar_modulo.html')">Criar Módulo</button>
+    <button onclick="navegar('criar_aula.html')">Criar Aula</button>
+    <button onclick="navegar('editar_modulo.html')">Editar Módulo</button>
+    <button onclick="navegar('editar_aula.html')">Editar Aula</button>
+  </div>
+
+  <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get("course_id");
+
+    function navegar(destino) {
+      if (!courseId) {
+        alert("Curso não identificado.");
+        return;
+      }
+      window.location.href = `${destino}?course_id=${courseId}`;
+    }
+  </script>
+</body>
+</html>

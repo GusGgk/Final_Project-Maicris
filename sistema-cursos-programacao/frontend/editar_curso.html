@@ -52,6 +52,10 @@
 
     <button type="submit">Salvar Alterações</button>
   </form>
+  
+  <button class="btn" id="btnConteudo" style="margin-top: 1rem;">
+  Editar/Criar Módulos e Aulas
+  </button>
 
   <p id="mensagem"></p>
 
@@ -119,6 +123,10 @@
     });
 
     carregarCurso();
+    // Botão para gerenciar conteúdo
+    document.getElementById("btnConteudo").addEventListener("click", () => {
+    window.location.href = `gerenciar_conteudo.html?course_id=${cursoId}`;
+    });
   </script>
 </body>
 </html>
