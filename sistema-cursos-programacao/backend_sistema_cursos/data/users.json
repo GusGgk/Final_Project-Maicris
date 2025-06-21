@@ -40,5 +40,12 @@
         "email": "aluno@gmail.com",
         "password": "$2b$12$bkX8ELIfhqMKaUgXE3Lr0O8BFrnh3e7x47kPiQAWDTCU0AIOSvy8a",
         "user_type": "aluno"
+    },
+    {
+        "id": "54224baa-a761-47b6-82ae-d23eec8e596e",
+        "name": "Instrutor",
+        "email": "instrutor@gmail.com",
+        "password": "$2b$12$VT2S3gcr3Y0da3sWKux.QOYZdhXnXABk8ErJOJim9Fiis6a6poxGi",
+        "user_type": "instrutor"
     }
 ]

@@ -108,5 +108,16 @@
         "price": "25",
         "instructor_id": "e83516ad-9f4d-47a8-836b-740b599e31b5",
         "image": "f693f8e37bf1437f9c5d343c1ae91bfe_Logo_Mirtillo.png"
+    },
+    {
+        "id": "11",
+        "title": "teste curso",
+        "language": "teste de curso",
+        "description": "apenas um teste",
+        "level": "intermediario",
+        "duration": "22",
+        "price": "222",
+        "instructor_id": "54224baa-a761-47b6-82ae-d23eec8e596e",
+        "image": ""
     }
 ]
