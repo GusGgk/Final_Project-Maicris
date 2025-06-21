@@ -33,5 +33,12 @@
         "email": "malu@gmail.com",
         "password": "$2b$12$c8DK5M6AqCYwdC/VvaXWjOcMGD/m2yvNjGhs0AFqhjQ6fpQh//Zxe",
         "user_type": "admin"
+    },
+    {
+        "id": "b93d29d5-d572-441d-88e9-7b25ecfb2d89",
+        "name": "Aluno",
+        "email": "aluno@gmail.com",
+        "password": "$2b$12$bkX8ELIfhqMKaUgXE3Lr0O8BFrnh3e7x47kPiQAWDTCU0AIOSvy8a",
+        "user_type": "aluno"
     }
 ]

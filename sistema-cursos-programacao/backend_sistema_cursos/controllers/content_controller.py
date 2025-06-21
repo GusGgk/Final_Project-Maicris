@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from services import content_service
+from services.enrollment_service import is_user_enrolled
+from utils.auth import token_required
 
-# Não é mais necessário manipular o sys.path aqui.
 # O app principal cuidará do contexto de importação.
 
 # Cria o Blueprint para este controlador
@@ -9,8 +10,15 @@ content_bp = Blueprint('content_controller', __name__)
 
 
 @content_bp.route('/courses/<int:course_id>/contents', methods=['GET'])
-def get_course_contents(course_id):
+@token_required
+def get_course_contents(current_user, course_id):
+    # Aluno só pode acessar se estiver matriculado
+    if current_user['user_type'] == 'aluno':
+        if not is_user_enrolled(current_user['id'], course_id):
+            return jsonify({"message": "Você não está matriculado neste curso."}), 403
+    
     content = content_service.get_content_by_course_id(course_id)
+    
     if content:
         return jsonify(content), 200
     return jsonify({"message": "Conteúdo não encontrado para este curso."}), 404

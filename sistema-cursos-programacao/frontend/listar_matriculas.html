@@ -43,17 +43,31 @@
           return;
         }
 
-        dados.forEach((matricula, index) => {
-          const card = document.createElement("div");
-          card.className = "matricula-card";
-          card.style.setProperty("--index", index);
-          card.innerHTML = `
-            <p><strong>ID da Matrícula:</strong> ${matricula.id}</p>
-            <p><strong>ID do Curso:</strong> ${matricula.course_id}</p>
-            <p><strong>Data da Matrícula:</strong> ${new Date(matricula.enrollment_date).toLocaleString()}</p>
-          `;
-          container.appendChild(card);
-        });
+        for (const [index, matricula] of dados.entries()) {
+        const card = document.createElement("div");
+        card.className = "matricula-card";
+        card.style.setProperty("--index", index);
+
+        // Busca o título do curso com base no course_id
+        let courseTitle = "Carregando...";
+        try {
+          const cursoRes = await fetch(`http://localhost:5000/cursos/${matricula.course_id}`);
+          const curso = await cursoRes.json();
+          courseTitle = curso.title || "Curso não encontrado";
+        } catch (err) {
+          console.error("Erro ao buscar curso:", err);
+          courseTitle = "Erro ao carregar curso";
+        }
+
+        card.innerHTML = `
+          <p><strong>ID da Matrícula:</strong> ${matricula.id}</p>
+          <p><strong>Curso:</strong> ${courseTitle}</p>
+          <p><strong>Data da Matrícula:</strong> ${new Date(matricula.enrollment_date).toLocaleString()}</p>
+          <button onclick="acessarConteudo(${matricula.course_id})" class="btn-acessar">Acessar Conteúdo</button>
+        `;
+
+        container.appendChild(card);
+      };
       } catch (erro) {
         mensagem.textContent = "Erro ao carregar matrículas.";
         console.error("Erro:", erro);
@@ -61,6 +75,10 @@
     }
 
     document.addEventListener("DOMContentLoaded", carregarMatriculas);
+    function acessarConteudo(courseId) {
+    window.location.href = `visualizar_conteudo.html?course_id=${courseId}`;
+     }
+
   </script>
 </body>
 </html>

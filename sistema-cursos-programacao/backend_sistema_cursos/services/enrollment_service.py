@@ -91,3 +91,11 @@ def get_enrollment_by_id(enrollment_id):
         if str(enrollment.id) == str(enrollment_id):
             return enrollment
     return None
+
+def is_user_enrolled(user_id, course_id):
+    """Verifica se o aluno está matriculado em um curso específico."""
+    enrollments = _read_enrollments_data()
+    return any(
+        str(e.user_id) == str(user_id) and str(e.course_id) == str(course_id)
+        for e in enrollments
+    )

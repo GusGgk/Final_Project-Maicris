@@ -10,5 +10,17 @@
         "user_id": "8bfd6c72-cd21-449c-8940-02058c42c53b",
         "course_id": "1",
         "enrollment_date": "2025-06-18T11:11:19.093378"
+    },
+    {
+        "id": "1750470618",
+        "user_id": "b93d29d5-d572-441d-88e9-7b25ecfb2d89",
+        "course_id": "1",
+        "enrollment_date": "2025-06-20T22:50:18.766636"
+    },
+    {
+        "id": "1750470916",
+        "user_id": "b93d29d5-d572-441d-88e9-7b25ecfb2d89",
+        "course_id": "2",
+        "enrollment_date": "2025-06-20T22:55:16.020665"
     }
 ]
