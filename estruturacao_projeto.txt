@@ -1,12 +1,31 @@
 sistema-cursos/
 │
 ├── backend_sistema_cursos/
-│   ├── main.py                 # Arquivo principal com rotas Flask
-│   ├── services/               # Regras de negócio (usuários, cursos, matrículas)
-│   ├── models/                 # Modelos de dados (User, Course, Enrollment)
-│   ├── data/                   # Armazenamento local em arquivos .json
-│   └── utils/                  # Funções auxiliares
+│   ├── main.py                  # Arquivo principal com rotas Flask
+│   ├── controllers/             # Arquivos de controle para cada módulo
+│   ├── services/                # Lógica de negócio (usuário, curso, matrícula, conteúdo)
+    ├── static/                  # Armazena todas as fotos e links utilizados no cadastro dos cursos
+│   ├── models/                  # Modelos de dados (User, Course, Enrollment, Content)
+│   ├── data/                    # Armazenamento em JSON (usuarios.json, courses.json, etc.)
+│   ├── utils/                   # Funções auxiliares (ex: criptografia, validações)
+│   ├── start.sh                 # Script para iniciar o servidor no macOS/Linux
+│   └── start.bat                # Script para iniciar o servidor no Windows
 │
-├── frontend/                   # HTML, CSS e JS integrando com a API
+├── frontend/
+|   ├── css/                     #todos os css das paginas abaixo
+│   ├── cadastrar_usuario.html   # Formulário para cadastro de usuário
+|   ├── login.html               # Login do usuário cadastrado
+|   ├── menu.html                # Menu com todas as opções de acordo com usuário
+|   ├── configurar_conta.html    # Configuração geral de informações da conta
+│   ├── listar_usuarios.html     # Listagem de usuários
+│   ├── cadastrar_curso.html     # Formulário para cadastro de curso
+│   ├── listar_cursos.html       # Listagem de cursos
+|   ├── criar_modulo.html        # Cria Modulo do curso
+|   ├── criar_aula.html          # Cria aula do curso
+│   ├── listar_matriculas.html   # Visualização de matrículas
+│   ├── editar_curso.html        # Página de edição de curso
+│   ├── gerenciar_conteudo.html  # Central para módulos e aulas
+│   ├── editar_modulo.html       # Edição de módulo
+│   └── editar_aula.html         # Edição de aula
 │
-└── README.md
+└── README.md                    # Documentação do projeto

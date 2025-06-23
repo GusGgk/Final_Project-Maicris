@@ -30,7 +30,7 @@ def ping():
 app.register_blueprint(user_bp)
 app.register_blueprint(course_bp)
 app.register_blueprint(enrollment_bp)
-app.register_blueprint(content_bp)  # <-- 2. REGISTRE O NOVO BLUEPRINT
+app.register_blueprint(content_bp)  
 
 # -------------------- INICIALIZAÇÃO --------------------
 if __name__ == "__main__":
