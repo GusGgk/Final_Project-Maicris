@@ -1,51 +1,42 @@
-# Final_Project-Maicris
+# 🎓 Final_Project-Maicris
+
 Projeto final desenvolvido por **Gustavo Giacoia**, **Eduardo Blasczak**, **João Carlos Mezari** e **Lucas Alfaro**.
 
+---
 
-
-# 📚 Sistema de Cursos de Programação
+## 📚 Sistema de Cursos de Programação
 
 ![Banner](https://media.giphy.com/media/dWesBcTLavkZuG35MI/giphy.gif)
 
-> Plataforma de cursos online voltada para ensino de linguagens de programação. Projeto acadêmico com foco em backend Python, armazenamento local e interface funcional.
-
+> Plataforma de cursos online voltada para ensino de linguagens de programação. Projeto acadêmico com foco em backend Python, armazenamento local em `.json` e interface funcional integrada.
 
 ---
 
-## 📚 Objetivo
+## 🎯 Objetivo
 
-Criar um sistema completo para gestão de cursos, com áreas para:
+Criar um sistema completo de **gestão de cursos online**, com funcionalidades que abrangem:
 
-- Cadastro e gerenciamento de **usuários** (aluno, instrutor, admin)
-- Controle de **cursos** com filtro por linguagem e nível
+- Cadastro e gerenciamento de **usuários** (`aluno`, `instrutor`, `admin`)
+- Criação, edição e listagem de **cursos**
 - Sistema de **matrículas**
-- Organização futura de **conteúdos** e **progresso**
-- Geração de **relatórios** administrativos
+- Organização de **módulos e aulas** (em andamento)
+- Acompanhamento de **progresso** (futuro)
+- Geração de **relatórios administrativos** (futuro)
 
 ---
 
-## 🧠 **Escopo do Sistema**
+## 🧠 Escopo Geral do Sistema
 
-**Setores principais interligados:**
+### **Módulos principais**
 
-- 👤 Usuários (aluno, instrutor, admin)
-- 🎓 Cursos (cadastro, filtros, níveis)
-- 📂 Conteúdos (vídeos, PDFs, textos)
-- ✅ Matrículas (inscrição em cursos)
-- 📊 Progresso (porcentagem, acompanhamento)
-- 🧾 Relatórios (usuários ativos, cursos mais acessados)
-- 🛠 Administração (gerenciamento geral)
----
-**Setores feitos e em desenvolvimento**
-**Módulos principais:**
+| Módulo       | Status       | Endpoint principal      |
+|--------------|--------------|--------------------------|
+| 👤 Usuários   | ✅ Concluído  | `/usuarios`              |
+| 🎓 Cursos     | ✅ Concluído  | `/courses`               |
+| 📑 Matrículas | ✅ Concluído  | `/enrollments`           |
+| 📂 Conteúdos  | ✅ Concluído | `/contents`      |
 
-- 👤 Usuários (`/usuarios`)
-- 🎓 Cursos (`/courses`)
-- 📑 Matrículas (`/enrollments`)
-- 🪧 Relatórios (futuro)
-- 🎲 Progresso (futuro)
-- 📂 Conteúdos (futuro)
-- ⚒️ Administração (futuro)
+
 
 ---
 
@@ -55,27 +46,111 @@ Criar um sistema completo para gestão de cursos, com áreas para:
 sistema-cursos/
 │
 ├── backend_sistema_cursos/
-│   ├── main.py                 # Arquivo principal com rotas Flask
-│   ├── services/               # Regras de negócio (usuários, cursos, matrículas)
-│   ├── models/                 # Modelos de dados (User, Course, Enrollment)
-│   ├── data/                   # Armazenamento local em arquivos .json
-│   └── utils/ (futuro)         # Funções auxiliares
+│   ├── main.py                  # Arquivo principal com rotas Flask
+│   ├── controllers/             # Arquivos de controle para cada módulo
+│   ├── services/                # Lógica de negócio (usuário, curso, matrícula, conteúdo)
+    ├── static/                  # Armazena todas as fotos e links utilizados no cadastro dos cursos
+│   ├── models/                  # Modelos de dados (User, Course, Enrollment, Content)
+│   ├── data/                    # Armazenamento em JSON (usuarios.json, courses.json, etc.)
+│   ├── utils/                   # Funções auxiliares (ex: criptografia, validações)
+│   ├── start.sh                 # Script para iniciar o servidor no macOS/Linux
+│   └── start.bat                # Script para iniciar o servidor no Windows
 │
-├── frontend/                   # HTML, CSS e JS integrando com a API
+├── frontend/
+|   ├── css/                     #todos os css das paginas abaixo
+│   ├── cadastrar_usuario.html   # Formulário para cadastro de usuário
+|   ├── login.html               # Login do usuário cadastrado
+|   ├── menu.html                # Menu com todas as opções de acordo com usuário
+|   ├── configurar_conta.html    # Configuração geral de informações da conta
+│   ├── listar_usuarios.html     # Listagem de usuários
+│   ├── cadastrar_curso.html     # Formulário para cadastro de curso
+│   ├── listar_cursos.html       # Listagem de cursos
+|   ├── criar_modulo.html        # Cria Modulo do curso
+|   ├── criar_aula.html          # Cria aula do curso
+│   ├── listar_matriculas.html   # Visualização de matrículas
+│   ├── editar_curso.html        # Página de edição de curso
+│   ├── gerenciar_conteudo.html  # Central para módulos e aulas
+│   ├── editar_modulo.html       # Edição de módulo
+│   └── editar_aula.html         # Edição de aula
 │
-└── README.md
-
+└── README.md                    # Documentação do projeto
+```
 
 ---
 
-## 🛠 Como rodar o backend
+## 🛠 Como rodar o Backend
+
+### ✅ Requisitos
+
+- Python **3.10+**
+- Instalar dependências com:
 
 ```bash
-# Requisitos
-Python 3.10+
 pip install flask flask-cors bcrypt
+```
 
-# Inicialização
-cd backend_sistema_cursos
-python main.py
+### ▶️ Iniciar o servidor
 
+#### 💻 Windows
+1. Abra o terminal na pasta `backend_sistema_cursos`
+2. Execute:
+```bash
+start.bat
+```
+Ou dê **dois cliques** no arquivo `start.bat`.
+
+#### 🍎 macOS / 🐧 Linux
+1. Abra o terminal na pasta `backend_sistema_cursos`
+2. Execute os comandos:
+```bash
+chmod +x start.sh     # (apenas na primeira vez)
+./start.sh
+```
+
+---
+
+## 🌐 Como acessar a API
+
+Após iniciar o servidor, acesse no navegador ou via frontend local:
+
+```
+http://localhost:5000
+```
+
+### Exemplos de endpoints:
+
+- `GET /usuarios` – Listar usuários
+- `POST /usuarios` – Cadastrar usuário
+- `GET /courses` – Listar cursos
+- `POST /enrollments` – Realizar matrícula
+
+---
+
+## 🧪 Testes Sugeridos
+
+- Cadastrar um novo instrutor e curso
+- Matricular um aluno no curso
+- Editar o curso e adicionar um módulo
+- Editar título de uma aula
+- Verificar JSONs atualizados na pasta `/data`
+
+---
+
+## 💡 Diferenciais
+
+- Autenticação com token JWT
+- Controle de permissões por tipo de usuário
+- Armazenamento local em `.json` simulando banco de dados
+- Integração com frontend HTML/CSS
+- Scripts de inicialização multiplataforma (`start.bat`, `start.sh`)
+- Estilo moderno com CSS personalizado
+
+---
+
+## 👨‍🏫 Observação
+
+O projeto está pronto para testes imediatos. Basta entrar na pasta `backend_sistema_cursos` e executar o arquivo de acordo com seu sistema:
+
+- `start.sh` (macOS/Linux)
+- `start.bat` (Windows)
+- digitar `python main.py` no terminal para ligar o servidor e acessar o html de cadastro/login
