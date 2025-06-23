@@ -89,3 +89,33 @@ def add_lesson_to_module(course_id: int, module_id: int, lesson_data: dict):
     target_module['aulas'].append(new_lesson.to_dict())
     _save_data(all_contents)
     return new_lesson.to_dict()
+
+def update_module_title(course_id: int, module_id: int, new_title: str):
+    """Atualiza o título de um módulo específico."""
+    all_contents = _load_data()
+
+    for content in all_contents:
+        if content.get("course_id") == course_id:
+            for module in content.get("modulos", []):
+                if module.get("id") == module_id:
+                    module["titulo"] = new_title
+                    _save_data(all_contents)
+                    return module
+    raise ValueError("Módulo não encontrado para este curso.")
+
+
+def update_lesson(course_id: int, module_id: int, lesson_id: int, new_data: dict):
+    """Atualiza os dados de uma aula específica."""
+    all_contents = _load_data()
+
+    for content in all_contents:
+        if content.get("course_id") == course_id:
+            for module in content.get("modulos", []):
+                if module.get("id") == module_id:
+                    for lesson in module.get("aulas", []):
+                        if lesson.get("id") == lesson_id:
+                            lesson["titulo"] = new_data.get("titulo", lesson["titulo"])
+                            lesson["url_conteudo"] = new_data.get("url_conteudo", lesson["url_conteudo"])
+                            _save_data(all_contents)
+                            return lesson
+    raise ValueError("Aula não encontrada.")

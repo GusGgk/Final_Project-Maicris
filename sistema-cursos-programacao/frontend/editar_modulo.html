@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Módulo</title>
+  <link rel="stylesheet" href="css/editar_modulo.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Editar Módulo</h2>
+
+  <form id="formEditarModulo">
+    <label for="titulo">Novo Título do Módulo:</label>
+    <input type="text" id="titulo" name="titulo" required>
+    <button type="submit">Salvar Alterações</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
+
+  <script>
+    const token = localStorage.getItem("token");
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get("course_id");
+    const moduleId = urlParams.get("module_id");
+
+    const form = document.getElementById("formEditarModulo");
+    const mensagem = document.getElementById("mensagem");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const novoTitulo = document.getElementById("titulo").value.trim();
+
+      try {
+        const resposta = await fetch(`http://localhost:5000/courses/${courseId}/modules/${moduleId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ titulo: novoTitulo })
+        });
+
+        const resultado = await resposta.json();
+
+        if (resposta.ok) {
+          mensagem.textContent = "Módulo atualizado com sucesso!";
+          mensagem.style.color = "green";
+        } else {
+          mensagem.textContent = resultado.message || "Erro ao atualizar.";
+          mensagem.style.color = "red";
+        }
+      } catch (erro) {
+        mensagem.textContent = "Erro ao conectar ao servidor.";
+        mensagem.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

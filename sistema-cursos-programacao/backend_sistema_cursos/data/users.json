@@ -1,40 +1,5 @@
 [
     {
-        "id": "e83516ad-9f4d-47a8-836b-740b599e31b5",
-        "name": "André Gritten",
-        "email": "andre@gmail.com",
-        "password": "$2b$12$g.EmSvJ5l/9qwOQK8OZXz.709U9o3RKSiYT5Ip6PtzSrqqwH2UrJC",
-        "user_type": "admin"
-    },
-    {
-        "id": "579f2eeb-9f1d-4db7-8a6e-ccd3fae10b86",
-        "name": "Maicris Fernandes",
-        "email": "maicris@gmail.com",
-        "password": "$2b$12$HXwNv9G8FS0FOcMRnxG40.TE0g.YoPOZfAbpaQmCdinYEwvEtcvdi",
-        "user_type": "admin"
-    },
-    {
-        "id": "e85f1920-8b46-4f49-91f4-870bcda81220",
-        "name": "Gustavo Giacoia",
-        "email": "gukumagai@gmail.com",
-        "password": "$2b$12$Za4gMCatasS/WY3CD3gl7OiEof5VqzCGS3OkRNgLar7vK8gJgdkIG",
-        "user_type": "admin"
-    },
-    {
-        "id": "af1a16c9-6b70-4690-bac3-c52baf5e8c5d",
-        "name": "Eduardo Blasczak",
-        "email": "eduardo.blasczak@gmail.com",
-        "password": "$2b$12$5HUVBLwU/SYbvrGvUHeKwOeaB2HDTVbLQ9PuDlFFaMj/Gtild/Z9u",
-        "user_type": "admin"
-    },
-    {
-        "id": "8e93184a-f960-455a-ac6f-ae712085a697",
-        "name": "Maria Luiza Senff",
-        "email": "malu@gmail.com",
-        "password": "$2b$12$c8DK5M6AqCYwdC/VvaXWjOcMGD/m2yvNjGhs0AFqhjQ6fpQh//Zxe",
-        "user_type": "admin"
-    },
-    {
         "id": "b93d29d5-d572-441d-88e9-7b25ecfb2d89",
         "name": "Aluno",
         "email": "aluno@gmail.com",
@@ -47,5 +12,12 @@
         "email": "instrutor@gmail.com",
         "password": "$2b$12$VT2S3gcr3Y0da3sWKux.QOYZdhXnXABk8ErJOJim9Fiis6a6poxGi",
         "user_type": "instrutor"
+    },
+    {
+        "id": "fa7ef119-0ad8-4419-96ae-0070f8ecb667",
+        "name": "ADMIN",
+        "email": "admin@gmail.com",
+        "password": "$2b$12$q.Zi4bfItXunp1sh0xSdBO/3ilP1eTARGEGOh0hSTlhb5FHrACdYG",
+        "user_type": "admin"
     }
 ]

@@ -51,3 +51,25 @@ def add_lesson(course_id, module_id):
         return jsonify({"message": str(e)}), 404  # Not Found (se o curso/módulo não existir)
     except Exception as e:
         return jsonify({"message": f"Erro interno: {e}"}), 500
+
+@content_bp.route('/courses/<int:course_id>/modules/<int:module_id>', methods=['PUT'])
+def editar_modulo(course_id, module_id):
+    data = request.get_json()
+    if not data or "titulo" not in data:
+        return jsonify({"message": "Título do módulo obrigatório."}), 400
+    try:
+        atualizado = content_service.update_module_title(course_id, module_id, data["titulo"])
+        return jsonify(atualizado), 200
+    except ValueError as e:
+        return jsonify({"message": str(e)}), 404
+
+@content_bp.route('/courses/<int:course_id>/modules/<int:module_id>/lessons/<int:lesson_id>', methods=['PUT'])
+def editar_aula(course_id, module_id, lesson_id):
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "Dados obrigatórios não fornecidos."}), 400
+    try:
+        atualizado = content_service.update_lesson(course_id, module_id, lesson_id, data)
+        return jsonify(atualizado), 200
+    except ValueError as e:
+        return jsonify({"message": str(e)}), 404

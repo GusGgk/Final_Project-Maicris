@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Aula</title>
+  <link rel="stylesheet" href="css/editar_aula.css">
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Editar Aula</h2>
+
+  <form id="formEditarAula">
+    <div class="input-group">
+      <label for="aulaSelect">Escolha a Aula:</label>
+      <select id="aulaSelect" required></select>
+    </div>
+
+    <div class="input-group">
+      <label for="titulo">Novo Título:</label>
+      <input type="text" id="titulo" required>
+    </div>
+
+    <div class="input-group">
+      <label for="tipo">Tipo de Conteúdo:</label>
+      <select id="tipo" required>
+        <option value="video">Vídeo</option>
+        <option value="pdf">PDF</option>
+      </select>
+    </div>
+
+    <div class="input-group" id="grupoUrl">
+      <label for="url">URL do Conteúdo:</label>
+      <input type="text" id="url" required>
+    </div>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+
+  <p id="mensagem"></p>
+  <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
+
+  <script>
+    const token = localStorage.getItem("token");
+    const userType = localStorage.getItem("user_type");
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get("course_id");
+    const moduleId = urlParams.get("module_id");
+
+    const aulaSelect = document.getElementById("aulaSelect");
+    const tituloInput = document.getElementById("titulo");
+    const tipoSelect = document.getElementById("tipo");
+    const urlInput = document.getElementById("url");
+    const mensagem = document.getElementById("mensagem");
+
+    if (!token || (userType !== "admin" && userType !== "instrutor")) {
+      alert("Acesso negado. Faça login como instrutor ou admin.");
+      window.location.href = "login.html";
+    }
+
+    // Carregar aulas
+    async function carregarAulas() {
+      try {
+        const res = await fetch(`http://localhost:5000/courses/${courseId}/contents`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const modulo = data.modulos.find(m => m.id == moduleId);
+
+        if (!modulo || modulo.aulas.length === 0) {
+          mensagem.textContent = "Nenhuma aula encontrada neste módulo.";
+          return;
+        }
+
+        modulo.aulas.forEach(aula => {
+          const option = document.createElement("option");
+          option.value = aula.id;
+          option.textContent = `${aula.id} - ${aula.titulo}`;
+          aulaSelect.appendChild(option);
+        });
+
+        aulaSelect.addEventListener("change", () => preencherCampos(modulo));
+        preencherCampos(modulo);
+      } catch (err) {
+        mensagem.textContent = "Erro ao buscar aulas.";
+        console.error(err);
+      }
+    }
+
+    function preencherCampos(modulo) {
+      const aulaId = parseInt(aulaSelect.value);
+      const aula = modulo.aulas.find(a => a.id === aulaId);
+      if (aula) {
+        tituloInput.value = aula.titulo;
+        tipoSelect.value = aula.tipo;
+        urlInput.value = aula.url_conteudo;
+      }
+    }
+
+    tipoSelect.addEventListener("change", () => {
+      if (tipoSelect.value === "pdf") {
+        urlInput.placeholder = "/static/pdfs/nome.pdf";
+      } else {
+        urlInput.placeholder = "https://www.youtube.com/watch?v=...";
+      }
+    });
+
+    document.getElementById("formEditarAula").addEventListener("submit", async e => {
+      e.preventDefault();
+
+      const dados = {
+        titulo: tituloInput.value.trim(),
+        tipo: tipoSelect.value,
+        url_conteudo: urlInput.value.trim()
+      };
+
+      const aulaId = aulaSelect.value;
+
+      try {
+        const res = await fetch(`http://localhost:5000/courses/${courseId}/modules/${moduleId}/lessons/${aulaId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(dados)
+        });
+
+        const resultado = await res.json();
+        if (res.ok) {
+          mensagem.textContent = "Aula atualizada com sucesso!";
+          mensagem.style.color = "lightgreen";
+        } else {
+          mensagem.textContent = resultado.message || "Erro ao atualizar aula.";
+          mensagem.style.color = "red";
+        }
+      } catch (err) {
+        mensagem.textContent = "Erro ao conectar ao servidor.";
+        console.error(err);
+      }
+    });
+
+    carregarAulas();
+  </script>
+</body>
+</html>

@@ -4,40 +4,438 @@
     "modulos": [
       {
         "id": 1,
-        "titulo": "Módulo 1: Introdução ao Python",
+        "titulo": "Introdução ao Python",
         "aulas": [
           {
             "id": 1,
-            "titulo": "Aula 1: O que é Python?",
+            "titulo": "O que é Python?",
             "tipo": "video",
-            "url_conteudo": "https://www.youtube.com/watch?v=sygB5E-dY8M"
+            "url_conteudo": "https://www.youtube.com/watch?v=rfscVS0vtbw"
           },
           {
             "id": 2,
-            "titulo": "Aula 2: Instalando o Ambiente",
-            "tipo": "pdf",
-            "url_conteudo": "/static/pdfs/instalacao_python.pdf"
+            "titulo": "Primeiro Código",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=kqtD5dpn9C8"
           }
         ]
       },
       {
         "id": 2,
-        "titulo": "Módulo 2: Estruturas Condicionais",
+        "titulo": "Tipos de Dados",
         "aulas": [
           {
             "id": 1,
-            "titulo": "Aula 1: A estrutura 'if'",
+            "titulo": "Strings e Listas",
             "tipo": "video",
-            "url_conteudo": "https://www.youtube.com/watch?v=example_if"
+            "url_conteudo": "https://www.youtube.com/watch?v=vLqTf2b6GZw"
           },
           {
             "id": 2,
-            "titulo": "Aula 2: Usando 'else' e 'elif'",
+            "titulo": "Dicionários",
             "tipo": "video",
-            "url_conteudo": "https://www.youtube.com/watch?v=example_else"
+            "url_conteudo": "https://www.youtube.com/watch?v=ev7A7rj6kOQ"
           }
         ]
-      }
-    ]
-  }
+      }
+    ]
+  },
+  {
+    "course_id": 2,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Gravando com Qualidade",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Microfones e Câmeras",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=FvGzEYG1Y-4"
+          },
+          {
+            "id": 2,
+            "titulo": "Iluminação e Som",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=wJzjMYw1Wn0"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Editando para o YouTube",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "CapCut Básico",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=ONNnKxwkwOw"
+          },
+          {
+            "id": 2,
+            "titulo": "Edição Avançada",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=fq4N0hgOWzU"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 3,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Introdução à Lógica",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "O que é Lógica de Programação?",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=Sz25xxF_AVE"
+          },
+          {
+            "id": 2,
+            "titulo": "Variáveis e Entrada de Dados",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=zOjov-2OZ0E"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Estruturas de Controle",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Condicionais",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=lf5cVJSt6zI"
+          },
+          {
+            "id": 2,
+            "titulo": "Laços de Repetição",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=G0jO8kUrg-I"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 4,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Fundamentos de C#",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Sintaxe Básica de C#",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=GhQdlIFylQ8"
+          },
+          {
+            "id": 2,
+            "titulo": "Criando um Projeto no Unity",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=_QajrabyTJc"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Criando Jogos 2D",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Sprites e Física 2D",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=j48LtUkZRjU"
+          },
+          {
+            "id": 2,
+            "titulo": "Colisões e Interações",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=U9pZ1pzzjiY"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 5,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Back-end com Java",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Estrutura de um Projeto Java",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=4fJBrditnJU"
+          },
+          {
+            "id": 2,
+            "titulo": "API REST com Spring",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=vtPkZShrvXQ"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Front-end com JSP",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Integração com JSP",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=K2sqxra6S7A"
+          },
+          {
+            "id": 2,
+            "titulo": "Deploy na Nuvem",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=fXZ1F77E7T8"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 6,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "React Essencial",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Componentes e Props",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=MaL-cz2Oqg8"
+          },
+          {
+            "id": 2,
+            "titulo": "Hooks e Estado",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=G39lKaONAlA"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "React com Backend",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Consumo de API",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=dtKciwk_si4"
+          },
+          {
+            "id": 2,
+            "titulo": "Autenticação",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=nU1lO-vu5UQ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 7,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Godot Engine Básico",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Introdução à Godot",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=nFVfZq6abGM"
+          },
+          {
+            "id": 2,
+            "titulo": "Cenário e Personagem",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=Lr8W3UanX_U"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Criando um Jogo Completo",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Scripts com GDScript",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=vvEgz2Rx4U4"
+          },
+          {
+            "id": 2,
+            "titulo": "HUD e Fases",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=v6lZPaoJP6k"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 8,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Automação com C#",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Criando Scripts de Rotina",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=5ylY9vEo-Tk"
+          },
+          {
+            "id": 2,
+            "titulo": "Agendamento com Tasks",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=r-LqfSw5iXM"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Trabalhando com Arquivos",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Manipulando Arquivos",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=gpyqV_bJ1hI"
+          },
+          {
+            "id": 2,
+            "titulo": "Automatizando com Excel",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=HDvbSzk-BjI"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 9,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Spring Boot Avançado",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Configurando Spring Boot",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=vtPkZShrvXQ"
+          },
+          {
+            "id": 2,
+            "titulo": "APIs Seguras com JWT",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=x6dH9hUuFSc"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Kubernetes Essentials",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Containers com Docker",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=Gjnup-PuquQ"
+          },
+          {
+            "id": 2,
+            "titulo": "Deploy no Kubernetes",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=s_o8dwzRlu4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "course_id": 10,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "HTML/CSS/JS Básico",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "HTML Semântico",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=UB1O30fR-EE"
+          },
+          {
+            "id": 2,
+            "titulo": "Estilizando com CSS",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=1PnVor36_40"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Criando Sites",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Interatividade com JS",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=hdI2bqOjy3c"
+          },
+          {
+            "id": 2,
+            "titulo": "Publicação com GitHub Pages",
+            "tipo": "video",
+            "url_conteudo": "https://www.youtube.com/watch?v=SKXkC4SqtRk"
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "course_id": 11,
+    "modulos": [
+      {
+        "id": 1,
+        "titulo": "Modulo 1 - Testando a criação",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Modulo 1 - Testando a criação",
+            "tipo": "video",
+            "url_conteudo": "https://youtu.be/xcJtL7QggTI?si=1nwoqZAuD78ghWaw"
+          },
+          {
+            "id": 2,
+            "titulo": "Aula 2 pqp",
+            "tipo": "video",
+            "url_conteudo": "https://youtu.be/xcJtL7QggTI?si=1nwoqZAuD78ghWaw"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "titulo": "Modulo 2 - Modulo editado",
+        "aulas": []
+      }
+    ]
+  }
 ]

@@ -111,13 +111,24 @@
     },
     {
         "id": "11",
-        "title": "teste curso",
+        "title": "Curso Teste",
         "language": "teste de curso",
         "description": "apenas um teste",
         "level": "intermediario",
         "duration": "22",
         "price": "222",
         "instructor_id": "54224baa-a761-47b6-82ae-d23eec8e596e",
+        "image": ""
+    },
+    {
+        "id": "12",
+        "title": "Curso de admin (teste)",
+        "language": "Teste admin",
+        "description": "teste admin",
+        "level": "avancado",
+        "duration": "33",
+        "price": "333",
+        "instructor_id": "fa7ef119-0ad8-4419-96ae-0070f8ecb667",
         "image": ""
     }
 ]

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Criar Aula</title>
+  <link rel="stylesheet" href="css/criar_aula.css" />
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo" />
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Criar Nova Aula</h2>
+  <button onclick="window.location.href='listar_cursos.html'">Voltar</button>
+
+  <form id="formAula">
+    <div class="input-group">
+      <label for="titulo">Título da Aula:</label>
+      <input type="text" id="titulo" name="titulo" required />
+    </div>
+
+    <div class="input-group">
+      <label for="tipo">Tipo de Aula:</label>
+      <select id="tipo" name="tipo" required>
+        <option value="">Selecione</option>
+        <option value="video">Vídeo</option>
+        <option value="pdf">PDF</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="url_conteudo">URL ou Caminho do Conteúdo:</label>
+      <input type="text" id="url_conteudo" name="url_conteudo" required />
+    </div>
+
+    <button type="submit">Criar Aula</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <script>
+    const token = localStorage.getItem("token");
+    const userType = localStorage.getItem("user_type");
+
+    if (!token || (userType !== "admin" && userType !== "instrutor")) {
+    alert("Acesso negado. Apenas instrutores ou administradores podem acessar esta página.");
+    window.location.href = "login.html";
+    }
+
+    const form = document.getElementById("formAula");
+    const mensagem = document.getElementById("mensagem");
+    
+
+    const params = new URLSearchParams(window.location.search);
+    const courseId = params.get("course_id");
+    const moduleId = params.get("module_id");
+
+    if (!token || !courseId || !moduleId) {
+      alert("Acesso inválido. Verifique o curso e módulo selecionado.");
+      window.location.href = "menu.html";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const dados = {
+        titulo: form.titulo.value.trim(),
+        tipo: form.tipo.value,
+        url_conteudo: form.url_conteudo.value.trim()
+      };
+
+      try {
+        const res = await fetch(`http://localhost:5000/courses/${courseId}/modules/${moduleId}/lessons`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(dados)
+        });
+
+        const resultado = await res.json();
+
+        if (res.ok) {
+          mensagem.textContent = "Aula criada com sucesso!";
+          mensagem.style.color = "lightgreen";
+          form.reset();
+        } else {
+          mensagem.textContent = resultado.message || "Erro ao criar aula.";
+          mensagem.style.color = "red";
+        }
+      } catch (erro) {
+        mensagem.textContent = "Erro ao conectar com o servidor.";
+        mensagem.style.color = "red";
+        console.error(erro);
+      }
+    });
+  </script>
+</body>
+</html>

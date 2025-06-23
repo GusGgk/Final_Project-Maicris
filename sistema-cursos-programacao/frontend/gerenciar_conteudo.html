@@ -13,26 +13,73 @@
 
   <h2>Gerenciar Conteúdo do Curso</h2>
 
-  <div class="botoes-container">
-    <button onclick="navegar('criar_modulo.html')">Criar Módulo</button>
-    <button onclick="navegar('criar_aula.html')">Criar Aula</button>
-    <button onclick="navegar('editar_modulo.html')">Editar Módulo</button>
-    <button onclick="navegar('editar_aula.html')">Editar Aula</button>
-  </div>
+  <button onclick="navegarCriarModulo()" class="btn-criar">Criar Módulo</button>
+
+  <div id="modulosContainer" class="modulos-container"></div>
+  <p id="mensagem"></p>
 
   <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const courseId = urlParams.get("course_id");
+  const token = localStorage.getItem("token");
+  const userType = localStorage.getItem("user_type");
 
-    function navegar(destino) {
-      if (!courseId) {
-        alert("Curso não identificado.");
-        return;
-      }
-      window.location.href = `${destino}?course_id=${courseId}`;
+  if (!token || (userType !== "admin" && userType !== "instrutor")) {
+    alert("Acesso negado. Apenas instrutores ou administradores podem acessar esta página.");
+    window.location.href = "login.html";
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const courseId = urlParams.get("course_id");
+  const container = document.getElementById("modulosContainer");
+  const mensagem = document.getElementById("mensagem");
+
+  function navegarCriarModulo() {
+    if (!courseId) {
+      alert("Curso não identificado.");
+      return;
     }
-  </script>
+    window.location.href = `criar_modulo.html?course_id=${courseId}`;
+  }
+
+  if (!courseId) {
+    mensagem.textContent = "ID do curso não fornecido.";
+  } else {
+    fetch(`http://localhost:5000/courses/${courseId}/contents`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          mensagem.textContent = data.message;
+          return;
+        }
+
+        if (!data.modulos || data.modulos.length === 0) {
+          mensagem.textContent = "Nenhum módulo cadastrado.";
+          return;
+        }
+
+        data.modulos.forEach(modulo => {
+          const moduloDiv = document.createElement("div");
+          moduloDiv.className = "modulo";
+          moduloDiv.innerHTML = `
+            <h3>${modulo.titulo}</h3>
+            <a href="criar_aula.html?course_id=${courseId}&module_id=${modulo.id}" class="btn-criar-aula">Criar Aula</a>
+            <a href="editar_modulo.html?course_id=${courseId}&module_id=${modulo.id}" class="btn-editar">Editar Módulo</a>
+            <a href="editar_aula.html?course_id=${courseId}&module_id=${modulo.id}" class="btn-editar">Editar Aulas</a>
+          `;
+          container.appendChild(moduloDiv);
+        });
+      })
+      .catch(err => {
+        mensagem.textContent = "Erro ao buscar conteúdo.";
+        console.error(err);
+      });
+  }
+</script>
+
 </body>
 </html>

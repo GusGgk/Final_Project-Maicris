@@ -98,3 +98,18 @@ button:hover {
   background-color: var(--tech-color);
   color: #000;
 }
+
+.btn-criar, .btn-editar, .btn-criar-aula {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: var(--transition);
+}
+.btn-criar:hover {
+  background-color: var(--primary-hover);
+}

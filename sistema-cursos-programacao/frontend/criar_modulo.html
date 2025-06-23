@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Criar Módulo</title>
+  <link rel="stylesheet" href="css/criar_modulo.css" />
+</head>
+<body>
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo" />
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+
+  <h2>Criar Novo Módulo</h2>
+  <button onclick="window.location.href='listar_cursos.html'">Voltar</button>
+
+  <form id="formModulo">
+    <div class="input-group">
+      <label for="titulo">Título do Módulo:</label>
+      <input type="text" id="titulo" name="titulo" required />
+    </div>
+
+    <button type="submit">Criar Módulo</button>
+  </form>
+
+  <p id="mensagem"></p>
+
+  <script>
+    const form = document.getElementById("formModulo");
+    const mensagem = document.getElementById("mensagem");
+    const token = localStorage.getItem("token");
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get("course_id");
+
+    if (!token || !courseId) {
+      alert("Acesso inválido.");
+      window.location.href = "menu.html";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const titulo = form.titulo.value.trim();
+
+      try {
+        const res = await fetch(`http://localhost:5000/courses/${courseId}/modules`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ titulo })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          mensagem.textContent = "Módulo criado com sucesso!";
+          mensagem.style.color = "lightgreen";
+          form.reset();
+        } else {
+          mensagem.textContent = data.message || "Erro ao criar módulo.";
+          mensagem.style.color = "red";
+        }
+      } catch (erro) {
+        mensagem.textContent = "Erro ao conectar ao servidor.";
+        mensagem.style.color = "red";
+        console.error(erro);
+      }
+    });
+  </script>
+</body>
+</html>
