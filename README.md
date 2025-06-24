@@ -19,7 +19,7 @@ Criar um sistema completo de **gestão de cursos online**, com funcionalidades q
 - Cadastro e gerenciamento de **usuários** (`aluno`, `instrutor`, `admin`)
 - Criação, edição e listagem de **cursos**
 - Sistema de **matrículas**
-- Organização de **módulos e aulas** (em andamento)
+- Organização de **módulos e aulas** 
 - Acompanhamento de **progresso** (futuro)
 - Geração de **relatórios administrativos** (futuro)
 
