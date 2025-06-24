@@ -1,7 +1,25 @@
-# backend_sistema_cursos/models/course.py
+# ======================================================
+# 📁 models/course.py
+# Modelo de dados para os Cursos da plataforma
+# ======================================================
 
+# -------------------- CLASSE COURSE --------------------
 class Course:
-    def __init__(self, id, title, language,description, level, duration, price,instructor_id, image):
+    def __init__(self, id: str, title: str, language: str, description: str, level: str, duration: str, price: float, instructor_id: str, image: str):
+        """
+        Representa um curso na plataforma de ensino.
+
+        Parâmetros:
+        - id: Identificador único do curso.
+        - title: Título do curso (ex: "Python para Iniciantes").
+        - language: Idioma do curso (ex: "Português").
+        - description: Descrição detalhada do conteúdo do curso.
+        - level: Nível de dificuldade (ex: "Iniciante", "Intermediário").
+        - duration: Duração total do curso (ex: "10 horas").
+        - price: Preço do curso.
+        - instructor_id: ID do usuário instrutor responsável pelo curso.
+        - image: Caminho ou URL para a imagem de capa do curso.
+        """
         self.id = id
         self.title = title
         self.language = language
@@ -12,26 +30,8 @@ class Course:
         self.instructor_id = instructor_id
         self.image = image
 
-
-    def setId(self, id):
-        self.id = id
-
-    def setTitle(self, title):
-        self.title = title
-
-    def setLanguage(self, language):
-        self.language = language
-
-    def setLevel(self, level):
-        self.level = level
-
-    def setInstructorId(self, instructor_id):
-        self.instructor_id = instructor_id
-
-    def setImage(self, image):
-        self.image = image
-    
     def to_dict(self):
+        """Retorna os dados do curso em formato de dicionário (para JSON)."""
         return {
             "id": self.id,
             "title": self.title,
@@ -44,9 +44,9 @@ class Course:
             "image": self.image
         }
 
-
     @staticmethod
-    def from_dict(data):
+    def from_dict(data: dict):
+        """Cria uma instância de Course a partir de um dicionário."""
         return Course(
             data["id"],
             data["title"],
@@ -56,8 +56,9 @@ class Course:
             data["duration"],
             data["price"],
             data["instructor_id"],
-            data.get("image", "")
+            data.get("image", "")  # Garante que 'image' sempre exista
         )
 
     def __str__(self):
-        return f"Curso: {self.title} ({self.language}) - Nível: {self.level} - Duração do Curso: {self.duration} - Instrutor ID: {self.instructor_id}"
+        """Retorna uma representação em string do objeto Course."""
+        return f"Curso: {self.title} ({self.language}) - Nível: {self.level}"

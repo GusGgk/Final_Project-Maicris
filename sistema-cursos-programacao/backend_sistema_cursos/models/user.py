@@ -1,47 +1,53 @@
-#informações obrigatorias do usuario
+# ======================================================
+# 📁 models/user.py
+# Modelo de dados para os Usuários (alunos, instrutores, admins)
+# ======================================================
+
+# -------------------- CLASSE USER --------------------
 class User:
-    def __init__(self,id, name, email, password, user_type): # serve para armazenar todos os dados das variaveis internas
+    def __init__(self, id: str, name: str, email: str, password: str, user_type: str):
+        """
+        Representa um usuário da plataforma.
+
+        Parâmetros:
+        - id: Identificador único do usuário (UUID).
+        - name: Nome completo do usuário.
+        - email: Endereço de e-mail (usado para login).
+        - password: Senha do usuário (deve ser armazenada como hash).
+        - user_type: Tipo de usuário ('aluno', 'instrutor', ou 'admin').
+        """
         self.id = id
         self.name = name
         self.email = email
         self.password = password
-        self.user_type = user_type # exemplo -aluno, instrutor, admin
-    
-    def setId(self,id): # todos esses servem para alteração de dados do usuário depois que o proprio ja foi criadoo
-        self.id = id   
-     
-    def setName(self,name):
-        self.name = name
-    
-    def setEmail(self,email):
-        self.email = email
-        
-    def setPassword(self, password):
-        self.password = password
-    
-    def setType(self, user_type):
         self.user_type = user_type
-        
-    def to_dict(self): # converte o user em dict - dicionario, para poder salvar com json
-        return{
+
+    def to_dict(self):
+        """
+        Retorna os dados do usuário em formato de dicionário (para JSON).
+        IMPORTANTE: A senha é omitida por segurança.
+        """
+        return {
             "id": self.id,
             "name": self.name,
             "email": self.email,
-            "password": self.password,
             "user_type": self.user_type
+            # A senha nunca é retornada para o cliente
         }
-        
+
     @staticmethod
-    def from_dict(data): # recebe dicionario de user.json e retorna um Obj User com base no que recebeu
+    def from_dict(data: dict):
+        """
+        Cria uma instância de User a partir de um dicionário (vindo do JSON).
+        """
         return User(
             data["id"],
             data["name"],
             data["email"],
             data["password"],
-            data.get("user_type") or data.get("type")
+            data.get("user_type") or data.get("type") # Compatibilidade com 'type'
         )
-        
-    def __str__(self): # apenas para mostrar o obj com facilidade com o print (exemplo comentado abaixo)
-        return f"Usuário: {self.name} ({self.email}) - Tipo: {self.user_type}"
-    
 
+    def __str__(self):
+        """Retorna uma representação em string do objeto User."""
+        return f"Usuário: {self.name} ({self.email}) - Tipo: {self.user_type}"
