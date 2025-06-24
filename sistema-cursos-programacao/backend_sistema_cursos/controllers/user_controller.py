@@ -1,9 +1,13 @@
+# ======================================================
+# 📁 user_controller.py
+# Controlador para gerenciamento de usuários e autenticação
+# ======================================================
+
+# -------------------- IMPORTAÇÕES --------------------
 from flask import Blueprint, request, jsonify, current_app
 import jwt
 from datetime import datetime, timedelta, timezone
 import bcrypt
-
-# Importa as funções de serviço necessárias
 from services.user_service import (
     list_all_users, 
     add_user, 
@@ -12,13 +16,14 @@ from services.user_service import (
     delete_user,
     find_user_by_email
 )
-# Importa o decorator de autenticação
 from utils.auth import token_required
 
+# -------------------- CRIAÇÃO DO BLUEPRINT --------------------
 user_bp = Blueprint("user_bp", __name__, url_prefix="/usuarios")
 
-# --- ROTAS PÚBLICAS (NÃO EXIGEM LOGIN) ---
-
+# ======================================================
+# ➕ CADASTRO DE NOVO USUÁRIO (ROTA PÚBLICA)
+# ======================================================
 @user_bp.route("/", methods=["POST"])
 def post_usuario():
     # Rota pública para permitir o cadastro de novos usuários
@@ -41,7 +46,9 @@ def post_usuario():
         # Captura o erro de e-mail duplicado do service
         return jsonify({"mensagem": str(e)}), 409
 
-
+# ======================================================
+# 🔑 AUTENTICAÇÃO DE USUÁRIO (LOGIN - ROTA PÚBLICA)
+# ======================================================
 @user_bp.route("/login", methods=["POST"])
 def login():
     # Rota pública para permitir a autenticação e obtenção de token
@@ -63,13 +70,13 @@ def login():
     }
     token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm="HS256")
     return jsonify({
-    "token": token,
-    "user": user.to_dict()
+        "token": token,
+        "user": user.to_dict()
     })
 
-
-# --- ROTAS PROTEGIDAS (EXIGEM LOGIN E PERMISSÃO) ---
-
+# ======================================================
+# 🔍 CONSULTA DE USUÁRIOS (ROTAS PROTEGIDAS)
+# ======================================================
 @user_bp.route("/", methods=["GET"])
 @token_required
 def get_usuarios(current_user):
@@ -80,7 +87,6 @@ def get_usuarios(current_user):
     usuarios = list_all_users()
     # A senha não deve ser exposta, o to_dict() do modelo já cuida disso
     return jsonify([user.to_dict() for user in usuarios]), 200
-
 
 @user_bp.route("/<string:user_id>", methods=["GET"])
 @token_required
@@ -94,7 +100,9 @@ def get_usuario_by_id(current_user, user_id):
         return jsonify(usuario.to_dict()), 200
     return jsonify({"mensagem": "Usuário não encontrado"}), 404
 
-
+# ======================================================
+# ✏️ EDIÇÃO DE USUÁRIO (ROTA PROTEGIDA)
+# ======================================================
 @user_bp.route("/<string:user_id>", methods=["PUT"])
 @token_required
 def put_usuario(current_user, user_id):
@@ -115,7 +123,9 @@ def put_usuario(current_user, user_id):
         return jsonify({"mensagem": "Usuário atualizado com sucesso", "usuario": usuario_atualizado.to_dict()}), 200
     return jsonify({"mensagem": "Usuário não encontrado"}), 404
 
-
+# ======================================================
+# 🗑️ REMOÇÃO DE USUÁRIO (ROTA PROTEGIDA)
+# ======================================================
 @user_bp.route("/<string:user_id>", methods=["DELETE"])
 @token_required
 def delete_usuario(current_user, user_id):

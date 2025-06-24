@@ -1,3 +1,9 @@
+# ======================================================
+# 📁 enrollment_controller.py
+# Controlador para gerenciamento de matrículas
+# ======================================================
+
+# -------------------- IMPORTAÇÕES --------------------
 from flask import Blueprint, request, jsonify
 from services.enrollment_service import (
     list_all_enrollments, 
@@ -5,15 +11,16 @@ from services.enrollment_service import (
     get_enrollments_by_user_id, 
     get_enrollments_by_course_id, 
     delete_enrollment,
-    # Adicionamos a importação desta função para verificações
     get_enrollment_by_id 
 )
-# Importa o decorator que exige autenticação via token
 from utils.auth import token_required
 
+# -------------------- CRIAÇÃO DO BLUEPRINT --------------------
 enrollment_bp = Blueprint("enrollment_bp", __name__, url_prefix="/enrollments")
 
-
+# ======================================================
+# 🧾 LISTAGEM E CRIAÇÃO DE MATRÍCULAS
+# ======================================================
 @enrollment_bp.route("/", methods=["GET"])
 @token_required
 def get_enrollments(current_user):
@@ -23,7 +30,6 @@ def get_enrollments(current_user):
     
     enrollments = list_all_enrollments()
     return jsonify([e.to_dict() for e in enrollments]), 200
-
 
 @enrollment_bp.route("/", methods=["POST"])
 @token_required
@@ -42,7 +48,9 @@ def post_enrollment(current_user):
         return jsonify(resultado), 400
     return jsonify(resultado), 201
 
-
+# ======================================================
+# 🔍 CONSULTA DE MATRÍCULAS ESPECÍFICAS
+# ======================================================
 @enrollment_bp.route("/user/<string:user_id>", methods=["GET"])
 @token_required
 def get_enrollments_by_user(current_user, user_id):
@@ -52,7 +60,6 @@ def get_enrollments_by_user(current_user, user_id):
 
     enrollments = get_enrollments_by_user_id(user_id)
     return jsonify([e.to_dict() for e in enrollments]), 200
-
 
 @enrollment_bp.route("/course/<string:course_id>", methods=["GET"])
 @token_required
@@ -64,7 +71,9 @@ def get_enrollments_by_course(current_user, course_id):
     enrollments = get_enrollments_by_course_id(course_id)
     return jsonify([e.to_dict() for e in enrollments]), 200
 
-
+# ======================================================
+# 🗑️ CANCELAMENTO DE MATRÍCULA
+# ======================================================
 @enrollment_bp.route("/<string:enrollment_id>", methods=["DELETE"])
 @token_required
 def delete_enrollment_route(current_user, enrollment_id):
