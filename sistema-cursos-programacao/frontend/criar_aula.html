@@ -1,11 +1,19 @@
+<!-- ======================================================
+📄 criar_aula.html
+Página para criação de uma nova aula em um módulo específico
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8" />
   <title>Criar Aula</title>
   <link rel="stylesheet" href="css/criar_aula.css" />
 </head>
+
 <body>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo" />
     <div class="logo-text">Pypy.Cris</div>
@@ -14,6 +22,7 @@
   <h2>Criar Nova Aula</h2>
   <button onclick="window.location.href='listar_cursos.html'">Voltar</button>
 
+  <!-- ==================== FORMULÁRIO DE CRIAÇÃO DE AULA ==================== -->
   <form id="formAula">
     <div class="input-group">
       <label for="titulo">Título da Aula:</label>
@@ -37,30 +46,35 @@
     <button type="submit">Criar Aula</button>
   </form>
 
+  <!-- Mensagem de retorno -->
   <p id="mensagem"></p>
 
+  <!-- ==================== SCRIPT DE ENVIO E VALIDAÇÃO ==================== -->
   <script>
     const token = localStorage.getItem("token");
     const userType = localStorage.getItem("user_type");
 
+    // Verificação de permissão
     if (!token || (userType !== "admin" && userType !== "instrutor")) {
-    alert("Acesso negado. Apenas instrutores ou administradores podem acessar esta página.");
-    window.location.href = "login.html";
+      alert("Acesso negado. Apenas instrutores ou administradores podem acessar esta página.");
+      window.location.href = "login.html";
     }
 
     const form = document.getElementById("formAula");
     const mensagem = document.getElementById("mensagem");
-    
 
+    // Recupera parâmetros da URL (course_id e module_id)
     const params = new URLSearchParams(window.location.search);
     const courseId = params.get("course_id");
     const moduleId = params.get("module_id");
 
+    // Valida se os parâmetros estão presentes
     if (!token || !courseId || !moduleId) {
       alert("Acesso inválido. Verifique o curso e módulo selecionado.");
       window.location.href = "menu.html";
     }
 
+    // Envio do formulário
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 

@@ -1,11 +1,19 @@
+<!-- ======================================================
+📄 criar_modulo.html
+Página para criação de novos módulos dentro de um curso
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8" />
   <title>Criar Módulo</title>
   <link rel="stylesheet" href="css/criar_modulo.css" />
 </head>
+
 <body>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo" />
     <div class="logo-text">Pypy.Cris</div>
@@ -14,6 +22,7 @@
   <h2>Criar Novo Módulo</h2>
   <button onclick="window.location.href='listar_cursos.html'">Voltar</button>
 
+  <!-- ==================== FORMULÁRIO DE CRIAÇÃO DE MÓDULO ==================== -->
   <form id="formModulo">
     <div class="input-group">
       <label for="titulo">Título do Módulo:</label>
@@ -23,8 +32,10 @@
     <button type="submit">Criar Módulo</button>
   </form>
 
+  <!-- Mensagem de feedback -->
   <p id="mensagem"></p>
 
+  <!-- ==================== SCRIPT DE ENVIO ==================== -->
   <script>
     const form = document.getElementById("formModulo");
     const mensagem = document.getElementById("mensagem");
@@ -32,11 +43,13 @@
     const urlParams = new URLSearchParams(window.location.search);
     const courseId = urlParams.get("course_id");
 
+    // Validação de acesso
     if (!token || !courseId) {
       alert("Acesso inválido.");
       window.location.href = "menu.html";
     }
 
+    // Envio do formulário
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 

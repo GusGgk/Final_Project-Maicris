@@ -1,121 +1,130 @@
+<!-- ======================================================
+📄 listar_usuarios.html
+Página para visualização e exclusão de usuários (acesso admin)
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/lista_usuarios.css">
-    <title>Lista de Usuários</title>
+  <!-- ==================== METADADOS E ESTILOS ==================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Usuários</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/lista_usuarios.css">
 </head>
+
 <body>
-  
-    <div class="logo-container">
-        <img src="./img/Logo_PypyCris.jpg" alt="logo">
-        <div class="logo-text">Pypy.Cris</div>
-    </div>
-    
-    <h2>Lista de Usuários da Pypy.Cris</h2>
-    <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button> <br>
-    <div id="listaUsuarios">
-        
-    </div>
-    <p id="mensagem"></p>
-    
+  <!-- ==================== LOGO E CABEÇALHO ==================== -->
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
 
+  <h2>Lista de Usuários da Pypy.Cris</h2>
 
-    <script>
-      const token = localStorage.getItem("token");
-      const userType = localStorage.getItem("user_type");
+  <!-- ==================== BOTÃO DE VOLTAR ==================== -->
+  <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button>
+  <br>
 
-      const lista = document.getElementById("listaUsuarios");
-      const mensagem = document.getElementById("mensagem");
+  <!-- ==================== CONTAINER DE USUÁRIOS ==================== -->
+  <div id="listaUsuarios"></div>
+  <p id="mensagem"></p>
 
-      // Bloqueia acesso se não for admin
-      if (!token || userType !== "admin") {
-        alert("Acesso negado. Apenas administradores podem visualizar esta página.");
-        window.location.href = "login.html";
-      }
+  <!-- ==================== SCRIPT DE CARREGAMENTO ==================== -->
+  <script>
+    const token = localStorage.getItem("token");
+    const userType = localStorage.getItem("user_type");
 
-      async function carregarUsuarios() {
-        try {
-          const resposta = await fetch("http://localhost:5000/usuarios/", {
-            method: "GET",
-            headers: {
-              "Authorization": `Bearer ${token}`
-            }
-          });
+    const lista = document.getElementById("listaUsuarios");
+    const mensagem = document.getElementById("mensagem");
 
-          if (!resposta.ok) {
-            mensagem.textContent = "Erro ao buscar usuários.";
-            return;
+    // -------------------- RESTRIÇÃO DE ACESSO --------------------
+    if (!token || userType !== "admin") {
+      alert("Acesso negado. Apenas administradores podem visualizar esta página.");
+      window.location.href = "login.html";
+    }
+
+    // -------------------- BUSCA E LISTA USUÁRIOS --------------------
+    async function carregarUsuarios() {
+      try {
+        const resposta = await fetch("http://localhost:5000/usuarios/", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`
           }
+        });
 
-          const usuarios = await resposta.json();
-
-          if (usuarios.length === 0) {
-            mensagem.textContent = "Nenhum usuário cadastrado.";
-            return;
-          }
-
-          usuarios.forEach((usuario, index) => {
-            const card = document.createElement("div");
-            card.className = "usuario-card";
-            card.style.setProperty('--index', index);
-
-            let botaoExcluir = "";
-
-            if (userType === "admin" && usuario.user_type !== "admin") {
-              botaoExcluir = `<button class="bt-excluir" onclick="excluirUsuario('${usuario.id}', this)">Excluir</button>`;
-            }
-
-            card.innerHTML = `
-              <strong>Nome:</strong> ${usuario.name}<br>
-              <strong>Email:</strong> ${usuario.email}<br>
-              <strong>Tipo:</strong> <span data-type="${usuario.user_type.toLowerCase()}">${usuario.user_type}</span><br>
-              <strong>ID:</strong> ${usuario.id}<br>
-              ${botaoExcluir}
-            `;
-            lista.appendChild(card);
-          });
-        } catch (erro) {
+        if (!resposta.ok) {
           mensagem.textContent = "Erro ao buscar usuários.";
-          console.error("Erro:", erro);
+          return;
         }
-      }
 
-      // ✅ Função para excluir usuário
-      async function excluirUsuario(userId, botao) {
-        if (!confirm("Tem certeza que deseja excluir este usuário?")) return;
+        const usuarios = await resposta.json();
 
-        try {
-          const res = await fetch(`http://localhost:5000/usuarios/${userId}`, {
-            method: "DELETE",
-            headers: {
-              "Authorization": `Bearer ${token}`
-            }
-          });
+        if (usuarios.length === 0) {
+          mensagem.textContent = "Nenhum usuário cadastrado.";
+          return;
+        }
 
-          const resultado = await res.json();
+        usuarios.forEach((usuario, index) => {
+          const card = document.createElement("div");
+          card.className = "usuario-card";
+          card.style.setProperty('--index', index);
 
-          if (res.ok) {
-            // Remove o card visualmente
-            botao.parentElement.remove();
-            alert("Usuário excluído com sucesso.");
-          } else {
-            alert(resultado.mensagem || "Erro ao excluir usuário.");
+          let botaoExcluir = "";
+
+          // Admin pode excluir qualquer usuário que não seja admin
+          if (userType === "admin" && usuario.user_type !== "admin") {
+            botaoExcluir = `<button class="bt-excluir" onclick="excluirUsuario('${usuario.id}', this)">Excluir</button>`;
           }
-        } catch (erro) {
-          console.error("Erro ao excluir:", erro);
-          alert("Erro ao conectar com o servidor.");
-        }
+
+          card.innerHTML = `
+            <strong>Nome:</strong> ${usuario.name}<br>
+            <strong>Email:</strong> ${usuario.email}<br>
+            <strong>Tipo:</strong> <span data-type="${usuario.user_type.toLowerCase()}">${usuario.user_type}</span><br>
+            <strong>ID:</strong> ${usuario.id}<br>
+            ${botaoExcluir}
+          `;
+
+          lista.appendChild(card);
+        });
+      } catch (erro) {
+        mensagem.textContent = "Erro ao buscar usuários.";
+        console.error("Erro:", erro);
       }
+    }
 
-      document.addEventListener('DOMContentLoaded', carregarUsuarios);
-</script>
+    // -------------------- EXCLUIR USUÁRIO --------------------
+    async function excluirUsuario(userId, botao) {
+      if (!confirm("Tem certeza que deseja excluir este usuário?")) return;
 
+      try {
+        const res = await fetch(`http://localhost:5000/usuarios/${userId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
 
+        const resultado = await res.json();
 
+        if (res.ok) {
+          botao.parentElement.remove();
+          alert("Usuário excluído com sucesso.");
+        } else {
+          alert(resultado.mensagem || "Erro ao excluir usuário.");
+        }
+      } catch (erro) {
+        console.error("Erro ao excluir:", erro);
+        alert("Erro ao conectar com o servidor.");
+      }
+    }
+
+    // -------------------- INICIAR CARREGAMENTO --------------------
+    document.addEventListener('DOMContentLoaded', carregarUsuarios);
+  </script>
 </body>
 </html>

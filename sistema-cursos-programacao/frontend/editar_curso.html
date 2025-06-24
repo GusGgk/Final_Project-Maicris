@@ -1,18 +1,31 @@
+<!-- ======================================================
+📄 editar_curso.html
+Página para editar os dados de um curso já existente
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8">
   <title>Editar Curso</title>
   <link rel="stylesheet" href="css/editar_curso.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E CABEÇALHO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
   </div>
 
   <h2>Editar Curso</h2>
-  <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button> <br>
+
+  <!-- ==================== VOLTAR AO MENU ==================== -->
+  <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button>
+  <br>
+
+  <!-- ==================== FORMULÁRIO DE EDIÇÃO ==================== -->
   <form id="formEditarCurso">
     <input type="hidden" name="id" id="cursoId">
 
@@ -52,13 +65,16 @@
 
     <button type="submit">Salvar Alterações</button>
   </form>
-  
+
+  <!-- ==================== BOTÃO EXTRA PARA MODULARIZAÇÃO DO CURSO ==================== -->
   <button class="btn" id="btnConteudo" style="margin-top: 1rem;">
-  Editar/Criar Módulos e Aulas
+    Editar/Criar Módulos e Aulas
   </button>
 
+  <!-- Mensagem de feedback -->
   <p id="mensagem"></p>
 
+  <!-- ==================== SCRIPT DE EDIÇÃO ==================== -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const cursoId = params.get("id");
@@ -66,6 +82,7 @@
     const mensagem = document.getElementById("mensagem");
     const token = localStorage.getItem("token");
 
+    // -------------------- CARREGAR DADOS DO CURSO --------------------
     async function carregarCurso() {
       try {
         const res = await fetch(`http://localhost:5000/cursos/${cursoId}`);
@@ -85,6 +102,7 @@
       }
     }
 
+    // -------------------- ENVIAR ALTERAÇÕES --------------------
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -122,11 +140,13 @@
       }
     });
 
-    carregarCurso();
-    // Botão para gerenciar conteúdo
+    // -------------------- BOTÃO PARA GERENCIAR CONTEÚDO DO CURSO --------------------
     document.getElementById("btnConteudo").addEventListener("click", () => {
-    window.location.href = `gerenciar_conteudo.html?course_id=${cursoId}`;
+      window.location.href = `gerenciar_conteudo.html?course_id=${cursoId}`;
     });
+
+    // -------------------- INICIAR CARREGAMENTO DO CURSO --------------------
+    carregarCurso();
   </script>
 </body>
 </html>

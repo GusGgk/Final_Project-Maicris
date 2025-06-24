@@ -1,11 +1,19 @@
+<!-- ======================================================
+📄 editar_modulo.html
+Página para editar o título de um módulo de curso
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8">
   <title>Editar Módulo</title>
   <link rel="stylesheet" href="css/editar_modulo.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
@@ -13,16 +21,20 @@
 
   <h2>Editar Módulo</h2>
 
+  <!-- ==================== FORMULÁRIO DE EDIÇÃO DE MÓDULO ==================== -->
   <form id="formEditarModulo">
     <label for="titulo">Novo Título do Módulo:</label>
     <input type="text" id="titulo" name="titulo" required>
     <button type="submit">Salvar Alterações</button>
   </form>
 
+  <!-- Mensagem de retorno -->
   <p id="mensagem"></p>
 
+  <!-- Botão de voltar -->
   <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
 
+  <!-- ==================== SCRIPT DE FUNCIONALIDADE ==================== -->
   <script>
     const token = localStorage.getItem("token");
     const urlParams = new URLSearchParams(window.location.search);
@@ -32,6 +44,7 @@
     const form = document.getElementById("formEditarModulo");
     const mensagem = document.getElementById("mensagem");
 
+    // -------------------- SUBMISSÃO DO FORMULÁRIO --------------------
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 

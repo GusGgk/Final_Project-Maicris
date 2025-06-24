@@ -1,19 +1,31 @@
+<!-- ======================================================
+📄 configurar_conta.html
+Página para atualização e exclusão da conta do usuário
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8">
   <title>Configurar Conta</title>
   <link rel="stylesheet" href="css/configurar_conta.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
   </div>
 
   <h2>Configurações da Conta</h2>
-    <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button>
-    <br>
+
+  <!-- ==================== VOLTAR AO MENU ==================== -->
+  <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button>
+  <br>
+
+  <!-- ==================== FORMULÁRIO DE EDIÇÃO ==================== -->
   <form id="formConta">
     <label>Nome:</label><br>
     <input type="text" id="nome" required><br><br>
@@ -27,13 +39,18 @@
     <button class="btn" type="submit">Salvar Alterações</button>
   </form>
 
+  <!-- ==================== BOTÃO DE EXCLUSÃO DE CONTA ==================== -->
   <button class="btn-excluir" onclick="confirmarExclusao()">Excluir minha conta</button>
+
+  <!-- Mensagem de retorno -->
   <p id="mensagem"></p>
 
+  <!-- ==================== SCRIPT DE FUNCIONALIDADES ==================== -->
   <script>
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
 
+    // Redireciona caso não esteja logado
     if (!token || !userId) {
       alert("Você precisa estar logado.");
       window.location.href = "login.html";
@@ -44,6 +61,7 @@
     const senhaInput = document.getElementById("senha");
     const mensagem = document.getElementById("mensagem");
 
+    // ==================== CARREGAR DADOS DO USUÁRIO ====================
     async function carregarUsuario() {
       try {
         const res = await fetch(`http://localhost:5000/usuarios/${userId}`, {
@@ -67,6 +85,7 @@
       }
     }
 
+    // ==================== ATUALIZAR DADOS ====================
     document.getElementById("formConta").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -99,6 +118,7 @@
       }
     });
 
+    // ==================== EXCLUIR CONTA ====================
     async function confirmarExclusao() {
       if (!confirm("Tem certeza que deseja excluir sua conta? Isso é irreversível.")) return;
 
@@ -125,6 +145,7 @@
       }
     }
 
+    // Carrega o usuário ao abrir a página
     document.addEventListener("DOMContentLoaded", carregarUsuario);
   </script>
 </body>

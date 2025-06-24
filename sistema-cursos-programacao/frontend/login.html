@@ -1,21 +1,32 @@
+<!-- ======================================================
+📄 login.html
+Página de login com autenticação via token JWT
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILOS ==================== -->
   <meta charset="UTF-8">
   <title>Login - Pypy.Cris</title>
   <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
   </div>
 
   <h2>Login</h2>
+
+  <!-- ==================== MENSAGEM DE RETORNO ==================== -->
   <p id="mensagem"></p>
   <br>
 
+  <!-- ==================== FORMULÁRIO DE LOGIN ==================== -->
   <form id="formLogin">
     <label for="email">Email:</label>
     <input type="email" id="email" required>
@@ -29,15 +40,15 @@
 
     <button type="submit">Entrar</button>
   </form>
-  
+
+  <!-- ==================== LINK PARA CADASTRO ==================== -->
   <br>
   <div class="signup-redirect">
     <p>Não possui cadastro?</p>
     <button onclick="window.location.href='cadastrar_usuario.html'">Criar Conta</button>
   </div>
-  
-    
 
+  <!-- ==================== SCRIPT DE LOGIN E INTERAÇÃO ==================== -->
   <script>
     const form = document.getElementById("formLogin");
     const mensagem = document.getElementById("mensagem");
@@ -45,19 +56,17 @@
     const togglePassword = document.querySelector("#togglePassword");
     const password = document.querySelector("#password");
 
+    // -------------------- MOSTRAR/ESCONDER SENHA --------------------
     togglePassword.addEventListener("click", function () {
         const type = password.getAttribute("type") === "password" ? "text" : "password";
         password.setAttribute("type", type);
-        
         this.classList.toggle("fa-eye-slash");
     });
 
-
+    // -------------------- SUBMISSÃO DO LOGIN --------------------
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      // Apenas limpamos a classe. O CSS já esconde o elemento por padrão.
-      mensagem.className = "";
+      mensagem.className = ""; // limpa estilos anteriores
 
       const email = document.getElementById("email").value;
       const passwordValue = document.getElementById("password").value;
@@ -77,14 +86,15 @@
           return;
         }
 
+        // Salva dados do usuário no localStorage
         localStorage.setItem("token", dados.token);
         localStorage.setItem("user_id", dados.user.id);
         localStorage.setItem("user_type", dados.user.user_type);
-        localStorage.setItem("user_name", dados.user.name); 
+        localStorage.setItem("user_name", dados.user.name);
 
         mensagem.textContent = "Login realizado com sucesso!";
         mensagem.classList.add("sucesso");
-        
+
         setTimeout(() => {
           window.location.href = "menu.html";
         }, 1000);

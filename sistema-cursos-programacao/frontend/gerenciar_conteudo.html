@@ -1,11 +1,19 @@
+<!-- ======================================================
+📄 gerenciar_conteudo.html
+Página central para gerenciamento de módulos e aulas de um curso
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8">
   <title>Gerenciar Conteúdo</title>
   <link rel="stylesheet" href="css/gerenciar_conteudo.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E CABEÇALHO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
@@ -13,43 +21,52 @@
 
   <h2>Gerenciar Conteúdo do Curso</h2>
 
+  <!-- ==================== BOTÃO PARA CRIAR MÓDULO ==================== -->
   <button onclick="navegarCriarModulo()" class="btn-criar">Criar Módulo</button>
 
+  <!-- Container para listagem dinâmica de módulos -->
   <div id="modulosContainer" class="modulos-container"></div>
+
+  <!-- Mensagem de feedback -->
   <p id="mensagem"></p>
 
+  <!-- Botão de voltar -->
   <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
 
+  <!-- ==================== SCRIPT DE GERENCIAMENTO ==================== -->
   <script>
-  const token = localStorage.getItem("token");
-  const userType = localStorage.getItem("user_type");
+    const token = localStorage.getItem("token");
+    const userType = localStorage.getItem("user_type");
 
-  if (!token || (userType !== "admin" && userType !== "instrutor")) {
-    alert("Acesso negado. Apenas instrutores ou administradores podem acessar esta página.");
-    window.location.href = "login.html";
-  }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const courseId = urlParams.get("course_id");
-  const container = document.getElementById("modulosContainer");
-  const mensagem = document.getElementById("mensagem");
-
-  function navegarCriarModulo() {
-    if (!courseId) {
-      alert("Curso não identificado.");
-      return;
+    // -------------------- VERIFICA PERMISSÃO --------------------
+    if (!token || (userType !== "admin" && userType !== "instrutor")) {
+      alert("Acesso negado. Apenas instrutores ou administradores podem acessar esta página.");
+      window.location.href = "login.html";
     }
-    window.location.href = `criar_modulo.html?course_id=${courseId}`;
-  }
 
-  if (!courseId) {
-    mensagem.textContent = "ID do curso não fornecido.";
-  } else {
-    fetch(`http://localhost:5000/courses/${courseId}/contents`, {
-      headers: {
-        "Authorization": `Bearer ${token}`
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get("course_id");
+    const container = document.getElementById("modulosContainer");
+    const mensagem = document.getElementById("mensagem");
+
+    // -------------------- NAVEGA PARA CRIAÇÃO DE MÓDULO --------------------
+    function navegarCriarModulo() {
+      if (!courseId) {
+        alert("Curso não identificado.");
+        return;
       }
-    })
+      window.location.href = `criar_modulo.html?course_id=${courseId}`;
+    }
+
+    // -------------------- VERIFICA SE O COURSE_ID ESTÁ PRESENTE --------------------
+    if (!courseId) {
+      mensagem.textContent = "ID do curso não fornecido.";
+    } else {
+      fetch(`http://localhost:5000/courses/${courseId}/contents`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       .then(res => res.json())
       .then(data => {
         if (data.message) {
@@ -62,6 +79,7 @@
           return;
         }
 
+        // -------------------- RENDERIZA MÓDULOS E LINKS --------------------
         data.modulos.forEach(modulo => {
           const moduloDiv = document.createElement("div");
           moduloDiv.className = "modulo";
@@ -78,8 +96,7 @@
         mensagem.textContent = "Erro ao buscar conteúdo.";
         console.error(err);
       });
-  }
-</script>
-
+    }
+  </script>
 </body>
 </html>

@@ -1,11 +1,19 @@
+<!-- ======================================================
+📄 menu.html
+Página principal de navegação após login
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8">
   <title>Menu - Pypy.Cris</title>
   <link rel="stylesheet" href="css/menu.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E CABEÇALHO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="Logo">
     <div class="logo-text">Pypy.Cris</div>
@@ -14,25 +22,30 @@
   <h2 id="boasVindas">Bem-vindo!</h2>
   <p id="tipoUsuario"></p>
 
+  <!-- ==================== ÁREA DE BOTÕES DINÂMICOS ==================== -->
   <div class="menu-opcoes" id="opcoesMenu"></div>
 
+  <!-- ==================== BOTÃO DE SAIR ==================== -->
   <button id="logoutBtn">Sair</button>
 
+  <!-- ==================== SCRIPT DE RENDERIZAÇÃO DO MENU ==================== -->
   <script>
     const userType = localStorage.getItem("user_type");
     const userName = localStorage.getItem("user_name");
     const userId = localStorage.getItem("user_id");
     const opcoesMenu = document.getElementById("opcoesMenu");
 
+    // -------------------- VERIFICA SE USUÁRIO ESTÁ LOGADO --------------------
     if (!userType || !userId) {
       alert("Você precisa estar logado para acessar o menu.");
       window.location.href = "login.html";
     }
-    
 
+    // -------------------- EXIBE BOAS-VINDAS E PERFIL --------------------
     document.getElementById("boasVindas").textContent = `Bem-vindo(a), ${userName || "Usuário"}!`;
     document.getElementById("tipoUsuario").textContent = `Perfil: ${userType}`;
 
+    // -------------------- FUNÇÃO PARA CRIAR BOTÕES DINÂMICOS --------------------
     function adicionarBotao(texto, destino) {
       const botao = document.createElement("button");
       botao.textContent = texto;
@@ -40,10 +53,11 @@
       opcoesMenu.appendChild(botao);
     }
 
-    // Comum a todos os tipos
+    // -------------------- BOTÕES COMUNS A TODOS --------------------
     adicionarBotao("Lista de Cursos da Pypy.Cris", "listar_cursos.html");
     adicionarBotao("⚙ Configurações de Conta", "configurar_conta.html");
 
+    // -------------------- BOTÕES EXCLUSIVOS POR PERFIL --------------------
     if (userType === "aluno") {
       adicionarBotao("Minhas Matrículas", `listar_matriculas.html?user_id=${userId}`);
     }
@@ -56,6 +70,7 @@
       adicionarBotao("Lista de Usuários", "listar_usuarios.html");
     }
 
+    // -------------------- SAIR DA CONTA --------------------
     document.getElementById("logoutBtn").addEventListener("click", () => {
       localStorage.clear();
       window.location.href = "login.html";

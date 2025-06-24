@@ -1,192 +1,201 @@
+<!-- ======================================================
+📄 listar_cursos.html
+Página para exibir todos os cursos com opções de ação
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/listar_cursos.css">
-    <title>Lista de Cursos</title>
-    
+  <!-- ==================== METADADOS E ESTILOS ==================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Cursos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/listar_cursos.css">
 </head>
+
 <body>
-    <div class="logo-container">
-        <img src="./img/Logo_PypyCris.jpg" alt="logo">
-        <div class="logo-text">Pypy.Cris</div>
-    </div>
-    
-    <h2>Lista de Cursos Cadastrados</h2>
-    
-    <button onclick="window.location.href='menu.html'">Voltar ao menu</button>
-    <br>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
+  <div class="logo-container">
+    <img src="./img/Logo_PypyCris.jpg" alt="logo">
+    <div class="logo-text">Pypy.Cris</div>
+  </div>
+  
+  <h2>Lista de Cursos Cadastrados</h2>
 
-    <div id="listaCursos" class="cursos-container"></div>
-    <p id="mensagem"></p>
-    
-    
-    
-    <script>
-  const lista = document.getElementById("listaCursos");
-  const mensagem = document.getElementById("mensagem");
+  <!-- ==================== BOTÃO DE VOLTAR ==================== -->
+  <button onclick="window.location.href='menu.html'">Voltar ao menu</button>
+  <br>
 
-  const token = localStorage.getItem("token");
-  const userType = localStorage.getItem("user_type");
+  <!-- ==================== CONTAINER DE CURSOS ==================== -->
+  <div id="listaCursos" class="cursos-container"></div>
+  <p id="mensagem"></p>
 
-  async function carregarCursos() {
-  try {
-    const resposta = await fetch("http://localhost:5000/cursos/");
-    const cursos = await resposta.json();
+  <!-- ==================== SCRIPT DE LISTAGEM E AÇÕES ==================== -->
+  <script>
+    const lista = document.getElementById("listaCursos");
+    const mensagem = document.getElementById("mensagem");
 
-    const userId = localStorage.getItem("user_id");
+    const token = localStorage.getItem("token");
     const userType = localStorage.getItem("user_type");
 
-    if (cursos.length === 0) {
-      mensagem.textContent = "Nenhum curso cadastrado";
-      return;
+    // -------------------- CARREGAR CURSOS --------------------
+    async function carregarCursos() {
+      try {
+        const resposta = await fetch("http://localhost:5000/cursos/");
+        const cursos = await resposta.json();
+
+        const userId = localStorage.getItem("user_id");
+
+        if (cursos.length === 0) {
+          mensagem.textContent = "Nenhum curso cadastrado";
+          return;
+        }
+
+        cursos.forEach(curso => {
+          const card = document.createElement("div");
+          card.className = "curso-card";
+
+          let botoesAdicionais = "";
+          const isInstrutorDoCurso = curso.instructor_id === userId;
+          const isAdmin = userType === "admin";
+
+          // Aluno pode se matricular
+          if (userType === "aluno") {
+            botoesAdicionais += `
+              <button class="btn-matricular" onclick="matricular('${curso.id}', this)">
+                Matricular-se
+              </button>
+            `;
+          }
+
+          // Instrutor dono ou admin podem editar
+          if ((userType === "instrutor" || isAdmin) && isInstrutorDoCurso) {
+            botoesAdicionais += `
+              <button class="btn-editar" onclick="editarCurso('${curso.id}')">Editar</button>
+            `;
+          }
+
+          // Apenas admin ou instrutor dono podem excluir
+          if ((userType === "instrutor" && isInstrutorDoCurso) || isAdmin) {
+            botoesAdicionais += `
+              <button class="btn-excluir" onclick="excluirCurso('${curso.id}')">Excluir</button>
+            `;
+          }
+
+          // Renderiza card
+          card.innerHTML = `
+            <div class="curso-header">
+              <h3>${curso.title || 'Sem título'}</h3>
+              <img src="http://localhost:5000/static/img/cursos/${curso.image || 'default.png'}" class="curso-img">
+              <span class="curso-linguagem">${curso.language || 'N/A'}</span>
+            </div>
+            <div class="curso-detalhes">
+              <p><strong>Descrição:</strong> ${curso.description || 'Sem descrição'}</p>
+              <p><strong>Nível:</strong> <span class="nivel ${curso.level?.toLowerCase() || 'iniciante'}">${curso.level || 'Iniciante'}</span></p>
+              <p><strong>Duração:</strong> ${curso.duration || 0} horas</p>
+              <p><strong>Preço:</strong> R$ ${parseFloat(curso.price || 0).toFixed(2)}</p>
+              <p><strong>Instrutor:</strong> ${curso.instructor_id || 'Não especificado'}</p>
+              ${botoesAdicionais}
+            </div>
+          `;
+
+          lista.appendChild(card);
+        });
+      } catch (erro) {
+        mensagem.textContent = "Erro ao buscar cursos";
+        console.error("Erro:", erro);
+      }
     }
 
-    cursos.forEach(curso => {
-      const card = document.createElement("div");
-      card.className = "curso-card";
+    // -------------------- FUNÇÃO PARA MATRICULAR --------------------
+    async function matricular(courseId, buttonEl) {
+      const token = localStorage.getItem("token");
 
-      let botoesAdicionais = "";
-      const isInstrutorDoCurso = curso.instructor_id === userId;
-      const isAdmin = userType === "admin";
-
-      if (userType === "aluno") {
-        botoesAdicionais += `
-          <button class="btn-matricular" onclick="matricular('${curso.id}', this)">
-            Matricular-se
-          </button>
-        `;
+      if (!token) {
+        alert("Você precisa estar logado como aluno para se matricular.");
+        return;
       }
 
-            // Editar: apenas se for instrutor dono OU admin dono
-      if ((userType === "instrutor" || userType === "admin") && curso.instructor_id === userId) {
-        botoesAdicionais += `
-          <button class="btn-editar" onclick="editarCurso('${curso.id}')">Editar</button>
-        `;
+      if (!confirm("Deseja realmente se matricular neste curso?")) return;
+
+      try {
+        const res = await fetch("http://localhost:5000/enrollments/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ course_id: courseId })
+        });
+
+        const resultado = await res.json();
+
+        if (res.ok) {
+          buttonEl.disabled = true;
+          buttonEl.textContent = "Inscrito ✅";
+          buttonEl.style.background = "#4cc9f0";
+        } else {
+          alert(resultado.mensagem || "Erro ao se matricular.");
+        }
+      } catch (erro) {
+        console.error("Erro ao enviar matrícula:", erro);
+        alert("Erro ao se conectar com o servidor.");
+      }
+    }
+
+    // -------------------- FUNÇÃO PARA EXCLUIR CURSO --------------------
+    async function excluirCurso(courseId) {
+      const token = localStorage.getItem("token");
+      const userType = localStorage.getItem("user_type");
+
+      let confirmacao = true;
+      let motivo = "";
+
+      if (userType === "admin") {
+        motivo = prompt("Digite o motivo da exclusão:");
+        if (!motivo) {
+          alert("Operação cancelada.");
+          return;
+        }
+      } else {
+        confirmacao = confirm("Tem certeza que deseja excluir seu curso?");
+        if (!confirmacao) return;
       }
 
-      // Excluir: instrutor só o seu / admin pode excluir qualquer curso
-      if ((userType === "instrutor" && curso.instructor_id === userId) || userType === "admin") {
-        botoesAdicionais += `
-          <button class="btn-excluir" onclick="excluirCurso('${curso.id}')">Excluir</button>
-        `;
+      try {
+        const resposta = await fetch(`http://localhost:5000/cursos/${courseId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: userType === "admin" ? JSON.stringify({ motivo }) : null
+        });
+
+        const resultado = await resposta.json();
+
+        if (resposta.ok) {
+          alert("Curso excluído com sucesso!");
+          window.location.reload();
+        } else {
+          alert(resultado.mensagem || "Erro ao excluir o curso.");
+        }
+      } catch (erro) {
+        alert("Erro de conexão com o servidor.");
+        console.error("Erro ao excluir curso:", erro);
       }
-
-
-      card.innerHTML = `
-        <div class="curso-header">
-          <h3>${curso.title || 'Sem título'}</h3>
-          <img src="http://localhost:5000/static/img/cursos/${curso.image || 'default.png'}" class="curso-img">
-          <span class="curso-linguagem">${curso.language || 'N/A'}</span>
-        </div>
-        <div class="curso-detalhes">
-          <p><strong>Descrição:</strong> ${curso.description || 'Sem descrição'}</p>
-          <p><strong>Nível:</strong> <span class="nivel ${curso.level?.toLowerCase() || 'iniciante'}">${curso.level || 'Iniciante'}</span></p>
-          <p><strong>Duração:</strong> ${curso.duration || 0} horas</p>
-          <p><strong>Preço:</strong> R$ ${parseFloat(curso.price || 0).toFixed(2)}</p>
-          <p><strong>Instrutor:</strong> ${curso.instructor_id || 'Não especificado'}</p>
-          ${botoesAdicionais}
-        </div>
-      `;
-
-      lista.appendChild(card);
-    });
-  } catch (erro) {
-    mensagem.textContent = "Erro ao buscar cursos";
-    console.error("Erro:", erro);
-  }
-}
-
-
-  // Função para enviar matrícula
-  async function matricular(courseId, buttonEl) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    alert("Você precisa estar logado como aluno para se matricular.");
-    return;
-  }
-
-  if (!confirm("Deseja realmente se matricular neste curso?")) return;
-
-  try {
-    const res = await fetch("http://localhost:5000/enrollments/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({ course_id: courseId })
-    });
-
-    const resultado = await res.json();
-
-    if (res.ok) {
-      buttonEl.disabled = true;
-      buttonEl.textContent = "Inscrito ✅";
-      buttonEl.style.background = "#4cc9f0";
-    } else {
-      alert(resultado.mensagem || "Erro ao se matricular.");
     }
-  } catch (erro) {
-    console.error("Erro ao enviar matrícula:", erro);
-    alert("Erro ao se conectar com o servidor.");
-  }
-}
-async function excluirCurso(courseId) {
-  const token = localStorage.getItem("token");
-  const userType = localStorage.getItem("user_type");
 
-  let confirmacao = true;
-  let motivo = "";
-
-  if (userType === "admin") {
-    motivo = prompt("Digite o motivo da exclusão:");
-    if (!motivo) {
-      alert("Operação cancelada.");
-      return;
+    // -------------------- REDIRECIONA PARA EDIÇÃO --------------------
+    function editarCurso(id) {
+      window.location.href = `editar_curso.html?id=${id}`;
     }
-  } else {
-    confirmacao = confirm("Tem certeza que deseja excluir seu curso?");
-    if (!confirmacao) return;
-  }
 
-  try {
-    const resposta = await fetch(`http://localhost:5000/cursos/${courseId}`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: userType === "admin" ? JSON.stringify({ motivo }) : null
-    });
-
-    const resultado = await resposta.json();
-
-    if (resposta.ok) {
-      alert("Curso excluído com sucesso!");
-      window.location.reload();
-    } else {
-      alert(resultado.mensagem || "Erro ao excluir o curso.");
-    }
-  } catch (erro) {
-    alert("Erro de conexão com o servidor.");
-    console.error("Erro ao excluir curso:", erro);
-  }
-}
-
-function editarCurso(id) {
-  // Redireciona para a página de edição passando o ID do curso na URL
-  window.location.href = `editar_curso.html?id=${id}`;
-}
-
-
-  document.addEventListener("DOMContentLoaded", carregarCursos);
-</script>
-
+    // -------------------- INICIAR AO CARREGAR PÁGINA --------------------
+    document.addEventListener("DOMContentLoaded", carregarCursos);
+  </script>
 </body>
 </html>

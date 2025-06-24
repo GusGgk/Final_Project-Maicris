@@ -1,11 +1,19 @@
+<!-- ======================================================
+📄 visualizar_conteudo.html
+Página de visualização dos módulos e aulas de um curso
+========================================================= -->
+
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILOS ==================== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Conteúdo do Curso</title>
   <link rel="stylesheet" href="css/visualizar_conteudo.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
@@ -13,68 +21,74 @@
 
   <h2 id="tituloCurso">Conteúdo do Curso</h2>
 
+  <!-- ==================== CONTAINER DE MÓDULOS E MENSAGEM ==================== -->
   <div id="modulosContainer"></div>
   <p id="mensagem"></p>
 
+  <!-- ==================== BOTÃO DE VOLTAR ==================== -->
   <button onclick="window.location.href='listar_cursos.html'">Voltar</button>
 
+  <!-- ==================== SCRIPT DE CARREGAMENTO DO CONTEÚDO ==================== -->
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const courseId = urlParams.get("course_id");
     const container = document.getElementById("modulosContainer");
     const mensagem = document.getElementById("mensagem");
 
+    // -------------------- VERIFICA SE COURSE_ID FOI FORNECIDO --------------------
     if (!courseId) {
       mensagem.textContent = "ID do curso não fornecido.";
     } else {
       fetch(`http://localhost:5000/courses/${courseId}/contents`, {
         headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
-        })
-        .then(res => {
+      })
+      .then(res => {
+        // Verifica se o aluno está matriculado
         if (res.status === 403) {
-            mensagem.textContent = "Você não está matriculado neste curso.";
-            return null;
+          mensagem.textContent = "Você não está matriculado neste curso.";
+          return null;
         }
         return res.json();
-        })
-        .then(data => {
+      })
+      .then(data => {
         if (!data) return;
 
+        // Verifica se há conteúdo
         if (data.message) {
-            mensagem.textContent = data.message;
-            return;
+          mensagem.textContent = data.message;
+          return;
         }
 
         if (!data.modulos || data.modulos.length === 0) {
-            mensagem.textContent = "Nenhum conteúdo cadastrado para este curso.";
-            return;
+          mensagem.textContent = "Nenhum conteúdo cadastrado para este curso.";
+          return;
         }
 
+        // Renderiza módulos e aulas
         data.modulos.forEach(modulo => {
-            const moduloDiv = document.createElement("div");
-            moduloDiv.className = "modulo";
-            moduloDiv.innerHTML = `<h3>${modulo.titulo}</h3>`;
+          const moduloDiv = document.createElement("div");
+          moduloDiv.className = "modulo";
+          moduloDiv.innerHTML = `<h3>${modulo.titulo}</h3>`;
 
-            modulo.aulas.forEach(aula => {
+          modulo.aulas.forEach(aula => {
             const aulaDiv = document.createElement("div");
             aulaDiv.className = "aula";
             aulaDiv.innerHTML = `
-                <p><strong>${aula.titulo}</strong> (${aula.tipo})</p>
-                <a href="${aula.url_conteudo}" target="_blank">Acessar Conteúdo</a>
+              <p><strong>${aula.titulo}</strong> (${aula.tipo})</p>
+              <a href="${aula.url_conteudo}" target="_blank">Acessar Conteúdo</a>
             `;
             moduloDiv.appendChild(aulaDiv);
-            });
+          });
 
-            container.appendChild(moduloDiv);
+          container.appendChild(moduloDiv);
         });
-        })
-        .catch(err => {
+      })
+      .catch(err => {
         mensagem.textContent = "Erro ao buscar conteúdo.";
         console.error(err);
-        });
-
+      });
     }
   </script>
 </body>

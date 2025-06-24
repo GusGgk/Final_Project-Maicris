@@ -1,11 +1,19 @@
+<!-- ======================================================
+📄 editar_aula.html
+Página para edição de aulas de um módulo específico
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8">
   <title>Editar Aula</title>
   <link rel="stylesheet" href="css/editar_aula.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E CABEÇALHO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
@@ -13,6 +21,7 @@
 
   <h2>Editar Aula</h2>
 
+  <!-- ==================== FORMULÁRIO DE EDIÇÃO ==================== -->
   <form id="formEditarAula">
     <div class="input-group">
       <label for="aulaSelect">Escolha a Aula:</label>
@@ -40,9 +49,11 @@
     <button type="submit">Salvar Alterações</button>
   </form>
 
+  <!-- ==================== MENSAGEM DE RETORNO E VOLTAR ==================== -->
   <p id="mensagem"></p>
   <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
 
+  <!-- ==================== SCRIPT DE EDIÇÃO ==================== -->
   <script>
     const token = localStorage.getItem("token");
     const userType = localStorage.getItem("user_type");
@@ -56,12 +67,13 @@
     const urlInput = document.getElementById("url");
     const mensagem = document.getElementById("mensagem");
 
+    // -------------------- VERIFICAÇÃO DE PERMISSÃO --------------------
     if (!token || (userType !== "admin" && userType !== "instrutor")) {
       alert("Acesso negado. Faça login como instrutor ou admin.");
       window.location.href = "login.html";
     }
 
-    // Carregar aulas
+    // -------------------- CARREGAR AULAS DO MÓDULO --------------------
     async function carregarAulas() {
       try {
         const res = await fetch(`http://localhost:5000/courses/${courseId}/contents`, {
@@ -90,6 +102,7 @@
       }
     }
 
+    // -------------------- PREENCHER CAMPOS AO SELECIONAR AULA --------------------
     function preencherCampos(modulo) {
       const aulaId = parseInt(aulaSelect.value);
       const aula = modulo.aulas.find(a => a.id === aulaId);
@@ -100,6 +113,7 @@
       }
     }
 
+    // -------------------- ALTERAR PLACEHOLDER PELO TIPO --------------------
     tipoSelect.addEventListener("change", () => {
       if (tipoSelect.value === "pdf") {
         urlInput.placeholder = "/static/pdfs/nome.pdf";
@@ -108,6 +122,7 @@
       }
     });
 
+    // -------------------- SUBMISSÃO DO FORMULÁRIO --------------------
     document.getElementById("formEditarAula").addEventListener("submit", async e => {
       e.preventDefault();
 
@@ -143,6 +158,7 @@
       }
     });
 
+    // -------------------- INICIAR CARREGAMENTO --------------------
     carregarAulas();
   </script>
 </body>

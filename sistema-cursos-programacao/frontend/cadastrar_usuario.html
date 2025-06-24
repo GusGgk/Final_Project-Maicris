@@ -1,6 +1,12 @@
+<!-- ======================================================
+📄 cadastrar_usuarios.html
+Página de cadastro de usuários: aluno, instrutor ou admin
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILOS ==================== -->
   <meta charset="UTF-8">
   <title>Cadastrar Usuário</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -9,7 +15,9 @@
   <link rel="stylesheet" href="./css/cadastrar_usuarios.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E CABEÇALHO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
@@ -17,20 +25,25 @@
   
   <h2>Cadastro de Usuário</h2>
 
+  <!-- ==================== MENSAGEM DE ERRO OU SUCESSO ==================== -->
   <div id="mensagem" class="error-message-box"></div>
   <br>
   
+  <!-- ==================== FORMULÁRIO DE CADASTRO ==================== -->
   <form id="formCadastro">
+    <!-- Nome -->
     <div class="form-group">
       <label for="name">Nome:</label>
       <input type="text" id="name" name="name" required>
     </div>
 
+    <!-- Email -->
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required>
     </div>
 
+    <!-- Senha com botão de exibir -->
     <div class="form-group">
       <label for="password">Senha:</label>
       <div class="password-container">
@@ -39,6 +52,7 @@
       </div>
     </div>
 
+    <!-- Tipo de usuário -->
     <div class="form-group">
       <label for="type">Tipo (aluno, instrutor, admin):</label>
       <input type="text" id="type" name="type" required>
@@ -47,85 +61,84 @@
     <button type="submit">Cadastrar</button>
   </form>
 
+  <!-- ==================== LINK PARA LOGIN ==================== -->
   <div class="login-redirect">
-      <p>Já possui cadastro?</p>
-      <button onclick="window.location.href='login.html'">Ir para Login</button>
+    <p>Já possui cadastro?</p>
+    <button onclick="window.location.href='login.html'">Ir para Login</button>
   </div>
-  
 
-<script>
-  const form = document.getElementById("formCadastro");
-  const mensagem = document.getElementById("mensagem");
+  <!-- ==================== SCRIPT DE ENVIO E VALIDAÇÃO ==================== -->
+  <script>
+    const form = document.getElementById("formCadastro");
+    const mensagem = document.getElementById("mensagem");
 
-  // Lógica para visualizar a senha
-  const togglePassword = document.querySelector("#togglePassword");
-  const passwordInput = document.querySelector("#password");
+    // Lógica para exibir/ocultar a senha
+    const togglePassword = document.querySelector("#togglePassword");
+    const passwordInput = document.querySelector("#password");
 
-  togglePassword.addEventListener("click", function () {
+    togglePassword.addEventListener("click", function () {
       const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
       passwordInput.setAttribute("type", type);
       this.classList.toggle("fa-eye-slash");
-  });
+    });
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    // Submissão do formulário
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const password = passwordInput.value.trim();
-    const type = form.type.value.trim().toLowerCase();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const password = passwordInput.value.trim();
+      const type = form.type.value.trim().toLowerCase();
 
-    const tiposPermitidos = ["aluno", "instrutor", "admin"];
-    if (!tiposPermitidos.includes(type)) {
-      mensagem.textContent = "Tipo inválido. Use aluno, instrutor ou admin.";
-      mensagem.style.color = "red";
-      mensagem.classList.add("show"); // Adicionamos a classe para o erro também
-      return;
-    }
-
-    const dados = {
-      name,
-      email,
-      password,
-      user_type: type
-    };
-
-    try {
-      const resposta = await fetch("http://localhost:5000/usuarios/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dados)
-      });
-
-      const resultado = await resposta.json();
-
-      if (resposta.ok) {
-        mensagem.textContent = "Usuário cadastrado com sucesso!";
-        mensagem.style.color = "var(--success-color)";
-        mensagem.classList.add("show");
-
-        setTimeout(() => {
-          mensagem.classList.remove("show");
-          window.location.href = "login.html";
-        }, 2000);
-      }
-      else {
-        mensagem.textContent = resultado.mensagem || "Erro ao cadastrar.";
+      const tiposPermitidos = ["aluno", "instrutor", "admin"];
+      if (!tiposPermitidos.includes(type)) {
+        mensagem.textContent = "Tipo inválido. Use aluno, instrutor ou admin.";
         mensagem.style.color = "red";
-        // A linha abaixo é a correção principal:
-        mensagem.classList.add("show"); 
+        mensagem.classList.add("show");
+        return;
       }
 
-    } catch (erro) {
-      mensagem.textContent = "Erro ao conectar com o servidor.";
-      mensagem.style.color = "red";
-      mensagem.classList.add("show"); // E também aqui para erros de conexão
-      console.error("Erro ao cadastrar usuário:", erro);
-    }
-  });
-</script>
+      const dados = {
+        name,
+        email,
+        password,
+        user_type: type
+      };
 
+      try {
+        const resposta = await fetch("http://localhost:5000/usuarios/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dados)
+        });
+
+        const resultado = await resposta.json();
+
+        if (resposta.ok) {
+          mensagem.textContent = "Usuário cadastrado com sucesso!";
+          mensagem.style.color = "var(--success-color)";
+          mensagem.classList.add("show");
+
+          setTimeout(() => {
+            mensagem.classList.remove("show");
+            window.location.href = "login.html";
+          }, 2000);
+        } else {
+          mensagem.textContent = resultado.mensagem || "Erro ao cadastrar.";
+          mensagem.style.color = "red";
+          mensagem.classList.add("show");
+        }
+
+      } catch (erro) {
+        mensagem.textContent = "Erro ao conectar com o servidor.";
+        mensagem.style.color = "red";
+        mensagem.classList.add("show");
+        console.error("Erro ao cadastrar usuário:", erro);
+      }
+    });
+  </script>
 </body>
 </html>

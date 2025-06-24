@@ -1,6 +1,12 @@
+<!-- ======================================================
+📄 cadastrar_curso.html
+Página para cadastro de novos cursos por instrutores/admins
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+  <!-- ==================== METADADOS E FONTS ==================== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastrar Curso</title>
@@ -9,7 +15,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/cadastrar_curso.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E CABEÇALHO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
@@ -17,27 +25,37 @@
   
   <h2>Cadastrar Curso</h2>
 
+  <!-- ==================== BOTÃO DE VOLTAR ==================== -->
   <button class="btn" onclick="window.location.href='menu.html'">Voltar ao menu</button> <br>
 
+  <!-- ==================== FORMULÁRIO DE CADASTRO ==================== -->
   <form id="formCadastro" enctype="multipart/form-data">
+    
+    <!-- Título -->
     <div class="input-group">
       <label>Título:</label>
       <input type="text" name="title" placeholder="Ex: Python para iniciantes" required>
     </div>
+
+    <!-- Imagem -->
     <div class="input-group">
       <label>Imagem do Curso:</label>
       <input type="file" name="image" accept="image/*">
     </div>
+
+    <!-- Linguagem -->
     <div class="input-group">
       <label>Linguagem do Curso:</label>
       <input type="text" name="language" placeholder="Ex: Python" required>
     </div>
 
+    <!-- Descrição -->
     <div class="input-group">
       <label>Descrição do Curso:</label>
       <textarea name="description" placeholder="Escreva a descrição do seu curso" required></textarea>
     </div>
 
+    <!-- Nível/Dificuldade -->
     <div class="input-group radio-group">
       <p>Dificuldade do Curso:</p>
       <div class="radio-options">
@@ -59,67 +77,71 @@
       </div>
     </div>
 
+    <!-- Carga Horária -->
     <div class="input-group">
       <label>Carga horária do Curso:</label>
       <input type="text" name="duration" placeholder="Ex: 56" required>
     </div>
 
+    <!-- Preço -->
     <div class="input-group">
       <label>Preço do Curso (R$):</label>
       <input type="number" name="price" step="0.01" placeholder="Ex: 140.50" required>
     </div>
 
+    <!-- Botão de Enviar -->
     <button type="submit">Cadastrar Curso</button>
   </form>
 
+  <!-- Mensagem de resposta -->
   <p id="mensagem"></p>
 
+  <!-- ==================== SCRIPT DE ENVIO ==================== -->
   <script>
-  const form = document.getElementById("formCadastro");
-  const mensagem = document.getElementById("mensagem");
+    const form = document.getElementById("formCadastro");
+    const mensagem = document.getElementById("mensagem");
 
-  const token = localStorage.getItem("token");
-  const userType = localStorage.getItem("user_type");
+    const token = localStorage.getItem("token");
+    const userType = localStorage.getItem("user_type");
 
-  // Verifica se o usuário é instrutor ou admin
-  if (!token || (userType !== "instrutor" && userType !== "admin")) {
-    alert("Acesso negado. Apenas instrutores ou administradores podem cadastrar cursos.");
-    window.location.href = "login.html";
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(form); // coleta todos os campos, inclusive imagem
-
-    try {
-      const resposta = await fetch("http://localhost:5000/cursos/", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`
-        },
-        body: formData
-      });
-
-      const resultado = await resposta.json();
-
-      if (resposta.ok) {
-        mensagem.textContent = "Curso cadastrado com sucesso!";
-        mensagem.style.color = "green";
-        form.reset();
-      } else {
-        mensagem.textContent = resultado.mensagem || "Erro ao cadastrar curso.";
-        mensagem.style.color = "red";
-      }
-
-    } catch (erro) {
-      mensagem.textContent = "Erro de conexão com o servidor.";
-      mensagem.style.color = "red";
-      console.error("Erro:", erro);
+    // Verifica permissão de acesso
+    if (!token || (userType !== "instrutor" && userType !== "admin")) {
+      alert("Acesso negado. Apenas instrutores ou administradores podem cadastrar cursos.");
+      window.location.href = "login.html";
     }
-  });
-</script>
 
+    // Evento de envio do formulário
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
+      const formData = new FormData(form); // coleta todos os campos, inclusive imagem
+
+      try {
+        const resposta = await fetch("http://localhost:5000/cursos/", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          },
+          body: formData
+        });
+
+        const resultado = await resposta.json();
+
+        if (resposta.ok) {
+          mensagem.textContent = "Curso cadastrado com sucesso!";
+          mensagem.style.color = "green";
+          form.reset();
+        } else {
+          mensagem.textContent = resultado.mensagem || "Erro ao cadastrar curso.";
+          mensagem.style.color = "red";
+        }
+
+      } catch (erro) {
+        mensagem.textContent = "Erro de conexão com o servidor.";
+        mensagem.style.color = "red";
+        console.error("Erro:", erro);
+      }
+    });
+  </script>
 </body>
 </html>

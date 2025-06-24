@@ -1,33 +1,46 @@
+<!-- ======================================================
+📄 listar_matriculas.html
+Página que exibe as matrículas do aluno logado
+========================================================= -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <!-- ==================== METADADOS E ESTILO ==================== -->
   <meta charset="UTF-8">
   <title>Minhas Matrículas - Pypy.Cris</title>
   <link rel="stylesheet" href="css/listar_matriculas.css">
 </head>
+
 <body>
+  <!-- ==================== LOGO E TÍTULO ==================== -->
   <div class="logo-container">
     <img src="./img/Logo_PypyCris.jpg" alt="logo">
     <div class="logo-text">Pypy.Cris</div>
   </div>
 
   <h2>Minhas Matrículas</h2>
+
+  <!-- ==================== CONTAINER DE MATRÍCULAS ==================== -->
   <div id="matriculasContainer" class="matriculas-container"></div>
   <p id="mensagem"></p>
 
   <button onclick="window.location.href='menu.html'">Voltar ao menu</button>
 
+  <!-- ==================== SCRIPT DE CARREGAMENTO E AÇÃO ==================== -->
   <script>
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
     const container = document.getElementById("matriculasContainer");
     const mensagem = document.getElementById("mensagem");
 
+    // -------------------- VERIFICA SE O USUÁRIO ESTÁ LOGADO --------------------
     if (!token || !userId) {
       alert("Você precisa estar logado para ver suas matrículas.");
       window.location.href = "login.html";
     }
 
+    // -------------------- FUNÇÃO PARA CARREGAR MATRÍCULAS --------------------
     async function carregarMatriculas() {
       try {
         const resposta = await fetch(`http://localhost:5000/enrollments/user/${userId}`, {
@@ -44,41 +57,44 @@
         }
 
         for (const [index, matricula] of dados.entries()) {
-        const card = document.createElement("div");
-        card.className = "matricula-card";
-        card.style.setProperty("--index", index);
+          const card = document.createElement("div");
+          card.className = "matricula-card";
+          card.style.setProperty("--index", index);
 
-        // Busca o título do curso com base no course_id
-        let courseTitle = "Carregando...";
-        try {
-          const cursoRes = await fetch(`http://localhost:5000/cursos/${matricula.course_id}`);
-          const curso = await cursoRes.json();
-          courseTitle = curso.title || "Curso não encontrado";
-        } catch (err) {
-          console.error("Erro ao buscar curso:", err);
-          courseTitle = "Erro ao carregar curso";
-        }
+          // Busca o título do curso baseado no course_id
+          let courseTitle = "Carregando...";
+          try {
+            const cursoRes = await fetch(`http://localhost:5000/cursos/${matricula.course_id}`);
+            const curso = await cursoRes.json();
+            courseTitle = curso.title || "Curso não encontrado";
+          } catch (err) {
+            console.error("Erro ao buscar curso:", err);
+            courseTitle = "Erro ao carregar curso";
+          }
 
-        card.innerHTML = `
-          <p><strong>ID da Matrícula:</strong> ${matricula.id}</p>
-          <p><strong>Curso:</strong> ${courseTitle}</p>
-          <p><strong>Data da Matrícula:</strong> ${new Date(matricula.enrollment_date).toLocaleString()}</p>
-          <button onclick="acessarConteudo(${matricula.course_id})" class="btn-acessar">Acessar Conteúdo</button>
-        `;
+          // Renderiza a matrícula
+          card.innerHTML = `
+            <p><strong>ID da Matrícula:</strong> ${matricula.id}</p>
+            <p><strong>Curso:</strong> ${courseTitle}</p>
+            <p><strong>Data da Matrícula:</strong> ${new Date(matricula.enrollment_date).toLocaleString()}</p>
+            <button onclick="acessarConteudo(${matricula.course_id})" class="btn-acessar">Acessar Conteúdo</button>
+          `;
 
-        container.appendChild(card);
-      };
+          container.appendChild(card);
+        };
       } catch (erro) {
         mensagem.textContent = "Erro ao carregar matrículas.";
         console.error("Erro:", erro);
       }
     }
 
-    document.addEventListener("DOMContentLoaded", carregarMatriculas);
+    // -------------------- REDIRECIONAR PARA CONTEÚDO DO CURSO --------------------
     function acessarConteudo(courseId) {
-    window.location.href = `visualizar_conteudo.html?course_id=${courseId}`;
-     }
+      window.location.href = `visualizar_conteudo.html?course_id=${courseId}`;
+    }
 
+    // -------------------- INICIAR CARREGAMENTO --------------------
+    document.addEventListener("DOMContentLoaded", carregarMatriculas);
   </script>
 </body>
 </html>
