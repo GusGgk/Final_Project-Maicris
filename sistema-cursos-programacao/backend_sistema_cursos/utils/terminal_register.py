@@ -1,10 +1,18 @@
+# ======================================================
+# 📁 utils/terminal_register.py
+# Script de cadastro manual de usuários via terminal
+# ======================================================
 
+# -------------------- IMPORTAÇÕES --------------------
 import json
 import uuid
 import bcrypt
 import re
 import os
 
+# ======================================================
+# 📧 VALIDAÇÃO DE EMAIL (INTERATIVO)
+# ======================================================
 def validar_email():
     while True:
         email = input("Digite seu email: ")
@@ -20,6 +28,9 @@ def validar_email():
 
         return email
 
+# ======================================================
+# 🔒 VALIDAÇÃO DE SENHA (INTERATIVO)
+# ======================================================
 def validar_senha():
     while True:
         senha = input("Digite sua senha: ")
@@ -42,6 +53,9 @@ def validar_senha():
 
         return senha
 
+# ======================================================
+# 🧾 FLUXO DE CADASTRO DE USUÁRIOS VIA TERMINAL
+# ======================================================
 def cadastrar_via_terminal():
     usuarios = []
 
@@ -89,5 +103,8 @@ def cadastrar_via_terminal():
 
     print("\nUsuários cadastrados com sucesso!")
 
+# ======================================================
+# 🚀 PONTO DE ENTRADA DO SCRIPT
+# ======================================================
 if __name__ == "__main__":
     cadastrar_via_terminal()
