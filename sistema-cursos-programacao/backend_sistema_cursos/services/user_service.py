@@ -1,3 +1,9 @@
+# ======================================================
+# 📁 services/user_service.py
+# Lógica de negócio para usuários (CRUD, validação e segurança)
+# ======================================================
+
+# -------------------- IMPORTAÇÕES --------------------
 import json
 import bcrypt
 import uuid
@@ -5,16 +11,15 @@ import os
 from models.user import User
 from utils.helpers import validar_email, validar_senha
 
-
-
-# --- CAMINHO DO ARQUIVO ---
-# Definido no topo para ser usado por todas as funções e de forma segura.
+# -------------------- CONFIGURAÇÃO DE CAMINHO --------------------
 CAMINHO_JSON = os.path.join(os.path.dirname(__file__), '..', 'data', 'users.json')
 
-# --- FUNÇÕES AUXILIARES INTERNAS ---
+# ======================================================
+# 📂 UTILITÁRIOS INTERNOS DE LEITURA/ESCRITA
+# ======================================================
 
 def _carregar_usuarios_raw():
-    """Função interna para carregar a lista bruta de usuários do JSON."""
+    """Carrega a lista bruta de usuários do JSON."""
     if not os.path.exists(CAMINHO_JSON) or os.stat(CAMINHO_JSON).st_size == 0:
         return []
     with open(CAMINHO_JSON, 'r', encoding='utf-8') as f:
@@ -24,11 +29,13 @@ def _carregar_usuarios_raw():
             return []
 
 def _salvar_usuarios(lista_usuarios_dict):
-    """Função interna para salvar a lista de dicionários de usuários no JSON."""
+    """Salva a lista de dicionários de usuários no JSON."""
     with open(CAMINHO_JSON, 'w', encoding='utf-8') as f:
         json.dump(lista_usuarios_dict, f, indent=4, ensure_ascii=False)
 
-# --- FUNÇÕES DE SERVIÇO PARA OS CONTROLLERS ---
+# ======================================================
+# 👤 OPERAÇÕES DE USUÁRIO (CRUD)
+# ======================================================
 
 def list_all_users():
     """Retorna uma lista de todos os usuários como objetos User."""
@@ -36,7 +43,7 @@ def list_all_users():
     return [User.from_dict(u) for u in usuarios_raw]
 
 def find_user_by_email(email):
-    """Busca um usuário pelo email e retorna como objeto User."""
+    """Busca um usuário pelo e-mail e retorna como objeto User."""
     usuarios_raw = _carregar_usuarios_raw()
     for u in usuarios_raw:
         if u["email"] == email:
@@ -52,10 +59,10 @@ def get_user_by_id(user_id):
     return None
 
 def add_user(dados):
-    """Adiciona um novo usuário, validando e criptografando a senha."""
+    """Adiciona um novo usuário, validando email, senha e gerando hash."""
     usuarios_raw = _carregar_usuarios_raw()
 
-    # Valida e-mail duplicado
+    # Valida duplicidade de e-mail
     if any(u["email"] == dados["email"] for u in usuarios_raw):
         raise ValueError("Erro: E-mail já cadastrado")
 
@@ -63,11 +70,11 @@ def add_user(dados):
     if not validar_email(dados["email"]):
         raise ValueError("Erro: E-mail inválido")
 
-    # Valida força da senha
+    # Valida segurança da senha
     if not validar_senha(dados["password"]):
         raise ValueError("Erro: Senha fraca. Use pelo menos 6 caracteres, incluindo letras e números.")
 
-
+    # Criptografa senha
     senha_bytes = dados["password"].encode('utf-8')
     salt = bcrypt.gensalt()
     senha_hash = bcrypt.hashpw(senha_bytes, salt)
@@ -86,7 +93,7 @@ def add_user(dados):
     return novo_usuario_obj
 
 def update_user(user_id, novos_dados):
-    """Atualiza um usuário, garantindo a criptografia da senha e validações."""
+    """Atualiza um usuário existente com validações de e-mail e senha."""
     from utils.helpers import validar_email, validar_senha  # Garantir import
 
     usuarios_raw = _carregar_usuarios_raw()
@@ -95,12 +102,12 @@ def update_user(user_id, novos_dados):
     for i, u_dict in enumerate(usuarios_raw):
         if u_dict["id"] == user_id:
 
-            # Valida email, se for alterar
+            # Valida e-mail, se for alterado
             if 'email' in novos_dados:
                 if not validar_email(novos_dados['email']):
                     raise ValueError("Email inválido.")
 
-            # Valida senha, se for alterar
+            # Valida e criptografa nova senha, se fornecida
             if 'password' in novos_dados and novos_dados['password']:
                 if not validar_senha(novos_dados['password']):
                     raise ValueError("Senha deve ter ao menos 6 caracteres, 1 letra e 1 número.")
@@ -108,7 +115,7 @@ def update_user(user_id, novos_dados):
                 salt = bcrypt.gensalt()
                 novos_dados['password'] = bcrypt.hashpw(senha_bytes, salt).decode('utf-8')
 
-            # Atualiza os campos restantes (nome, tipo, etc)
+            # Atualiza demais campos
             u_dict.update(novos_dados)
             usuario_encontrado_obj = User.from_dict(u_dict)
             usuarios_raw[i] = u_dict

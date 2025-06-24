@@ -1,3 +1,9 @@
+# ======================================================
+# 📁 services/enrollment_service.py
+# Lógica de negócio para matrículas de usuários em cursos
+# ======================================================
+
+# -------------------- IMPORTAÇÕES --------------------
 import json
 import os
 from datetime import datetime
@@ -5,11 +11,13 @@ from models.enrollment import Enrollment
 from services.user_service import get_user_by_id
 from services.course_service import get_course_by_id
 
-# --- Configuração de Caminho ---
+# -------------------- CONFIGURAÇÃO DE CAMINHO --------------------
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 ENROLLMENTS_FILE = os.path.join(DATA_DIR, 'enrollments.json')
 
-# --- Funções Auxiliares de Leitura/Escrita ---
+# ======================================================
+# 📂 UTILITÁRIOS DE LEITURA/ESCRITA
+# ======================================================
 
 def _read_enrollments_data():
     """Lê os dados das matrículas do arquivo e retorna uma lista de objetos Enrollment."""
@@ -24,7 +32,9 @@ def _write_enrollments_data(enrollments):
     with open(ENROLLMENTS_FILE, 'w', encoding='utf-8') as f:
         json.dump([enrollment.to_dict() for enrollment in enrollments], f, indent=4, ensure_ascii=False)
 
-# --- Operações de CRUD ---
+# ======================================================
+# 🧩 OPERAÇÕES DE MATRÍCULA
+# ======================================================
 
 def list_all_enrollments():
     """Retorna uma lista de todas as matrículas."""
@@ -50,7 +60,7 @@ def delete_enrollment(enrollment_id):
     return False
 
 def add_enrollment(user_id, course_id):
-    """Adiciona uma nova matrícula, com validações."""
+    """Adiciona uma nova matrícula, com validações de usuário, curso e duplicidade."""
     enrollments = _read_enrollments_data()
 
     user = get_user_by_id(user_id)
@@ -84,9 +94,7 @@ def add_enrollment(user_id, course_id):
 
 def get_enrollment_by_id(enrollment_id):
     """Busca uma matrícula pelo seu ID e retorna um objeto Enrollment."""
-    #Usa a função correta para ler os dados.
     enrollments = _read_enrollments_data()
-    # Itera sobre objetos Enrollment
     for enrollment in enrollments:
         if str(enrollment.id) == str(enrollment_id):
             return enrollment

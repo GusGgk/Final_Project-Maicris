@@ -1,17 +1,20 @@
+# ======================================================
+# 📁 services/course_service.py
+# Lógica de negócio e manipulação de dados dos cursos
+# ======================================================
+
+# -------------------- IMPORTAÇÕES --------------------
 import json
 import os
 from models.course import Course
 
-# -------------------------
-# Configuração de caminho
-# -------------------------
-
+# -------------------- CONFIGURAÇÃO DE CAMINHO --------------------
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 COURSES_FILE = os.path.join(DATA_DIR, 'courses.json')
 
-# -------------------------
-# Utilitários de leitura/escrita
-# -------------------------
+# ======================================================
+# 📂 UTILITÁRIOS DE LEITURA/ESCRITA
+# ======================================================
 
 def _read_courses_data():
     """Lê os dados dos cursos do arquivo courses.json."""
@@ -26,9 +29,9 @@ def _write_courses_data(courses):
     with open(COURSES_FILE, 'w', encoding='utf-8') as f:
         json.dump([course.to_dict() for course in courses], f, indent=4, ensure_ascii=False)
 
-# -------------------------
-# Operações de CRUD
-# -------------------------
+# ======================================================
+# 🧩 OPERAÇÕES DE CRUD
+# ======================================================
 
 def list_all_courses():
     """Retorna uma lista de todos os cursos."""
@@ -63,15 +66,15 @@ def add_course(course_data):
 
     new_id_str = str(new_id)
     new_course = Course(
-    id=new_id_str,
-    title=course_data['title'],
-    language=course_data['language'],
-    description=course_data['description'],
-    level=course_data['level'],
-    duration=course_data['duration'],
-    price=course_data['price'],
-    instructor_id=course_data['instructor_id'],
-    image=course_data.get('image', '')
+        id=new_id_str,
+        title=course_data['title'],
+        language=course_data['language'],
+        description=course_data['description'],
+        level=course_data['level'],
+        duration=course_data['duration'],
+        price=course_data['price'],
+        instructor_id=course_data['instructor_id'],
+        image=course_data.get('image', '')
     )
 
     courses.append(new_course)
@@ -91,7 +94,6 @@ def update_course(course_id, new_course_data):
             courses[i].price = new_course_data.get('price', course.price)
             courses[i].setInstructorId(new_course_data.get('instructor_id', course.instructor_id))
             courses[i].image = new_course_data.get('image', courses[i].image)
-
 
             _write_courses_data(courses)
             return courses[i]
