@@ -1,3 +1,12 @@
+/* ======================================================
+ * 📄 CSS: cadastrar_curso.css
+ * Estilos para a página de cadastro e edição de cursos.
+ * ====================================================== */
+
+
+/* ======================================================
+ * VARIÁVEIS GLOBAIS (PALETA DE CORES E LAYOUT)
+ * ====================================================== */
 :root {
   --primary-color: #4361ee;
   --primary-hover: #3a56d4;
@@ -7,7 +16,7 @@
   --text-dark: #2b2d42;
   --text-light: #f8f9fa;
   --success-color: #4cc9f0;
-  --tech-color: #00f0ff;
+  --tech-color: #00f0ff; /* Cor de destaque "tecnológica" */
   --border-radius: 12px;
   --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -16,6 +25,10 @@
   --avancado-color: #7209b7;
 }
 
+
+/* ======================================================
+ * ESTILOS GERAIS DO CORPO (BODY)
+ * ====================================================== */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--dark-bg);
@@ -27,12 +40,16 @@ body {
   padding: 2rem;
   margin: 0;
   color: var(--text-light);
+  /* Fundo com gradientes para um efeito "tech" */
   background-image: 
     radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.1) 0%, transparent 50%),
     linear-gradient(to bottom, #0f172a, #1e293b);
 }
 
-/* Container do Logo */
+
+/* ======================================================
+ * LOGO E TÍTULO PRINCIPAL
+ * ====================================================== */
 .logo-container {
   margin-bottom: 2.5rem;
   text-align: center;
@@ -45,6 +62,7 @@ body {
   width: 120px;
   height: auto;
   margin-bottom: 1rem;
+  /* Efeito de brilho (glow) na logo */
   filter: 
     drop-shadow(0 0 5px rgba(0, 240, 255, 0.5))
     drop-shadow(0 0 15px rgba(67, 97, 238, 0.3));
@@ -52,7 +70,7 @@ body {
 }
 
 .logo-text {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Orbitron', sans-serif; /* Fonte futurista */
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--tech-color);
@@ -62,12 +80,14 @@ body {
   letter-spacing: 2px;
   margin-top: 0.5rem;
   transition: var(--transition);
+  /* Efeito de texto com gradiente */
   background: linear-gradient(90deg, #00f0ff, #4361ee);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+/* --- Efeitos Hover para o Logo --- */
 .logo-container:hover img {
   transform: rotate(-5deg) scale(1.05);
 }
@@ -79,7 +99,12 @@ body {
   transform: scale(1.03);
 }
 
-/* Estilos do Formulário */
+
+/* ======================================================
+ * ESTRUTURA DO FORMULÁRIO
+ * ====================================================== */
+
+/* --- Título do Formulário (<h2>) --- */
 h2 {
   font-size: 2rem;
   font-weight: 700;
@@ -102,14 +127,15 @@ h2::after {
   border-radius: 3px;
 }
 
+/* --- Container Principal do Formulário (<form>) --- */
 form {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05); /* Efeito de vidro */
   padding: 2.5rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   width: 100%;
   max-width: 600px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); /* Desfoque do fundo */
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: var(--transition);
 }
@@ -119,6 +145,7 @@ form:hover {
   border-color: rgba(0, 240, 255, 0.3);
 }
 
+/* --- Grupos de Inputs e Labels --- */
 .input-group {
   margin-bottom: 1.5rem;
 }
@@ -148,6 +175,7 @@ textarea {
   resize: vertical;
 }
 
+/* --- Estilo dos Inputs em Foco --- */
 input:focus, textarea:focus {
   border-color: var(--tech-color);
   background-color: rgba(0, 0, 0, 0.3);
@@ -155,7 +183,10 @@ input:focus, textarea:focus {
   box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
 }
 
-/* Estilos para os radios */
+
+/* ======================================================
+ * BOTÕES DE OPÇÃO (RADIO BUTTONS) PARA NÍVEL
+ * ====================================================== */
 .radio-group p {
   margin-bottom: 0.5rem;
   color: var(--text-light);
@@ -175,9 +206,10 @@ input:focus, textarea:focus {
 }
 
 .radio-options input[type="radio"] {
-  display: none;
+  display: none; /* Oculta o radio padrão */
 }
 
+/* --- Aparência customizada do Radio --- */
 .radio-custom {
   display: inline-block;
   width: 18px;
@@ -189,12 +221,14 @@ input:focus, textarea:focus {
   transition: var(--transition);
 }
 
+/* --- Estilo do Radio quando selecionado (checked) --- */
 .radio-options input[type="radio"]:checked + .radio-custom {
   border-color: var(--tech-color);
   background-color: var(--tech-color);
   box-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
 }
 
+/* Círculo interno do radio selecionado */
 .radio-options input[type="radio"]:checked + .radio-custom::after {
   content: '';
   position: absolute;
@@ -207,7 +241,7 @@ input:focus, textarea:focus {
   transform: translate(-50%, -50%);
 }
 
-/* Diferentes cores para cada nível */
+/* --- Cores específicas para cada nível --- */
 .radio-options input[type="radio"][value="iniciante"]:checked + .radio-custom {
   border-color: var(--iniciante-color);
   background-color: var(--iniciante-color);
@@ -223,7 +257,10 @@ input:focus, textarea:focus {
   background-color: var(--avancado-color);
 }
 
-/* Botão */
+
+/* ======================================================
+ * BOTÃO DE SUBMISSÃO
+ * ====================================================== */
 button {
   display: block;
   max-width: 300px;
@@ -251,7 +288,10 @@ button:active {
   transform: translateY(0);
 }
 
-/* Mensagem */
+
+/* ======================================================
+ * MENSAGEM DE FEEDBACK (SUCESSO/ERRO)
+ * ====================================================== */
 #mensagem {
   text-align: center;
   margin-top: 1.5rem;
@@ -268,29 +308,3 @@ button:active {
   height: auto;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  body {
-    padding: 1.5rem;
-  }
-  
-  form {
-    padding: 1.5rem;
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-  }
-  
-  .logo-text {
-    font-size: 1.8rem;
-  }
-  
-  .logo-container img {
-    width: 90px;
-  }
-  
-  .radio-options {
-    gap: 0.5rem;
-  }
-}

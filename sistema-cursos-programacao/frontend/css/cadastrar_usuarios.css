@@ -1,3 +1,12 @@
+/* ======================================================
+ * 📄 CSS: cadastrar_usuarios.css
+ * Estilos para a página de cadastro de novos usuários.
+ * ====================================================== */
+
+
+/* ======================================================
+ * VARIÁVEIS GLOBAIS (PALETA DE CORES E LAYOUT)
+ * ====================================================== */
 :root {
   --primary-color: #4361ee;
   --primary-hover: #3a56d4;
@@ -13,6 +22,10 @@
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+
+/* ======================================================
+ * ESTILOS GERAIS DO CORPO (BODY)
+ * ====================================================== */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--dark-bg);
@@ -29,7 +42,10 @@ body {
     linear-gradient(to bottom, #0f172a, #1e293b);
 }
 
-/* Container do Logo */
+
+/* ======================================================
+ * LOGO E TÍTULO PRINCIPAL
+ * ====================================================== */
 .logo-container {
   margin-bottom: 2.5rem;
   text-align: center;
@@ -65,7 +81,10 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Título */
+
+/* ======================================================
+ * TÍTULO DO FORMULÁRIO (H2)
+ * ====================================================== */
 h2 {
   font-size: 2rem;
   font-weight: 700;
@@ -88,7 +107,10 @@ h2::after {
   border-radius: 3px;
 }
 
-/* Formulário */
+
+/* ======================================================
+ * ESTRUTURA DO FORMULÁRIO
+ * ====================================================== */
 form {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 2.5rem;
@@ -100,7 +122,7 @@ form {
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: var(--transition);
   
-  /* NOVAS REGRAS PARA ALINHAMENTO */
+  /* Alinhamento interno com flexbox */
   display: flex;
   flex-direction: column;
   gap: 1rem; /* Espaçamento entre os campos */
@@ -111,7 +133,7 @@ form:hover {
   border-color: rgba(0, 240, 255, 0.3);
 }
 
-/* Grupo de formulário (label + input) */
+/* --- Grupo de formulário (label + input) --- */
 .form-group {
   width: 100%;
   text-align: left;
@@ -144,14 +166,17 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
 }
 
-/* Container da Senha */
+
+/* ======================================================
+ * CAMPO DE SENHA COM ÍCONE (MOSTRAR/OCULTAR)
+ * ====================================================== */
 .password-container {
   position: relative;
   width: 100%;
 }
 
 .password-container input {
-  padding-right: 45px;
+  padding-right: 45px; /* Espaço para o ícone */
 }
 
 .password-container i {
@@ -168,7 +193,10 @@ input:focus {
   color: var(--tech-color);
 }
 
-/* Botão de Cadastro */
+
+/* ======================================================
+ * BOTÃO PRINCIPAL (CADASTRAR)
+ * ====================================================== */
 button[type="submit"] {
   width: 100%;
   padding: 1rem;
@@ -192,24 +220,10 @@ button[type="submit"]:hover {
   box-shadow: 0 7px 20px rgba(0, 240, 255, 0.4);
 }
 
-/* Mensagem de Feedback */
-#mensagem {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.95rem;
-  color: var(--tech-color);
-  font-weight: 500;
-  opacity: 0;
-  height: 0;
-  transition: all 0.3s ease;
-}
 
-#mensagem.show {
-  opacity: 1;
-  height: auto;
-}
-
-/* Redirecionamento para Login */
+/* ======================================================
+ * BOTÃO SECUNDÁRIO (REDIRECIONAMENTO PARA LOGIN)
+ * ====================================================== */
 .login-redirect {
   text-align: center;
   margin-top: 1.5rem;
@@ -231,6 +245,12 @@ button[type="submit"]:hover {
   box-shadow: 0 0 15px var(--tech-color);
 }
 
+
+/* ======================================================
+ * MENSAGENS DE FEEDBACK (ERRO E SUCESSO)
+ * ====================================================== */
+
+/* --- Caixa de Mensagem de Erro Específica --- */
 .error-message-box {
   background-color: rgba(230, 57, 70, 0.1);
   color: #ffcdd2;
@@ -255,6 +275,8 @@ button[type="submit"]:hover {
   padding: 1rem;
   margin-top: 1.5rem;
 }
+
+/* --- Mensagem Genérica (Sucesso) --- */
 
 #mensagem {
   text-align: center;
