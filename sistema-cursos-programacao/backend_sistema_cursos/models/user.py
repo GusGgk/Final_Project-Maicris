@@ -24,7 +24,7 @@ class User:
 
     def to_dict(self):
         """
-        Retorna os dados do usuário em formato de dicionário (para JSON).
+        Retorna os dados do usuário para serem enviados via API (para o frontend).
         IMPORTANTE: A senha é omitida por segurança.
         """
         return {
@@ -32,7 +32,19 @@ class User:
             "name": self.name,
             "email": self.email,
             "user_type": self.user_type
-            # A senha nunca é retornada para o cliente
+        }
+
+    def to_persistence_dict(self):
+        """
+        Retorna um dicionário com TODOS os dados para persistência (salvar em JSON).
+        IMPORTANTE: Este método inclui a senha e só deve ser usado internamente.
+        """
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "password": self.password,
+            "user_type": self.user_type
         }
 
     @staticmethod

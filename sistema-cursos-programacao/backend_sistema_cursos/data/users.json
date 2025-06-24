@@ -26,5 +26,12 @@
         "email": "eduardo.blasczak@gmail.com",
         "password": "$2b$12$eF7lL4NBMlfJaM0fU6/cNe5d/9gEDPDAAT/RyhwlSlWv376714zTy",
         "user_type": "aluno"
+    },
+    {
+        "id": "5a0dac92-b9f4-46c5-9743-f7a4762bfb9b",
+        "name": "Eduardo Blasczak",
+        "email": "eduardo@gmail.com",
+        "password": "$2b$12$gThhhWkL3Z5UFUOn3e0CU.06.DXlgfJlk3PfdQTAPK7Ong64Y0Sny",
+        "user_type": "aluno"
     }
 ]

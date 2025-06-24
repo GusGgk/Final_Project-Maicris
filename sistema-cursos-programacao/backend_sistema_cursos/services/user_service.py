@@ -1,138 +1,102 @@
-# ======================================================
-# 📁 services/user_service.py
-# Lógica de negócio para usuários (CRUD, validação e segurança)
-# ======================================================
-
-# -------------------- IMPORTAÇÕES --------------------
 import json
-import bcrypt
 import uuid
-import os
+import bcrypt
 from models.user import User
-from utils.helpers import validar_email, validar_senha
 
-# -------------------- CONFIGURAÇÃO DE CAMINHO --------------------
-CAMINHO_JSON = os.path.join(os.path.dirname(__file__), '..', 'data', 'users.json')
+# Caminho para o arquivo JSON que simula o banco de dados de usuários
+USERS_FILE = 'data/users.json'
 
-# ======================================================
-# 📂 UTILITÁRIOS INTERNOS DE LEITURA/ESCRITA
-# ======================================================
-
-def _carregar_usuarios_raw():
-    """Carrega a lista bruta de usuários do JSON."""
-    if not os.path.exists(CAMINHO_JSON) or os.stat(CAMINHO_JSON).st_size == 0:
+def _load_users():
+    """Carrega os usuários do arquivo JSON."""
+    try:
+        with open(USERS_FILE, 'r', encoding='utf-8') as f:
+            users_data = json.load(f)
+            return [User.from_dict(user) for user in users_data]
+    except (FileNotFoundError, json.JSONDecodeError):
         return []
-    with open(CAMINHO_JSON, 'r', encoding='utf-8') as f:
-        try:
-            return json.load(f)
-        except json.JSONDecodeError:
-            return []
 
-def _salvar_usuarios(lista_usuarios_dict):
-    """Salva a lista de dicionários de usuários no JSON."""
-    with open(CAMINHO_JSON, 'w', encoding='utf-8') as f:
-        json.dump(lista_usuarios_dict, f, indent=4, ensure_ascii=False)
-
-# ======================================================
-# 👤 OPERAÇÕES DE USUÁRIO (CRUD)
-# ======================================================
+def _save_users(users):
+    """Salva a lista de usuários no arquivo JSON."""
+    with open(USERS_FILE, 'w', encoding='utf-8') as f:
+        # AQUI ESTÁ A CORREÇÃO: Usamos o novo método para salvar
+        json.dump([user.to_persistence_dict() for user in users], f, indent=4)
 
 def list_all_users():
-    """Retorna uma lista de todos os usuários como objetos User."""
-    usuarios_raw = _carregar_usuarios_raw()
-    return [User.from_dict(u) for u in usuarios_raw]
+    """Retorna uma lista de todos os usuários."""
+    return _load_users()
 
 def find_user_by_email(email):
-    """Busca um usuário pelo e-mail e retorna como objeto User."""
-    usuarios_raw = _carregar_usuarios_raw()
-    for u in usuarios_raw:
-        if u["email"] == email:
-            return User.from_dict(u)
+    """Encontra um usuário pelo seu endereço de e-mail."""
+    users = _load_users()
+    for user in users:
+        if user.email == email:
+            return user
     return None
 
 def get_user_by_id(user_id):
-    """Busca um usuário pelo ID e retorna como objeto User."""
-    usuarios_raw = _carregar_usuarios_raw()
-    for u in usuarios_raw:
-        if u["id"] == user_id:
-            return User.from_dict(u)
+    """Busca um usuário pelo seu ID."""
+    users = _load_users()
+    for user in users:
+        if user.id == user_id:
+            return user
     return None
 
-def add_user(dados):
-    """Adiciona um novo usuário, validando email, senha e gerando hash."""
-    usuarios_raw = _carregar_usuarios_raw()
+def add_user(data):
+    """Adiciona um novo usuário ao sistema."""
+    if find_user_by_email(data['email']):
+        raise ValueError("Erro: E-mail já cadastrado.")
 
-    # Valida duplicidade de e-mail
-    if any(u["email"] == dados["email"] for u in usuarios_raw):
-        raise ValueError("Erro: E-mail já cadastrado")
-
-    # Valida formato do e-mail
-    if not validar_email(dados["email"]):
-        raise ValueError("Erro: E-mail inválido")
-
-    # Valida segurança da senha
-    if not validar_senha(dados["password"]):
-        raise ValueError("Erro: Senha fraca. Use pelo menos 6 caracteres, incluindo letras e números.")
-
-    # Criptografa senha
-    senha_bytes = dados["password"].encode('utf-8')
-    salt = bcrypt.gensalt()
-    senha_hash = bcrypt.hashpw(senha_bytes, salt)
-
-    novo_usuario_obj = User(
+    hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+    
+    new_user = User(
         id=str(uuid.uuid4()),
-        name=dados["name"],
-        email=dados["email"],
-        password=senha_hash.decode('utf-8'),
-        user_type=dados["user_type"]
+        name=data['name'],
+        email=data['email'],
+        password=hashed_password.decode('utf-8'),
+        user_type=data['user_type']
     )
     
-    usuarios_raw.append(novo_usuario_obj.to_dict())
-    _salvar_usuarios(usuarios_raw)
+    users = _load_users()
+    users.append(new_user)
+    _save_users(users)
+    
+    return new_user
 
-    return novo_usuario_obj
-
-def update_user(user_id, novos_dados):
-    """Atualiza um usuário existente com validações de e-mail e senha."""
-    from utils.helpers import validar_email, validar_senha  # Garantir import
-
-    usuarios_raw = _carregar_usuarios_raw()
-    usuario_encontrado_obj = None
-
-    for i, u_dict in enumerate(usuarios_raw):
-        if u_dict["id"] == user_id:
-
-            # Valida e-mail, se for alterado
-            if 'email' in novos_dados:
-                if not validar_email(novos_dados['email']):
-                    raise ValueError("Email inválido.")
-
-            # Valida e criptografa nova senha, se fornecida
-            if 'password' in novos_dados and novos_dados['password']:
-                if not validar_senha(novos_dados['password']):
-                    raise ValueError("Senha deve ter ao menos 6 caracteres, 1 letra e 1 número.")
-                senha_bytes = novos_dados["password"].encode('utf-8')
-                salt = bcrypt.gensalt()
-                novos_dados['password'] = bcrypt.hashpw(senha_bytes, salt).decode('utf-8')
-
-            # Atualiza demais campos
-            u_dict.update(novos_dados)
-            usuario_encontrado_obj = User.from_dict(u_dict)
-            usuarios_raw[i] = u_dict
+def update_user(user_id, data_to_update):
+    """Atualiza os dados de um usuário existente."""
+    users = _load_users()
+    user_to_update = None
+    for user in users:
+        if user.id == user_id:
+            user_to_update = user
             break
+            
+    if not user_to_update:
+        return None
 
-    if usuario_encontrado_obj:
-        _salvar_usuarios(usuarios_raw)
-        return usuario_encontrado_obj
-    return None
+    # Atualiza os campos fornecidos
+    for key, value in data_to_update.items():
+        if hasattr(user_to_update, key):
+            # Se for a senha, hasheia antes de atualizar
+            if key == 'password' and value:
+                hashed = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt())
+                setattr(user_to_update, key, hashed.decode('utf-8'))
+            elif key != 'password': # Evita apagar a senha se o campo vier vazio
+                 setattr(user_to_update, key, value)
+
+    _save_users(users)
+    return user_to_update
 
 def delete_user(user_id):
-    """Remove um usuário do sistema."""
-    usuarios_raw = _carregar_usuarios_raw()
-    usuarios_filtrados = [u for u in usuarios_raw if u["id"] != user_id]
+    """Deleta um usuário do sistema."""
+    users = _load_users()
+    user_found = False
     
-    if len(usuarios_raw) == len(usuarios_filtrados):
-        return False
+    # Filtra a lista, mantendo todos os usuários exceto o que será deletado
+    updated_users = [user for user in users if user.id != user_id]
     
-    _salvar_usuarios(usuarios_filtrados)
-    return True
+    if len(updated_users) < len(users):
+        user_found = True
+        _save_users(updated_users)
+        
+    return user_found
