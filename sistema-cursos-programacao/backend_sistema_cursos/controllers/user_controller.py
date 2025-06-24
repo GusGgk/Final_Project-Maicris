@@ -32,19 +32,35 @@ def post_usuario():
         return jsonify({"mensagem": "Dados inválidos"}), 400
 
     required_fields = ["name", "email", "password", "user_type"]
-    if not all(field in dados for field in required_fields):
-        return jsonify({"mensagem": "Campos obrigatórios ausentes (name, email, password, user_type)"}), 400
+    if not all(field in dados and dados[field] for field in required_fields):
+        return jsonify({"mensagem": "Todos os campos são obrigatórios (name, email, password, user_type)."}), 400
     
+    # --- Validações de Conteúdo e Formato ---
+    
+    # Valida o nome do usuário
+    if len(dados["name"].strip()) < 2:
+        return jsonify({"mensagem": "O nome deve ter pelo menos 2 caracteres."}), 400
+
+    # Valida o formato do e-mail
+    if "@" not in dados["email"] or "." not in dados["email"] or len(dados["email"]) < 5:
+        return jsonify({"mensagem": "Formato de e-mail inválido."}), 400
+        
+    # Valida o comprimento da senha
+    if len(dados["password"]) < 6:
+        return jsonify({"mensagem": "A senha deve ter no mínimo 6 caracteres."}), 400
+
     # Valida o tipo de usuário para garantir que seja um dos valores permitidos
     if dados["user_type"] not in ["aluno", "instrutor", "admin"]:
         return jsonify({"mensagem": "Tipo de usuário inválido. Use 'aluno', 'instrutor' ou 'admin'."}), 400
 
     try:
         new_user = add_user(dados)
+        # Usamos to_dict() que é seguro e não expõe a senha na resposta
         return jsonify(new_user.to_dict()), 201
     except ValueError as e:
         # Captura o erro de e-mail duplicado do service
         return jsonify({"mensagem": str(e)}), 409
+
 
 # ======================================================
 # 🔑 AUTENTICAÇÃO DE USUÁRIO (LOGIN - ROTA PÚBLICA)
@@ -71,8 +87,9 @@ def login():
     token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm="HS256")
     return jsonify({
         "token": token,
-        "user": user.to_dict()
+        "user": user.to_dict() # Resposta segura sem a senha
     })
+
 
 # ======================================================
 # 🔍 CONSULTA DE USUÁRIOS (ROTAS PROTEGIDAS)
@@ -88,6 +105,7 @@ def get_usuarios(current_user):
     # A senha não deve ser exposta, o to_dict() do modelo já cuida disso
     return jsonify([user.to_dict() for user in usuarios]), 200
 
+
 @user_bp.route("/<string:user_id>", methods=["GET"])
 @token_required
 def get_usuario_by_id(current_user, user_id):
@@ -99,6 +117,7 @@ def get_usuario_by_id(current_user, user_id):
     if usuario:
         return jsonify(usuario.to_dict()), 200
     return jsonify({"mensagem": "Usuário não encontrado"}), 404
+
 
 # ======================================================
 # ✏️ EDIÇÃO DE USUÁRIO (ROTA PROTEGIDA)
@@ -120,8 +139,10 @@ def put_usuario(current_user, user_id):
 
     usuario_atualizado = update_user(user_id, dados)
     if usuario_atualizado:
+        # A resposta da atualização também usa o to_dict() seguro
         return jsonify({"mensagem": "Usuário atualizado com sucesso", "usuario": usuario_atualizado.to_dict()}), 200
     return jsonify({"mensagem": "Usuário não encontrado"}), 404
+
 
 # ======================================================
 # 🗑️ REMOÇÃO DE USUÁRIO (ROTA PROTEGIDA)
