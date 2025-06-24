@@ -1,9 +1,16 @@
+# ======================================================
+# 📁 services/content_service.py
+# Lógica de negócio para conteúdos de cursos (módulos e aulas)
+# ======================================================
 
+# -------------------- IMPORTAÇÕES --------------------
 import json
 from models.content import Modulo, Aula
 
+# -------------------- CONSTANTES --------------------
 DATA_FILE = 'data/contents.json'
 
+# -------------------- FUNÇÕES INTERNAS DE ARQUIVO ----------------------
 def _load_data():
     """Função interna para carregar os dados do JSON."""
     try:
@@ -17,6 +24,7 @@ def _save_data(data):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
+# -------------------- CONSULTA DE CONTEÚDO --------------------
 def get_content_by_course_id(course_id: int):
     """Retorna todos os módulos e aulas de um curso específico."""
     all_contents = _load_data()
@@ -25,6 +33,7 @@ def get_content_by_course_id(course_id: int):
             return content
     return None # Retorna None se o curso não tiver conteúdo cadastrado
 
+# -------------------- ADIÇÃO DE MÓDULOS E AULAS --------------------
 def add_module_to_course(course_id: int, module_title: str):
     """Adiciona um novo módulo a um curso."""
     all_contents = _load_data()
@@ -90,6 +99,7 @@ def add_lesson_to_module(course_id: int, module_id: int, lesson_data: dict):
     _save_data(all_contents)
     return new_lesson.to_dict()
 
+# -------------------- EDIÇÃO DE MÓDULOS E AULAS --------------------
 def update_module_title(course_id: int, module_id: int, new_title: str):
     """Atualiza o título de um módulo específico."""
     all_contents = _load_data()

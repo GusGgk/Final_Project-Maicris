@@ -1,3 +1,11 @@
+# ======================================================
+# 📁 content_controller.py
+# Controlador para gerenciamento de módulos e aulas
+# ======================================================
+
+
+# -------------------- IMPORTAÇÕES --------------------
+
 from flask import Blueprint, request, jsonify
 from services import content_service
 from services.enrollment_service import is_user_enrolled
@@ -5,10 +13,15 @@ from utils.auth import token_required
 
 # O app principal cuidará do contexto de importação.
 
+# -------------------- CRIAÇÃO DO BLUEPRINT --------------------
 # Cria o Blueprint para este controlador
 content_bp = Blueprint('content_controller', __name__)
 
+# -------------------- ROTAS DE CURSO --------------------
 
+# ======================================================
+# 🔍 CONSULTA DE CONTEÚDO
+# ======================================================
 @content_bp.route('/courses/<int:course_id>/contents', methods=['GET'])
 @token_required
 def get_course_contents(current_user, course_id):
@@ -23,6 +36,9 @@ def get_course_contents(current_user, course_id):
         return jsonify(content), 200
     return jsonify({"message": "Conteúdo não encontrado para este curso."}), 404
 
+# ======================================================
+# ➕ CRIAÇÃO DE MÓDULO E AULA
+# ======================================================
 
 @content_bp.route('/courses/<int:course_id>/modules', methods=['POST'])
 def add_module(course_id):
@@ -51,6 +67,10 @@ def add_lesson(course_id, module_id):
         return jsonify({"message": str(e)}), 404  # Not Found (se o curso/módulo não existir)
     except Exception as e:
         return jsonify({"message": f"Erro interno: {e}"}), 500
+    
+# ======================================================
+# ✏️ EDIÇÃO DE MÓDULO E AULA
+# ======================================================
 
 @content_bp.route('/courses/<int:course_id>/modules/<int:module_id>', methods=['PUT'])
 def editar_modulo(course_id, module_id):
