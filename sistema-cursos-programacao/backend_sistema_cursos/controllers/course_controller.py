@@ -1,3 +1,9 @@
+# ======================================================
+# 📁 course_controller.py
+# Controlador para gerenciamento e criação de cursos
+# ======================================================
+
+# -------------------- IMPORTAÇÕES --------------------
 from flask import Blueprint, request, jsonify, current_app
 from services.course_service import list_all_courses, add_course, get_course_by_id, update_course, delete_course
 from utils.auth import token_required
@@ -5,19 +11,23 @@ from werkzeug.utils import secure_filename
 import os
 import uuid
 
+# -------------------- CONFIGURAÇÕES - BLUEPRINT --------------------
 course_bp = Blueprint("course_bp", __name__, url_prefix="/cursos")
 
-# Diretório para armazenar imagens
+# Diretório para armazenar imagens de cursos
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'static', 'img', 'cursos')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# --- ROTAS PÚBLICAS (NÃO EXIGEM LOGIN) ---
-
+# ======================================================
+# 🔓 ROTAS PÚBLICAS (NÃO EXIGEM LOGIN)
+# ======================================================
+# ---------- GET /cursos ----------
 @course_bp.route("/", methods=["GET"])
 def get_courses():
     courses = list_all_courses()
     return jsonify([course.to_dict() for course in courses]), 200
 
+# ---------- GET /cursos/<id> ----------
 @course_bp.route("/<string:course_id>", methods=["GET"])
 def get_course(course_id):
     course = get_course_by_id(course_id)
@@ -25,8 +35,11 @@ def get_course(course_id):
         return jsonify(course.to_dict()), 200
     return jsonify({"mensagem": "Curso não encontrado"}), 404
 
-# --- ROTAS PROTEGIDAS (EXIGEM LOGIN E PERMISSÃO) ---
+# ======================================================
+# 🔐 ROTAS PROTEGIDAS (EXIGEM LOGIN E PERMISSÃO)
+# ======================================================
 
+# ---------- POST /cursos ----------
 @course_bp.route("/", methods=["POST"])
 @token_required
 def post_course(current_user):
@@ -68,6 +81,7 @@ def post_course(current_user):
     novo_curso = add_course(dados)
     return jsonify(novo_curso.to_dict()), 201
 
+# ---------- PUT /cursos/<id> ----------
 @course_bp.route("/<string:course_id>", methods=["PUT"])
 @token_required
 def put_course(current_user, course_id):
@@ -90,6 +104,7 @@ def put_course(current_user, course_id):
         return jsonify({"mensagem": "Curso atualizado com sucesso", "course": updated_course.to_dict()}), 200
     return jsonify({"mensagem": "Curso não encontrado"}), 404
 
+# ---------- DELETE /cursos/<id> ----------
 @course_bp.route("/<string:course_id>", methods=["DELETE"])
 @token_required
 def delete_course_route(current_user, course_id):
