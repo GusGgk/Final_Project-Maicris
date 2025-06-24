@@ -1,30 +1,38 @@
+/* ======================================================
+ * 📄 CSS: lista_usuarios.css
+ * Estilos para a página de listagem de usuários.
+ * ====================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 :root {
   --primary-color: #4361ee;
   --primary-hover: #3f56d8;
   --secondary-color: #3f37c9;
+  --success-color: #4cc9f0;
+  --danger-color: #e63946;
+  --tech-color: #00f0ff;
+  --tech-glow: rgba(0, 240, 255, 0.4);
+  
   --dark-bg: #1a1c23;
   --darker-bg: #12141a;
   --light-bg: #f8f9fa;
+
   --text-light: #f8f9fa;
   --text-lighter: #ffffff;
-  --success-color: #4cc9f0;
-  --tech-color: #00f0ff;
-  --tech-glow: rgba(0, 240, 255, 0.4);
+  
   --border-radius: 14px;
   --box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   --card-gradient: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(0, 240, 255, 0.05));
 }
 
-/* Reset e Base */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -43,63 +51,9 @@ body {
   line-height: 1.6;
 }
 
-/* Container do Logo - Ajustes refinados */
-.logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2.5rem;
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 300px;
-}
-
-.logo-container img {
-  width: 120px;
-  height: auto;
-  margin-bottom: 1rem;
-  filter: 
-    drop-shadow(0 0 10px var(--tech-glow))
-    drop-shadow(0 0 25px rgba(67, 97, 238, 0.4));
-  transition: var(--transition);
-  object-fit: contain;
-}
-
-.logo-text {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  background: linear-gradient(90deg, var(--tech-color), var(--primary-color));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 
-    0 0 10px rgba(0, 240, 255, 0.7),
-    0 0 30px rgba(0, 240, 255, 0.4);
-  margin-top: 0.5rem;
-  position: relative;
-  text-align: center;
-}
-
-.logo-text::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--tech-color), transparent);
-  border-radius: 50%;
-}
-
-/* Título da Página */
 h2 {
   font-size: 2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   color: var(--text-lighter);
   position: relative;
   padding-bottom: 0.8rem;
@@ -119,18 +73,18 @@ h2::after {
   border-radius: 2px;
 }
 
-/* Container de usuários */
+/* ======================================================
+ * ESTILOS ESPECÍFICOS DA PÁGINA
+ * ====================================================== */
+
 #listaUsuarios {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   width: 100%;
   max-width: 1100px;
-  margin: 0 auto 3rem;
-  padding: 0 1.5rem;
 }
 
-/* Card de usuário - Ajustes de layout */
 .usuario-card {
   background: var(--card-gradient);
   border-radius: var(--border-radius);
@@ -139,163 +93,40 @@ h2::after {
   transition: var(--transition);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  position: relative;
-  overflow: hidden;
-}
-
-.usuario-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
-  transform: translate(25%, 25%);
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.6s ease;
+  line-height: 1.8;
 }
 
 .usuario-card:hover {
   transform: translateY(-5px);
   border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
-.usuario-card:hover::before {
-  opacity: 1;
+.usuario-card p {
+    margin-bottom: 0.5rem;
 }
 
-/* Estilos para o conteúdo do card */
 .usuario-card strong {
   color: var(--tech-color);
   font-weight: 600;
-  min-width: 70px;
+  min-width: 80px;
   display: inline-block;
 }
 
-.usuario-card br {
-  display: block;
-  margin: 0.7rem 0;
-  content: "";
+.usuario-card span[data-type] {
+    font-weight: 600;
+    text-transform: capitalize;
 }
 
-/* Tipos de usuário */
-.usuario-card [data-type="admin"] {
+/* --- Cores para tipos de usuário --- */
+span[data-type="admin"] {
   color: var(--success-color);
-  font-weight: 600;
 }
 
-.usuario-card [data-type="instrutor"] {
+span[data-type="instrutor"] {
   color: var(--primary-color);
-  font-weight: 600;
 }
 
-.usuario-card [data-type="aluno"] {
-  color: #8a2be2;
-  font-weight: 600;
-}
-
-/* Mensagem e botão */
-#mensagem {
-  margin: 2rem 0;
-  color: var(--tech-color);
-  font-weight: 500;
-  text-align: center;
-  font-size: 1.1rem;
-  padding: 1rem;
-  border-radius: var(--border-radius);
-  background: rgba(0, 240, 255, 0.05);
-  border: 1px solid rgba(0, 240, 255, 0.1);
-  max-width: 600px;
-  width: 100%;
-}
-
-button {
-  margin-top: 2rem;
-  padding: 1rem 2.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  border: none;
-  border-radius: var(--border-radius);
-  color: white;
-  cursor: pointer;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
-  letter-spacing: 0.5px;
-}
-
-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  body {
-    padding: 2rem 1.5rem;
-  }
-  
-  .logo-container {
-    margin-bottom: 2rem;
-  }
-  
-  .logo-text {
-    font-size: 2.2rem;
-  }
-  
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-  }
-  
-  #listaUsuarios {
-    grid-template-columns: 1fr;
-    padding: 0;
-    gap: 1.8rem;
-  }
-  
-  .usuario-card {
-    padding: 1.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    padding: 1.5rem 1rem;
-  }
-  
-  .logo-container img {
-    width: 100px;
-  }
-  
-  .logo-text {
-    font-size: 2rem;
-  }
-  
-  button {
-    width: 100%;
-    padding: 1rem;
-  }
-}
-
-/* Animação de entrada */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-#listaUsuarios {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-.usuario-card {
-  opacity: 0;
-  animation: fadeIn 0.6s ease-out forwards;
-  animation-delay: calc(var(--index) * 0.1s);
+span[data-type="aluno"] {
+  color: var(--text-light); /* Cor padrão para aluno */
 }

@@ -1,20 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600;700&display=swap');
+/* ======================================================
+ * 📄 CSS: login.css
+ * Estilos para a página de login.
+ * ====================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
 :root {
   --primary-color: #4361ee;
   --primary-hover: #3f56d8;
   --secondary-color: #3f37c9;
+  --success-color: #4cc9f0;
+  --danger-color: #e63946;
+  --tech-color: #00f0ff;
+  --tech-glow: rgba(0, 240, 255, 0.4);
+  
   --dark-bg: #1a1c23;
   --darker-bg: #12141a;
   --light-bg: #f8f9fa;
+
   --text-light: #f8f9fa;
   --text-lighter: #ffffff;
-  --success-color: #4cc9f0;
-  --tech-color: #00f0ff;
-  --tech-glow: rgba(0, 240, 255, 0.4);
+  
   --border-radius: 14px;
   --box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --card-gradient: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(0, 240, 255, 0.05));
 }
 
 * {
@@ -24,173 +36,189 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--dark-bg);
-  background-image:
+  background-image: 
     radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
   color: var(--text-light);
-  padding: 3rem 2rem;
+  margin: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
+  justify-content: center;
+  padding: 3rem 2rem;
+  line-height: 1.6;
 }
+
+/* ======================================================
+ * ESTILOS ESPECÍFICOS DA PÁGINA
+ * ====================================================== */
 
 .logo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin-bottom: 2.5rem;
+  text-align: center;
 }
 
 .logo-container img {
-  width: 100px;
+  width: 120px;
   height: auto;
   margin-bottom: 1rem;
-  filter:
+  filter: 
     drop-shadow(0 0 10px var(--tech-glow))
     drop-shadow(0 0 25px rgba(67, 97, 238, 0.4));
   transition: var(--transition);
-  object-fit: contain;
 }
 
 .logo-text {
   font-family: 'Orbitron', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
+  letter-spacing: 1.5px;
   background: linear-gradient(90deg, var(--tech-color), var(--primary-color));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow:
+  text-shadow: 
     0 0 10px rgba(0, 240, 255, 0.7),
     0 0 30px rgba(0, 240, 255, 0.4);
 }
 
-h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: var(--text-lighter);
-  text-align: center;
-  position: relative;
-}
-
-h2::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary-color), var(--tech-color));
-  border-radius: 2px;
-}
-
-form {
-  background: var(--darker-bg);
+.login-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2.5rem;
   border-radius: var(--border-radius);
-  padding: 2rem;
-  width: 100%;
-  max-width: 400px;
   box-shadow: var(--box-shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-label {
-  font-weight: 600;
-}
-
-input {
-  padding: 0.8rem;
-  border-radius: var(--border-radius);
-  border: none;
-  font-size: 1rem;
-  background-color: #1e1f25;
-  color: var(--text-light);
-  transition: var(--transition);
-}
-
-input:focus {
-  outline: none;
-  box-shadow: 0 0 6px var(--tech-color);
-}
-
-button {
-  padding: 0.9rem;
-  font-size: 1rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
-}
-
-button:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.5);
-}
-
-#mensagem {
-  margin-top: 1rem;
-  text-align: center;
-  font-weight: 500;
-  font-size: 1rem;
-  padding: 1rem;
-  border-radius: var(--border-radius);
-  max-width: 400px;
   width: 100%;
-  display: none;
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-}
-
-#mensagem.sucesso {
-  display: block;
-  color: var(--tech-color);
-  background: rgba(0, 240, 255, 0.05);
-  border-color: rgba(0, 240, 255, 0.1);
-}
-
-#mensagem.erro {
-  display: block;
-  color: #ff8c8c;
-  background-color: rgba(220, 53, 69, 0.15);
-  border-color: rgba(220, 53, 69, 0.4);
-}
-
-.signup-redirect {
+  max-width: 400px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
 }
 
-/* Estilo para o container da senha */
+.login-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text-lighter);
+    font-weight: 600;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+
+.input-group input:focus {
+  border-color: var(--tech-color);
+  background-color: rgba(0, 0, 0, 0.3);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
+}
+
 .password-container {
   position: relative;
-  width: 100%;
 }
 
-.password-container input {
-  width: 100%;
-  padding-right: 45px; 
+#password {
+  padding-right: 45px;
 }
 
-.password-container i {
+#togglePassword {
   position: absolute;
   top: 50%;
   right: 15px;
   transform: translateY(-50%);
   cursor: pointer;
   color: #ccc;
-  transition: color 0.3s;
+  background: none;
+  border: none;
 }
 
-.password-container i:hover {
+#togglePassword:hover {
   color: var(--tech-color);
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border: none;
+  border-radius: var(--border-radius);
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+.signup-redirect {
+    margin-top: 2rem;
+}
+
+.signup-redirect p {
+    margin-bottom: 0.5rem;
+}
+
+#signupBtn {
+    background: transparent;
+    border: 1px solid var(--tech-color);
+    color: var(--tech-color);
+    padding: 0.7rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+#signupBtn:hover {
+    background: var(--tech-color);
+    color: var(--darker-bg);
+    box-shadow: 0 0 15px var(--tech-glow);
+}
+
+#mensagem {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  width: 100%;
+}
+
+#mensagem.erro {
+  color: #ff8c8c;
+  background-color: rgba(220, 53, 69, 0.15);
+  border: 1px solid rgba(220, 53, 69, 0.4);
 }

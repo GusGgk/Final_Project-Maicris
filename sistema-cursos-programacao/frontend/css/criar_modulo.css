@@ -1,97 +1,171 @@
+/* ======================================================
+ * 📄 CSS: criar_modulo.css
+ * Estilos para a página de criação de novos módulos.
+ * ====================================================== */
+
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+ 
 :root {
   --primary-color: #4361ee;
+  --primary-hover: #3f56d8;
   --secondary-color: #3f37c9;
+  --success-color: #4cc9f0;
+  --danger-color: #e63946;
   --tech-color: #00f0ff;
+  --tech-glow: rgba(0, 240, 255, 0.4);
+  
   --dark-bg: #1a1c23;
+  --darker-bg: #12141a;
+  --light-bg: #f8f9fa;
+
   --text-light: #f8f9fa;
-  --border-radius: 12px;
-  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  --transition: all 0.3s ease;
+  --text-lighter: #ffffff;
+  
+  --border-radius: 14px;
+  --box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --card-gradient: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(0, 240, 255, 0.05));
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--dark-bg);
-  background-image: radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.1) 0%, transparent 50%), linear-gradient(to bottom, #0f172a, #1e293b);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
   color: var(--text-light);
+  margin: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
-  min-height: 100vh;
-}
-
-.logo-container {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-.logo-container img {
-  width: 100px;
-  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.3));
-}
-.logo-text {
-  font-family: 'Orbitron', sans-serif;
-  background-clip: border-box;
-  font-size: 2rem;
-  background: linear-gradient(90deg, var(--tech-color), var(--primary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  justify-content: center;
+  padding: 3rem 2rem;
+  line-height: 1.6;
 }
 
 h2 {
-  margin-bottom: 1rem;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--text-lighter);
+  position: relative;
+  padding-bottom: 0.8rem;
+  text-align: center;
+  font-weight: 600;
 }
 
-form {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 2rem;
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--tech-color));
+  border-radius: 2px;
+}
+
+/* ======================================================
+ * ESTILOS ESPECÍFICOS DA PÁGINA
+ * ====================================================== */
+
+.container {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2.5rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  max-width: 400px;
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 600px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.container:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 240, 255, 0.3);
 }
 
 .input-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
-label {
+.input-group label {
   display: block;
   margin-bottom: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-input {
+.input-group input,
+.input-group select {
   width: 100%;
-  padding: 0.8rem;
-  border-radius: var(--border-radius);
+  padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: var(--tech-color);
+  background-color: rgba(0, 0, 0, 0.3);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
 button {
-  padding: 0.9rem;
+  flex-grow: 1;
+  padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
   border: none;
   border-radius: var(--border-radius);
+  color: white;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+  letter-spacing: 0.5px;
 }
 
 button:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.5);
+  transform: translateY(-3px);
 }
 
-#mensagem {
-  margin-top: 1rem;
-  font-weight: 500;
-  text-align: center;
+.btn-criar {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+}
+
+.btn-criar:hover {
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+.btn-voltar {
+  background: transparent;
+  border: 1px solid var(--text-light);
+  box-shadow: none;
+}
+
+.btn-voltar:hover {
+  background: var(--text-light);
+  color: var(--dark-bg);
+  box-shadow: none;
 }

@@ -1,61 +1,92 @@
+/* ======================================================
+ * 📄 CSS: gerenciar_conteudo.css
+ * Estilos para a página de gerenciamento de conteúdo.
+ * ====================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 :root {
   --primary-color: #4361ee;
   --primary-hover: #3f56d8;
   --secondary-color: #3f37c9;
+  --success-color: #4cc9f0;
+  --danger-color: #e63946;
+  --tech-color: #00f0ff;
+  --tech-glow: rgba(0, 240, 255, 0.4);
+  
   --dark-bg: #1a1c23;
   --darker-bg: #12141a;
   --light-bg: #f8f9fa;
+
   --text-light: #f8f9fa;
   --text-lighter: #ffffff;
-  --success-color: #4cc9f0;
-  --tech-color: #00f0ff;
-  --tech-glow: rgba(0, 240, 255, 0.4);
+  
   --border-radius: 14px;
   --box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   --card-gradient: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(0, 240, 255, 0.05));
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--dark-bg);
-  background-image:
-    radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.1) 0%, transparent 50%),
-    linear-gradient(to bottom, #0f172a, #1e293b);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(67, 97, 238, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(0, 240, 255, 0.1) 0%, transparent 50%);
   color: var(--text-light);
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
+  margin: 0;
   min-height: 100vh;
-}
-
-.logo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
-}
-
-.logo-container img {
-  width: 100px;
-  filter: drop-shadow(0 0 10px var(--tech-color));
-}
-
-.logo-text {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2rem;
-  color: var(--tech-color);
-  background: linear-gradient(90deg, var(--tech-color), var(--primary-color));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-top: 0.5rem;
+  justify-content: center;
+  padding: 3rem 2rem;
+  line-height: 1.6;
 }
 
 h2 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-bottom: 2rem;
+  color: var(--text-lighter);
+  position: relative;
+  padding-bottom: 0.8rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--tech-color));
+  border-radius: 2px;
+}
+
+/* ======================================================
+ * ESTILOS ESPECÍFICOS DA PÁGINA
+ * ====================================================== */
+
+.container {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  max-width: 450px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
 }
 
@@ -64,52 +95,45 @@ h2 {
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 360px;
 }
 
-button {
-  padding: 1rem;
+.botoes-container button {
+  padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
   border: none;
   border-radius: var(--border-radius);
+  color: white;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: var(--box-shadow);
+  letter-spacing: 0.5px;
+  width: 100%;
 }
 
-button:hover {
-  background: linear-gradient(135deg, var(--tech-color), var(--primary-color));
-  transform: translateY(-2px);
+.botoes-container button:hover {
+  transform: translateY(-3px);
+}
+
+.btn-criar,
+.btn-editar {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+}
+
+.btn-criar:hover,
+.btn-editar:hover {
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
 }
 
 .btn-voltar {
-  margin-top: 2rem;
-  background-color: transparent;
-  border: 1px solid var(--tech-color);
-  color: var(--tech-color);
-  width: fit-content;
-  padding: 0.8rem 1.2rem;
+  margin-top: 1rem;
+  background: transparent;
+  border: 1px solid var(--text-light);
+  box-shadow: none;
 }
 
 .btn-voltar:hover {
-  background-color: var(--tech-color);
-  color: #000;
-}
-
-.btn-criar, .btn-editar, .btn-criar-aula {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: var(--border-radius);
-  margin-bottom: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: var(--transition);
-}
-.btn-criar:hover {
-  background-color: var(--primary-hover);
+  background: var(--text-light);
+  color: var(--dark-bg);
+  box-shadow: none;
 }
