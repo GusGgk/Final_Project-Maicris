@@ -1,12 +1,5 @@
 [
     {
-        "id": "b93d29d5-d572-441d-88e9-7b25ecfb2d89",
-        "name": "Aluno",
-        "email": "aluno@gmail.com",
-        "password": "$2b$12$bkX8ELIfhqMKaUgXE3Lr0O8BFrnh3e7x47kPiQAWDTCU0AIOSvy8a",
-        "user_type": "aluno"
-    },
-    {
         "id": "54224baa-a761-47b6-82ae-d23eec8e596e",
         "name": "Instrutor",
         "email": "instrutor@gmail.com",
@@ -21,10 +14,10 @@
         "user_type": "admin"
     },
     {
-        "id": "c438942e-2d74-4330-b138-b6063e15ca1e",
+        "id": "fd6cd914-2fce-4422-a9b4-06f4a28336c9",
         "name": "Eduardo Blasczak",
         "email": "eduardo.blasczak@pucpr.edu.br",
-        "password": "$2b$12$jSGXUjfInV63zcjfPhqoOOYiw8RMXbUzGpsUaNfC2uYHIOKUMGRW.",
-        "user_type": "admin"
+        "password": "$2b$12$XZ5d4pJ5nTbw.03hepZRx.8OzzBrATijU7ZYJZw/5lB/4JqVksJN6",
+        "user_type": "aluno"
     }
 ]
