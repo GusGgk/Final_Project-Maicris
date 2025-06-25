@@ -409,7 +409,6 @@
       }
     ]
   },
-
   {
     "course_id": 11,
     "modulos": [
@@ -435,6 +434,18 @@
         "id": 2,
         "titulo": "Modulo 2 - Modulo editado",
         "aulas": []
+      },
+      {
+        "id": 3,
+        "titulo": "MODULO 3 - EDITANDO MODULO",
+        "aulas": [
+          {
+            "id": 1,
+            "titulo": "Aula para mostrar ao maicris!",
+            "tipo": "video",
+            "url_conteudo": "https://youtu.be/xcJtL7QggTI?si=1nwoqZAuD78ghWaw"
+          }
+        ]
       }
     ]
   }

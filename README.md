@@ -86,26 +86,25 @@ sistema-cursos/
 - Instalar dependências com:
 
 ```bash
-pip install flask flask-cors bcrypt
+pip install 
+bcrypt==4.3.0
+blinker==1.9.0
+click==8.2.1
+colorama==0.4.6
+Flask==3.1.1
+flask-cors==6.0.0
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+PyJWT==2.10.1
+Werkzeug==3.1.3
 ```
 
 ### ▶️ Iniciar o servidor
 
-#### 💻 Windows
-1. Abra o terminal na pasta `backend_sistema_cursos`
-2. Execute:
-```bash
-start.bat
-```
-Ou dê **dois cliques** no arquivo `start.bat`.
+O projeto está pronto para testes imediatos. Basta entrar na pasta `backend_sistema_cursos` e executar o arquivo main.py:
 
-#### 🍎 macOS / 🐧 Linux
-1. Abra o terminal na pasta `backend_sistema_cursos`
-2. Execute os comandos:
-```bash
-chmod +x start.sh     # (apenas na primeira vez)
-./start.sh
-```
+- digitar `python main.py` no terminal para ligar o servidor e acessar o html de cadastro/login
 
 ---
 
@@ -142,7 +141,6 @@ http://localhost:5000
 - Controle de permissões por tipo de usuário
 - Armazenamento local em `.json` simulando banco de dados
 - Integração com frontend HTML/CSS
-- Scripts de inicialização multiplataforma (`start.bat`, `start.sh`)
 - Estilo moderno com CSS personalizado
 
 ---
@@ -151,6 +149,4 @@ http://localhost:5000
 
 O projeto está pronto para testes imediatos. Basta entrar na pasta `backend_sistema_cursos` e executar o arquivo de acordo com seu sistema:
 
-- `start.sh` (macOS/Linux)
-- `start.bat` (Windows)
 - digitar `python main.py` no terminal para ligar o servidor e acessar o html de cadastro/login
