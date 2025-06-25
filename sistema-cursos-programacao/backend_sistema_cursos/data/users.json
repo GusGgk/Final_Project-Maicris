@@ -14,10 +14,10 @@
         "user_type": "admin"
     },
     {
-        "id": "fd6cd914-2fce-4422-a9b4-06f4a28336c9",
-        "name": "Eduardo Blasczak",
-        "email": "eduardo.blasczak@pucpr.edu.br",
-        "password": "$2b$12$XZ5d4pJ5nTbw.03hepZRx.8OzzBrATijU7ZYJZw/5lB/4JqVksJN6",
+        "id": "ae0e6589-e128-4215-8a16-c6684d121722",
+        "name": "Aluno",
+        "email": "aluno@gmail.com",
+        "password": "$2b$12$hmaiZmXQEoywMWujO0/yc.lqoOtLdUwAlAJQsfgMwXhzjXe3bsmzO",
         "user_type": "aluno"
     }
 ]

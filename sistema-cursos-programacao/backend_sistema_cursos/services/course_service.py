@@ -86,14 +86,18 @@ def update_course(course_id, new_course_data):
     courses = _read_courses_data()
     for i, course in enumerate(courses):
         if str(course.id) == str(course_id):
-            courses[i].setTitle(new_course_data.get('title', course.title))
-            courses[i].setLanguage(new_course_data.get('language', course.language))
+            # Correção: Atribuir diretamente aos atributos do objeto
+            courses[i].title = new_course_data.get('title', course.title)
+            courses[i].language = new_course_data.get('language', course.language)
             courses[i].description = new_course_data.get('description', course.description)
-            courses[i].setLevel(new_course_data.get('level', course.level))
+            courses[i].level = new_course_data.get('level', course.level)
             courses[i].duration = new_course_data.get('duration', course.duration)
             courses[i].price = new_course_data.get('price', course.price)
-            courses[i].setInstructorId(new_course_data.get('instructor_id', course.instructor_id))
-            courses[i].image = new_course_data.get('image', courses[i].image)
+            courses[i].instructor_id = new_course_data.get('instructor_id', course.instructor_id)
+            
+            # A atualização da imagem permanece igual, pois já estava correta
+            if 'image' in new_course_data:
+                courses[i].image = new_course_data.get('image', courses[i].image)
 
             _write_courses_data(courses)
             return courses[i]
